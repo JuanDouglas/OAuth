@@ -20,6 +20,7 @@ namespace OAuth.Api.Controllers
         internal const int NormalTokenSize = 64;
         internal const int LargerTokenSize = 96;
         private readonly OAuthContext db = new();
+
         /// <summary>
         /// First Step to Login.
         /// </summary>
@@ -75,7 +76,8 @@ namespace OAuth.Api.Controllers
         [Route("Create")]
         public async Task<ActionResult> CreateAsync([FromBody] Models.Uploads.Account accountModel)
         {
-
+            ModelState.
+ 
             throw new NotImplementedException();
 
         }
@@ -92,7 +94,6 @@ namespace OAuth.Api.Controllers
             {
                 result += Guid.NewGuid().ToString();
             }
-
             return result.Remove(size, result.Length - size).Replace('-', '\0');
         }
     }

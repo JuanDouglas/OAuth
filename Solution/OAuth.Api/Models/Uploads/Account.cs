@@ -11,11 +11,19 @@ namespace OAuth.Api.Models.Uploads
     public class Account
     {
         [Required]
+        [StringLength(100, MinimumLength = 5)]
         public string UserName { get; set; }
+        [Required]
+        [StringLength(25, MinimumLength = 8)]
         public string Password { get; set; }
-        public bool ConfirmPassword { get; set; }
+        [Required]
+        public string ConfirmPassword { get; set; }
+        [Required]
+        [EmailAddress]
+        [StringLength(500)] 
         public string Email { get; set; }
         public bool IsCompany { get; set; }
+        public bool AcceptTerms { get; set; }
 
         public Account()
         {
