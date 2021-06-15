@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using OAuth.Dal.Models;
 
-#nullable disable
-
-namespace OAuth.Dal.Models
+namespace OAuth.Dal
 {
     public partial class OAuthContext : DbContext
     {
@@ -33,7 +32,7 @@ namespace OAuth.Dal.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=sc-data-server.database.windows.net;User ID=DataAdmin;Password=P@ssw0rd;Initial Catalog=OAuth; Integrated Security=false;");
+                optionsBuilder.UseSqlServer(Properties.Resources.ConnectionString);
             }
         }
 
