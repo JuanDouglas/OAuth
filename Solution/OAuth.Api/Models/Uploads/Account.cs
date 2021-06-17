@@ -1,9 +1,6 @@
-﻿using OAuth.Api.Controllers;
+﻿using OAuth.Api.Models.Attributes;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using static OAuth.Api.Controllers.LoginController;
 
 namespace OAuth.Api.Models.Uploads
@@ -25,6 +22,7 @@ namespace OAuth.Api.Models.Uploads
         [StringLength(500)]
         public string Email { get; set; }
         public bool IsCompany { get; set; }
+        [Required]
         public bool AcceptTerms { get; set; }
 
         public Account()
