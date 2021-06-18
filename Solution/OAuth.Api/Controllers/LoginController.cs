@@ -76,8 +76,6 @@ namespace OAuth.Api.Controllers
         [Route("Create")]
         public async Task<ActionResult> CreateAsync([FromBody] Models.Uploads.Account accountModel)
         {
-            ModelState.
- 
             throw new NotImplementedException();
 
         }
