@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OAuth.Api.Models.Enums;
 using OAuth.Api.Models.Result;
 using OAuth.Dal;
 using OAuth.Dal.Models;
@@ -35,9 +36,21 @@ namespace OAuth.Api.Controllers
         public async Task<ActionResult> FirstStepAsync(string user)
         {
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == user || fs.Email == user);
+            IPAddress ip = HttpContext.Connection.RemoteIpAddress;
             if (account == null)
             {
                 return NotFound();
+            }
+
+            if ((await db.Ips.FirstOrDefaultAsync(fs => fs.Adress == ip.ToString()) == null))
+            {
+                await db.Ips.AddAsync(new Ip()
+                {
+                    Adress = ip.ToString(),
+                    AlreadyBeenBanned = false,
+                    Confiance = ((int)IPConfiance.NONE)
+                });
+                await db.SaveChangesAsync();
             }
 
             LoginFirstStep loginFirstStep = new()
@@ -46,7 +59,7 @@ namespace OAuth.Api.Controllers
                 Date = DateTime.UtcNow,
                 Token = GenerateToken(NormalTokenSize),
                 Valid = true,
-                Ipadress = HttpContext.Request.Host.Value
+                Ipadress = ip.ToString()
             };
 
             db.LoginFirstSteps.Add(loginFirstStep);
@@ -78,7 +91,7 @@ namespace OAuth.Api.Controllers
         public async Task<ActionResult> CreateAsync([FromBody] Models.Uploads.Account accountModel)
         {
             #region ValidModel
-            if ((await db.Accounts.FirstOrDefaultAsync(fs=>fs.UserName==accountModel.UserName))!=null)
+            if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == accountModel.UserName)) != null)
             {
                 ModelState.AddModelError("UserName", "The username is already being used.");
             }
@@ -88,9 +101,9 @@ namespace OAuth.Api.Controllers
                 ModelState.AddModelError("Email", "The email is already being used.");
             }
 
-            if (accountModel.ConfirmPassword!=accountModel.Password)
+            if (accountModel.ConfirmPassword != accountModel.Password)
             {
-                ModelState.AddModelError("ConfirmPassword","Password not equal at confirm password.");
+                ModelState.AddModelError("ConfirmPassword", "Password not equal at confirm password.");
             }
 
             if (!accountModel.AcceptTerms)
@@ -108,8 +121,8 @@ namespace OAuth.Api.Controllers
             db.Accounts.Add(account);
 
             await db.SaveChangesAsync();
-        
-            account = await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName ==accountModel.UserName);
+
+            account = await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == accountModel.UserName);
 
             return Ok(new Models.Result.Account(account));
         }
@@ -126,7 +139,7 @@ namespace OAuth.Api.Controllers
             {
                 result += Guid.NewGuid().ToString();
             }
-           
+
             result = result.Replace("-", string.Empty);
             return result.Remove(size, result.Length - size);
         }

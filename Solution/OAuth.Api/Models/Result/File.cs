@@ -1,4 +1,5 @@
-﻿using OAuth.Dal.Models;
+﻿using OAuth.Api.Models.Enums;
+using OAuth.Dal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace OAuth.Api.Models.Result
     {
         public int ID { get; set; }
         public string FileName { get; set; }
-        public int FileType { get; set; }
+        public FileType FileType { get; set; }
 
         public File() { 
         }
@@ -18,7 +19,7 @@ namespace OAuth.Api.Models.Result
         {
             ID = profileImage.Id;
             FileName = profileImage.FileName;
-            FileType = profileImage.FileType;
+            FileType = (FileType)profileImage.FileType;
         }
     }
 }
