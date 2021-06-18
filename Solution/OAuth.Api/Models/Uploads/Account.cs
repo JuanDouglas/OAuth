@@ -7,6 +7,7 @@ namespace OAuth.Api.Models.Uploads
 {
     public class Account
     {
+        private const int DefaultIconID = 1;
         private string _username;
         [Required]
         [StringLength(100, MinimumLength = 5)]
@@ -39,7 +40,9 @@ namespace OAuth.Api.Models.Uploads
                 CreateDate = DateTime.UtcNow,
                 Key = GenerateToken(LargerTokenSize),
                 Email = Email,
-                IsCompany = IsCompany
+                IsCompany = IsCompany,
+                Valid = false,
+                ProfileImageId = DefaultIconID
             };
         }
     }

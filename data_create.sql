@@ -8,7 +8,7 @@ CREATE TABLE [Account](
 [ID] INTEGER IDENTITY PRIMARY KEY NOT NULL,
 [Key] VARCHAR(300) UNIQUE NOT NULL,
 [UserName] VARCHAR(500) UNIQUE NOT NULL,
-[Password] VARCHAR(25) NOT NULL,
+[Password] VARCHAR(100) NOT NULL,
 [Email] VARCHAR(500) UNIQUE NOT NULL,
 [IsCompany] BIT NOT NULL,
 [AcceptTermsDate] DATETIME2 NOT NULL,
@@ -104,3 +104,6 @@ CREATE TABLE [FailAttemp](
 [AttempType] INT NOT NULL,
 FOREIGN KEY ([IPAdress]) REFERENCES [IP]([Adress])
 );
+
+INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_profile_image.png',1);
+INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_application_icon.png',2);

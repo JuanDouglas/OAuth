@@ -126,7 +126,9 @@ namespace OAuth.Api.Controllers
             {
                 result += Guid.NewGuid().ToString();
             }
-            return result.Remove(size, result.Length - size).Replace('-', '\0');
+           
+            result = result.Replace("-", string.Empty);
+            return result.Remove(size, result.Length - size);
         }
     }
 }
