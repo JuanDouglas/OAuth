@@ -3,11 +3,13 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using OAuth.Api.Models.Enums;
 using OAuth.Api.Models.Result;
 using OAuth.Dal;
 using OAuth.Dal.Models;
 using Account = OAuth.Dal.Models.Account;
+using Authentication = OAuth.Dal.Models.Authentication;
 
 namespace OAuth.Api.Controllers
 {
@@ -65,66 +67,72 @@ namespace OAuth.Api.Controllers
             db.LoginFirstSteps.Add(loginFirstStep);
             await db.SaveChangesAsync();
 
-            return Ok(new FirstStep(loginFirstStep));
+            return Ok(new FirstStep(await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Token == loginFirstStep.Token && fs.Valid)));
         }
 
         /// <summary>
         /// Second Step to Login.
         /// </summary>
-        /// <param name="pwd">Password</param>
+        /// <param name="pwd">Account Password</param>
         /// <param name="key">First Step Key.</param>
+        /// <param name="fs_id">First Step ID.</param>
         /// <returns>Authorization Tokens</returns>
         [HttpGet]
         [Route("SecondStep")]
-        //[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(FirstStep))]
-        public async Task<ActionResult> SecondStepAsync(string pwd, string key)
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(Models.Result.Authentication), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> SecondStepAsync(string pwd, string key, int fs_id)
         {
+            LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Token == key && fs.Valid && fs.Id == fs_id);
+            bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
+            IPAddress ip = HttpContext.Connection.RemoteIpAddress;
+            firstStep ??= new LoginFirstStep();
+
+            if (!containsUserAgent)
+            {
+                return BadRequest("User-Agent is mandatory");
+            }
+
+            if (!firstStep.Valid)
+            {
+                return Unauthorized();
+            }
+
+            //If login first step minutes > 5 minutes update firstep state with invalid.
+            if ((DateTime.UtcNow - firstStep.Date).TotalMinutes > 5)
+            {
+                //Update login first step.
+                firstStep.Valid = false;
+                db.LoginFirstSteps.Update(firstStep);
+                await db.SaveChangesAsync();
+                return Unauthorized();
+            }
+
+            if (firstStep.Ipadress != ip.ToString())
+            {
+                return Unauthorized();
+            }
+
+            //Verify account password
+            Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == firstStep.Account);
+            if (BCrypt.Net.BCrypt.Verify(pwd, account.Password))
+            {
+                return Unauthorized();
+            }
+
+            Authentication authentication = new()
+            {
+                Date = DateTime.UtcNow,
+                Ipadress = ip.ToString(),
+                IsValid = true,
+                Token = GenerateToken(LargerTokenSize),
+                UserAgent = userAgent.ToString(),
+                LoginFirstStep = firstStep.Id
+            };
+
+
+
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Create new Account 
-        /// </summary>
-        /// <returns>New Account</returns>
-        [HttpPut]
-        [Route("Create")]
-        public async Task<ActionResult> CreateAsync([FromBody] Models.Uploads.Account accountModel)
-        {
-            #region ValidModel
-            if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == accountModel.UserName)) != null)
-            {
-                ModelState.AddModelError("UserName", "The username is already being used.");
-            }
-
-            if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.Email == accountModel.Email)) != null)
-            {
-                ModelState.AddModelError("Email", "The email is already being used.");
-            }
-
-            if (accountModel.ConfirmPassword != accountModel.Password)
-            {
-                ModelState.AddModelError("ConfirmPassword", "Password not equal at confirm password.");
-            }
-
-            if (!accountModel.AcceptTerms)
-            {
-                ModelState.AddModelError("AcceptTerms", "We must be accepted to continue registration.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            #endregion
-
-            Account account = accountModel.ToAccountDB();
-            db.Accounts.Add(account);
-
-            await db.SaveChangesAsync();
-
-            account = await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == accountModel.UserName);
-
-            return Ok(new Models.Result.Account(account));
         }
 
         /// <summary>
