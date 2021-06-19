@@ -115,7 +115,7 @@ namespace OAuth.Api.Controllers
 
             //Verify account password
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == firstStep.Account);
-            if (BCrypt.Net.BCrypt.Verify(pwd, account.Password))
+            if (ValidPassword(pwd, account.Password))
             {
                 return Unauthorized();
             }
@@ -141,8 +141,8 @@ namespace OAuth.Api.Controllers
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
-        public static bool ValidPassword(string password,string compare) {
-            return BCrypt.Net.BCrypt.Verify(password,compare);
+        public static bool ValidPassword(string password,string hash) {
+            return BCrypt.Net.BCrypt.Verify(password,hash);
         }
 
         /// <summary>
