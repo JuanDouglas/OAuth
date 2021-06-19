@@ -13,10 +13,7 @@ namespace OAuth.Api.Models.Result
         public string Token { get; set; }
         public DateTime Date { get; set; }
         public bool IsValid { get; set; }
-        public Authentication()
-        {
-
-        }
+        public Authentication() { }
         public Authentication(Dal.Models.Authentication authentication)
         {
             ID = authentication.Id;
@@ -24,6 +21,7 @@ namespace OAuth.Api.Models.Result
             IPAdress = authentication.Ipadress;
             Token = authentication.Token;
             Date = authentication.Date;
+            IsValid = authentication.IsValid;
         }
     }
 }

@@ -20,9 +20,9 @@ namespace OAuth.Api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        internal const int SmallTokenSize = 32;
-        internal const int NormalTokenSize = 64;
-        internal const int LargerTokenSize = 96;
+       public const int SmallTokenSize = 32;
+        public const int NormalTokenSize = 64;
+        public const int LargerTokenSize = 96;
         private readonly OAuthContext db = new();
 
         /// <summary>
@@ -136,12 +136,21 @@ namespace OAuth.Api.Controllers
             return Ok(new Models.Result.Authentication(authentication));
         }
 
+        public static string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+        public static bool ValidPassword(string password,string compare) {
+            return BCrypt.Net.BCrypt.Verify(password,compare);
+        }
+
         /// <summary>
         /// Generate Tokens with specific length
         /// </summary>
         /// <param name="size">Token Size</param>
         /// <returns>New token with size value.</returns>
-        internal static string GenerateToken(int size)
+       public static string GenerateToken(int size)
         {
             string result = string.Empty;
             for (int i = 0; i < size / 32; i++)
