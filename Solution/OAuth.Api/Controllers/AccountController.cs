@@ -22,7 +22,7 @@ namespace OAuth.Api.Controllers
         /// <returns>New Account</returns>
         [HttpPut]
         [Route("Create")]
-        public async Task<ActionResult> CreateAsync([FromBody] Models.Uploads.Account accountModel)
+        public async Task<ActionResult<Models.Result.Account>> CreateAsync([FromBody] Models.Uploads.Account accountModel)
         {
             #region ValidModel
             if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == accountModel.UserName)) != null)
