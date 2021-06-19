@@ -130,9 +130,10 @@ namespace OAuth.Api.Controllers
                 LoginFirstStep = firstStep.Id
             };
 
+            await db.Authentications.AddAsync(authentication);
+            await db.SaveChangesAsync();
 
-
-            throw new NotImplementedException();
+            return Ok(new Models.Result.Authentication(authentication));
         }
 
         /// <summary>
