@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Api", "OAuth.Api\OAut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Dal", "OAuth.Dal\OAuth.Dal.csproj", "{8224FD21-85E6-4BE7-9DB4-309603B68458}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Api.Test", "OAuth.Api.Test\OAuth.Api.Test.csproj", "{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +46,17 @@ Global
 		{8224FD21-85E6-4BE7-9DB4-309603B68458}.Release|x64.Build.0 = Release|Any CPU
 		{8224FD21-85E6-4BE7-9DB4-309603B68458}.Release|x86.ActiveCfg = Release|Any CPU
 		{8224FD21-85E6-4BE7-9DB4-309603B68458}.Release|x86.Build.0 = Release|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Debug|x64.Build.0 = Debug|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Debug|x86.Build.0 = Debug|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Release|x64.ActiveCfg = Release|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Release|x64.Build.0 = Release|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Release|x86.ActiveCfg = Release|Any CPU
+		{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
