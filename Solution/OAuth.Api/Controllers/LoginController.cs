@@ -115,7 +115,7 @@ namespace OAuth.Api.Controllers
 
             //Verify account password
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == firstStep.Account);
-            if (ValidPassword(pwd, account.Password))
+            if (!ValidPassword(pwd, account.Password))
             {
                 return Unauthorized();
             }
@@ -130,10 +130,20 @@ namespace OAuth.Api.Controllers
                 LoginFirstStep = firstStep.Id
             };
 
+            var result = new Models.Result.Authentication(authentication);
+
+            authentication.Token = HashPassword(result.Token);
+            result.AccountID = account.Id;
+
             await db.Authentications.AddAsync(authentication);
             await db.SaveChangesAsync();
 
-            return Ok(new Models.Result.Authentication(authentication));
+            //Update login first step.
+            firstStep.Valid = false;
+            db.LoginFirstSteps.Update(firstStep);
+            await db.SaveChangesAsync();
+
+            return Ok(result);
         }
 
         public static string HashPassword(string password)
@@ -142,7 +152,7 @@ namespace OAuth.Api.Controllers
         }
 
         public static bool ValidPassword(string password,string hash) {
-            return BCrypt.Net.BCrypt.Verify(password,hash);
+            return BCrypt.Net.BCrypt.Verify(password, hash);
         }
 
         /// <summary>

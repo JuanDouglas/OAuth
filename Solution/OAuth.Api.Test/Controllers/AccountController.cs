@@ -33,6 +33,7 @@ namespace OAuth.Api.Test.Controllers
             };
 
             ActionResult<Models.Result.Account> actionResult = await accountController.CreateAsync(uploadAccount);
+        await    actionResult.Result.ExecuteResultAsync(new ());
             Models.Result.Account resultAccount = actionResult.Value;
 
             Assert.IsNotNull(resultAccount);
