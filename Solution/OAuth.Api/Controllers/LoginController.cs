@@ -20,7 +20,7 @@ namespace OAuth.Api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-       public const int SmallTokenSize = 32;
+        public const int SmallTokenSize = 32;
         public const int NormalTokenSize = 64;
         public const int LargerTokenSize = 96;
         private readonly OAuthContext db = new();
