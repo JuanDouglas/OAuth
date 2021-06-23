@@ -33,7 +33,7 @@ namespace OAuth.Api.Test.Controllers
             };
 
             ActionResult<Models.Result.Account> actionResult = await accountController.CreateAsync(uploadAccount);
-        await    actionResult.Result.ExecuteResultAsync(new ());
+            await actionResult.Result.ExecuteResultAsync(new ());
             Models.Result.Account resultAccount = actionResult.Value;
 
             Assert.IsNotNull(resultAccount);
@@ -45,7 +45,6 @@ namespace OAuth.Api.Test.Controllers
             Assert.IsTrue(CompareResult(new(dbAccount), uploadAccount),"Account db not equal account upload.");
             //Models.Result.Account resultAccount = JsonConvert.DeserializeObject<Models.Result.Account>();
         }
-
 
         private bool CompareResult(Models.Result.Account account, Account accountCompare)
         {
