@@ -1,9 +1,12 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
+using OAuth.Api.Models;
 using OAuth.Api.Models.Enums;
 using OAuth.Api.Models.Result;
 using OAuth.Dal;
@@ -20,11 +23,15 @@ namespace OAuth.Api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-       public const int SmallTokenSize = 32;
+        public const int SmallTokenSize = 32;
         public const int NormalTokenSize = 64;
         public const int LargerTokenSize = 96;
-        private readonly OAuthContext db = new();
+        public const string AuthorizationHeader = "Authorization";
+        public const string AuthorizationTokenHeader = "Authorization-token";
+        public const string AccountID = "Account-id";
+        public const string AccountKey = "Account-Key";
 
+        private readonly OAuthContext db = new();
         /// <summary>
         /// First Step to Login.
         /// </summary>
@@ -131,7 +138,6 @@ namespace OAuth.Api.Controllers
             };
 
             var result = new Models.Result.Authentication(authentication);
-
             authentication.Token = HashPassword(result.Token);
             result.AccountID = account.Id;
 
@@ -146,12 +152,63 @@ namespace OAuth.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Get loginInformations 
+        /// </summary>
+        /// <param name="httpRequest"></param>
+        /// <returns></returns>
+        public static LoginInformations GetInformations(HttpRequest httpRequest) {
+            string authorizationToken = string.Empty;
+            string accountKey = string.Empty;
+            int accountId = 0;
+
+
+            try
+            {
+            }
+            catch (NullReferenceException)
+            {
+
+                throw;
+            }
+            return new(accountId,accountKey,authorizationToken);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Login informations valided.</returns>
+        public static LoginInformations ValidInformations(HttpRequest httpRequest) {
+            return ValidInformations(GetInformations(httpRequest));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginInformations"></param>
+        /// <returns></returns>
+        public static LoginInformations ValidInformations(LoginInformations loginInformations) {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Transform string password in string hash 
+        /// </summary>
+        /// <param name="password">String password</param>
+        /// <returns>New hash by password</returns>
         public static string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
-        public static bool ValidPassword(string password,string hash) {
+        /// <summary>
+        /// Valid password by password hash.
+        /// </summary>
+        /// <param name="password">Password</param>
+        /// <param name="hash">Password hash.</param>
+        /// <returns>password is valid</returns>
+        public static bool ValidPassword(string password, string hash)
+        {
             return BCrypt.Net.BCrypt.Verify(password, hash);
         }
 
@@ -160,7 +217,7 @@ namespace OAuth.Api.Controllers
         /// </summary>
         /// <param name="size">Token Size</param>
         /// <returns>New token with size value.</returns>
-       public static string GenerateToken(int size)
+        public static string GenerateToken(int size)
         {
             string result = string.Empty;
             for (int i = 0; i < size / 32; i++)
