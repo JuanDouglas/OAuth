@@ -5,8 +5,12 @@ namespace OAuth.Api.Models.Attributes
     public class PasswordAttribute : ValidationAttribute
     {
         public PasswordAttribute() { ErrorMessage = "Invalid password"; }
-        public static string[] Require = new string
-        [] { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijkllmnopqrstuvwxyz", "1234567890",@"!@#$%¨&*()_+{`^}:?><,./\-§=ºª"  };
+
+        private static readonly string[] require = new string
+                [] { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijkllmnopqrstuvwxyz", "1234567890", @"!@#$%¨&*()_+{`^}:?><,./\-§=ºª" };
+
+        public static string[] Require { get => require; }
+
         public override bool IsValid(object? obj)
         {
             string str = obj.ToString();

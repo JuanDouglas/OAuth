@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using OAuth.Api.Controllers.Base;
 using OAuth.Api.Models;
+using OAuth.Api.Models.Attributes;
 using OAuth.Api.Models.Enums;
 using OAuth.Api.Models.Result;
 using OAuth.Dal;
@@ -21,6 +22,7 @@ namespace OAuth.Api.Controllers
     /// <summary>
     /// Login Controller
     /// </summary>
+    [RequireHttps]
     [ApiController]
     [Route("api/[controller]")]
     public class LoginController : ApiController

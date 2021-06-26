@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using OAuth.Api.Controllers.Base;
 using OAuth.Api.Models;
+using OAuth.Api.Models.Attributes;
 using OAuth.Api.Models.Enums;
 using OAuth.Api.Models.Result;
 using OAuth.Dal;
@@ -16,8 +17,10 @@ using Authorization = OAuth.Dal.Models.Authorization;
 
 namespace OAuth.Api.Controllers
 {
-    [Route("api/[controller]")]
+
+    [RequireHttps]
     [ApiController]
+    [Route("api/[controller]")]
     public class OAuthController : ApiController
     {
         public const string ReplaceAuthorizationToken = "{authorization-token}";
@@ -31,6 +34,7 @@ namespace OAuth.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("Authorize")]
+        [RequireAuthentication]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Models.Result.Authorization), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> AuthorizeAsync(string app_key, AuthorizationLevel level, bool redirect)
@@ -71,8 +75,15 @@ namespace OAuth.Api.Controllers
             return Ok(new Models.Result.Authorization(authorization));
         }
 
+        /// <summary>
+        /// Get Login in App
+        /// </summary>
+        /// <param name="authorization_token">Application Authorization Token</param>
+        /// <param name="app_key">Application Key</param>
+        /// <returns></returns>
         [HttpGet]
-        [Route("LoginApp")]
+        [Route("AppAuthentication")]
+        [RequireAuthentication]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -80,6 +91,7 @@ namespace OAuth.Api.Controllers
         public async Task<ActionResult> LoginApp(string authorization_token, string app_key)
         {
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
+
             if (!containsUserAgent)
                 return BadRequest("User-Agent is mandatory");
             if (!Login.IsValid)
@@ -116,6 +128,44 @@ namespace OAuth.Api.Controllers
                 fs.Authentication == appAuth.Authentication);
 
             return Ok(new Models.Result.LoginApp(appAuth));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app_key">Application Key</param>
+        /// <param name="private_key">Application Private Key</param>
+        /// <param name="login">Login Informations</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("ValidAuthentication")]
+        [RequireAuthentication]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ValidLogin), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> ValidLoginAsync(string app_key, string private_key, [FromBody] Models.Uploads.Login login)
+        {
+            if (!Login.IsValid)
+                return Unauthorized(Login);
+
+            Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key &&
+                fs.PrivateKey == private_key);
+
+            ApplicationAuthentication authentication = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs => fs.Token == login.LoginToken &&
+                fs.AuthorizationNavigation.Key == login.AuthorizationKey &&
+                fs.AuthenticationNavigation.LoginFirstStepNavigation.Account == login.AccountID &&
+                fs.ApplicationNavigation.Key == app_key &&
+                fs.Active == true
+            );
+
+            if (application == null)
+                return NotFound();
+
+            if (authentication == null)
+                return Unauthorized();
+
+            return Ok(new ValidLogin(authentication) { ValidationDate = DateTime.UtcNow });
         }
     }
 }
