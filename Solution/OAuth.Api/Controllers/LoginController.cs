@@ -49,6 +49,7 @@ namespace OAuth.Api.Controllers
             IPAddress ip = HttpContext.Connection.RemoteIpAddress;
             if (account == null)
             {
+                await RegisterFailAttempAsync(AttempType.UserInvalid);
                 return NotFound();
             }
 
@@ -103,6 +104,7 @@ namespace OAuth.Api.Controllers
 
             if (!firstStep.Valid)
             {
+                await RegisterFailAttempAsync(AttempType.FirsStepInvalid);
                 return Unauthorized();
             }
 
@@ -125,9 +127,11 @@ namespace OAuth.Api.Controllers
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == firstStep.Account);
             if (!ValidPassword(pwd, account.Password))
             {
+                await RegisterFailAttempAsync(AttempType.PasswordIncorrect);
                 return Unauthorized();
             }
 
+            //Create authentication object
             Authentication authentication = new()
             {
                 Date = DateTime.UtcNow,

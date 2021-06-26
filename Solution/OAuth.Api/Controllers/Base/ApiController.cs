@@ -16,15 +16,20 @@ namespace OAuth.Api.Controllers.Base
     {
         public Login Login { get { return GetInformations(); } }
         protected internal OAuthContext db = new();
-        public override UnauthorizedResult Unauthorized()
+
+        public UnauthorizedResult Unauthorized(Login login)
         {
+            if (!login.IsValid)
+            {
+                Task task = RegisterFailAttempAsync(AttempType.RequestLoginInvalid);
+                task.Wait();
+            }
             return base.Unauthorized();
         }
 
         /// <summary>
         /// Get login informations 
         /// </summary>
-        /// <param name="httpRequest"></param>
         /// <returns></returns>
         public Login GetInformations()
         {

@@ -4,11 +4,14 @@ using Microsoft.Extensions.Primitives;
 using OAuth.Api.Controllers.Base;
 using OAuth.Api.Models;
 using OAuth.Api.Models.Enums;
+using OAuth.Api.Models.Result;
 using OAuth.Dal;
 using OAuth.Dal.Models;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Application = OAuth.Dal.Models.Application;
+using Authentication = OAuth.Dal.Models.Authentication;
 using Authorization = OAuth.Dal.Models.Authorization;
 
 namespace OAuth.Api.Controllers
@@ -34,7 +37,8 @@ namespace OAuth.Api.Controllers
         {
             if (!Login.IsValid)
             {
-                return Unauthorized();
+                await RegisterFailAttempAsync(AttempType.AuthorizeApp);
+                return Unauthorized(Login);
             }
 
             Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == Login.AuthenticationToken &&
@@ -68,21 +72,26 @@ namespace OAuth.Api.Controllers
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("LoginApp")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(LoginApp), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> LoginApp(string authorization_token, string app_key)
         {
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
             if (!containsUserAgent)
                 return BadRequest("User-Agent is mandatory");
-            
-
             if (!Login.IsValid)
-                return Unauthorized();
+                return Unauthorized(Login);
 
             Authorization authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.Key == authorization_token &&
                 fs.ApplicationNavigation.Key == app_key &&
                 fs.AuthenticationNavigation.LoginFirstStepNavigation.Account == Login.AccountID);
-            if (authorization == null)
+
+            Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == Login.AuthenticationToken &&
+                fs.LoginFirstStepNavigation.Account == Login.AccountID);
+            if (authorization == null || authentication == null)
                 return Unauthorized();
 
             Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
@@ -95,12 +104,18 @@ namespace OAuth.Api.Controllers
                 Date = DateTime.UtcNow,
                 Ipadress = HttpContext.Connection.RemoteIpAddress.ToString(),
                 Token = LoginController.GenerateToken(LoginController.LargerTokenSize),
-                 UserAgent = userAgent.ToString(),
-Authentication =                  
+                UserAgent = userAgent.ToString(),
+                Authentication = authentication.Id,
+                Authorization = authorization.Id
             };
 
+            await db.ApplicationAuthentications.AddAsync(appAuth);
+            await db.SaveChangesAsync();
 
-            throw new NotImplementedException();
+            appAuth = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs => fs.Token == appAuth.Token &&
+                fs.Authentication == appAuth.Authentication);
+
+            return Ok(new Models.Result.LoginApp(appAuth));
         }
     }
 }
