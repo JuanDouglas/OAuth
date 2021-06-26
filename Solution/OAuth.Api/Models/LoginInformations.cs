@@ -11,12 +11,14 @@ namespace OAuth.Api.Models
         public int AccountID { get; set; }
         public string AuthenticationToken { get; set; }
         public string AccountKey { get; set; }
+        public string FirstStepKey { get; set; }
 
-        public LoginInformations(int accountID, string accountKey, string authenticationToken)
+        public LoginInformations(int accountID, string accountKey, string authenticationToken, string firstStepKey)
         {
             AccountID = accountID;
             AuthenticationToken = authenticationToken;
             AccountKey = accountKey;
+            FirstStepKey = firstStepKey;
         }
     }
 }

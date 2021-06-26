@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -153,32 +154,39 @@ namespace OAuth.Api.Controllers
         }
 
         /// <summary>
-        /// Get loginInformations 
+        /// Get login informations 
         /// </summary>
         /// <param name="httpRequest"></param>
         /// <returns></returns>
-        public static LoginInformations GetInformations(HttpRequest httpRequest) {
+        public static LoginInformations GetInformations(HttpRequest httpRequest)
+        {
             string authorizationToken = string.Empty;
             string accountKey = string.Empty;
+            string firstStepKey = string.Empty;
             int accountId = 0;
-
 
             try
             {
+                IEnumerator<KeyValuePair<string, StringValues>> headers = httpRequest.Headers.GetEnumerator();
+                do
+                {
+                    KeyValuePair<string, StringValues> header = headers.Current;
+                } while (headers.MoveNext());
             }
             catch (NullReferenceException)
             {
 
                 throw;
             }
-            return new(accountId,accountKey,authorizationToken);
+            return new(accountId, accountKey, authorizationToken, firstStepKey);
         }
 
         /// <summary>
-        /// 
+        /// Valid if the request login informations is valid. 
         /// </summary>
         /// <returns>Login informations valided.</returns>
-        public static LoginInformations ValidInformations(HttpRequest httpRequest) {
+        public static LoginInformations ValidInformations(HttpRequest httpRequest)
+        {
             return ValidInformations(GetInformations(httpRequest));
         }
 
@@ -187,7 +195,8 @@ namespace OAuth.Api.Controllers
         /// </summary>
         /// <param name="loginInformations"></param>
         /// <returns></returns>
-        public static LoginInformations ValidInformations(LoginInformations loginInformations) {
+        public static LoginInformations ValidInformations(LoginInformations loginInformations)
+        {
             throw new NotImplementedException();
         }
 

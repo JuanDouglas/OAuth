@@ -13,8 +13,10 @@ namespace OAuth.Api.Controllers
     public class TeapotController : ControllerBase
     {
         [HttpGet]
-        [Route("MakeCoffe")] 
-        public ActionResult MakeACoffe() {
+        [Route("MakeCoffe")]
+        public ActionResult MakeACoffe()
+        {
+            _ = LoginController.GetInformations(Request);
             return StatusCode(418, "It is not possible to make coffee in a teapot.");
         }
     }
