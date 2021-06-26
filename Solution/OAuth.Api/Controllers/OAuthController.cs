@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
+using OAuth.Api.Controllers.Base;
 using OAuth.Api.Models;
 using OAuth.Api.Models.Enums;
 using OAuth.Dal;
@@ -13,11 +15,10 @@ namespace OAuth.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OAuthController : ControllerBase
+    public class OAuthController : ApiController
     {
         public const string ReplaceAuthorizationToken = "{authorization-token}";
         public const string ReplaceAccountID = "{account-id}";
-        private readonly OAuthContext db = new();
 
         /// <summary>
         /// Get Application Authorization 
@@ -25,19 +26,19 @@ namespace OAuth.Api.Controllers
         /// <param name="app_key">Application Key</param>
         /// <param name="level">Authorization Level</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("Authorize")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Models.Result.Authorization), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> AuthorizeAsync(string app_key, AuthorizationLevel level, bool redirect)
         {
-            LoginInformations login = LoginController.ValidInformations(Request);
-            if (!login.IsValid)
+            if (!Login.IsValid)
             {
                 return Unauthorized();
             }
 
-            Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == login.AuthenticationToken && fs.LoginFirstStepNavigation.Account == login.AccountID);
+            Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == Login.AuthenticationToken &&
+                fs.LoginFirstStepNavigation.Account == Login.AccountID);
             Application app = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
             if (app == null)
             {
@@ -64,6 +65,42 @@ namespace OAuth.Api.Controllers
                 return Redirect(result.Redirect);
 
             return Ok(new Models.Result.Authorization(authorization));
+        }
+
+        [HttpGet]
+        [Route("")]
+        public async Task<ActionResult> LoginApp(string authorization_token, string app_key)
+        {
+            bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
+            if (!containsUserAgent)
+                return BadRequest("User-Agent is mandatory");
+            
+
+            if (!Login.IsValid)
+                return Unauthorized();
+
+            Authorization authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.Key == authorization_token &&
+                fs.ApplicationNavigation.Key == app_key &&
+                fs.AuthenticationNavigation.LoginFirstStepNavigation.Account == Login.AccountID);
+            if (authorization == null)
+                return Unauthorized();
+
+            Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
+            if (application == null)
+                return NotFound();
+
+            ApplicationAuthentication appAuth = new()
+            {
+                Application = application.Id,
+                Date = DateTime.UtcNow,
+                Ipadress = HttpContext.Connection.RemoteIpAddress.ToString(),
+                Token = LoginController.GenerateToken(LoginController.LargerTokenSize),
+                 UserAgent = userAgent.ToString(),
+Authentication =                  
+            };
+
+
+            throw new NotImplementedException();
         }
     }
 }

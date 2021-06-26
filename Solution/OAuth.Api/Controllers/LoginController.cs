@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
+using OAuth.Api.Controllers.Base;
 using OAuth.Api.Models;
 using OAuth.Api.Models.Enums;
 using OAuth.Api.Models.Result;
@@ -22,7 +23,7 @@ namespace OAuth.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class LoginController : ControllerBase
+    public class LoginController : ApiController
     {
         public const int SmallTokenSize = 32;
         public const int NormalTokenSize = 64;
@@ -32,7 +33,6 @@ namespace OAuth.Api.Controllers
         public const string AccountID = "Account-id";
         public const string AccountKey = "Account-Key";
 
-        private readonly OAuthContext db = new();
         /// <summary>
         /// First Step to Login.
         /// </summary>
@@ -151,53 +151,6 @@ namespace OAuth.Api.Controllers
             await db.SaveChangesAsync();
 
             return Ok(result);
-        }
-
-        /// <summary>
-        /// Get login informations 
-        /// </summary>
-        /// <param name="httpRequest"></param>
-        /// <returns></returns>
-        public static LoginInformations GetInformations(HttpRequest httpRequest)
-        {
-            string authorizationToken = string.Empty;
-            string accountKey = string.Empty;
-            string firstStepKey = string.Empty;
-            int accountId = 0;
-
-            try
-            {
-                IEnumerator<KeyValuePair<string, StringValues>> headers = httpRequest.Headers.GetEnumerator();
-                do
-                {
-                    KeyValuePair<string, StringValues> header = headers.Current;
-                } while (headers.MoveNext());
-            }
-            catch (NullReferenceException)
-            {
-
-                throw;
-            }
-            return new(accountId, accountKey, authorizationToken, firstStepKey);
-        }
-
-        /// <summary>
-        /// Valid if the request login informations is valid. 
-        /// </summary>
-        /// <returns>Login informations valided.</returns>
-        public static LoginInformations ValidInformations(HttpRequest httpRequest)
-        {
-            return ValidInformations(GetInformations(httpRequest));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="loginInformations"></param>
-        /// <returns></returns>
-        public static LoginInformations ValidInformations(LoginInformations loginInformations)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

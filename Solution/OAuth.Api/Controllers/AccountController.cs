@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OAuth.Api.Controllers.Base;
 using OAuth.Dal;
 using OAuth.Dal.Models;
 using System;
@@ -10,12 +11,10 @@ using System.Threading.Tasks;
 
 namespace OAuth.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    [Route("api/[controller]")]
+    public class AccountController : ApiController
     {
-        private readonly OAuthContext db = new();
-
         /// <summary>
         /// Create new Account 
         /// </summary>

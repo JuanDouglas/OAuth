@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace OAuth.Api.Models.Enums
 {
-    public enum AuthorizationLevel : uint
+    public enum AttempType : uint
     {
-        Basic = 1,
-        Details = 2,
-        Manager = 3
+
+
     }
 }
