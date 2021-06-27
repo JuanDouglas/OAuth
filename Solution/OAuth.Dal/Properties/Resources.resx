@@ -121,6 +121,6 @@
     <value>Server=.\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;</value>
   </data>
   <data name="DevelopmentConnectionString" xml:space="preserve">
-    <value>Server=.\MSSQL;Initial Catalog=OAuth;Integrated Security=true;</value>
+    <value>Server=.\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;</value>
   </data>
 </root>

@@ -70,7 +70,7 @@ namespace OAuth.Dal.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Server=.\MSSQL;Initial Catalog=OAuth;Integrated Security=true;.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Server=.\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;.
         /// </summary>
         internal static string DevelopmentConnectionString {
             get {

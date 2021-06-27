@@ -246,7 +246,7 @@ namespace OAuth.Dal
                     .IsRequired()
                     .HasMaxLength(300)
                     .IsUnicode(false)
-                    .HasColumnName("User-Agent");
+                    .HasColumnName("UserAgent");
 
                 entity.HasOne(d => d.IpadressNavigation)
                     .WithMany(p => p.Authentications)

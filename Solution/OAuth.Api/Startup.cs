@@ -44,9 +44,11 @@ namespace OAuth.Api
 
             app.UseAuthorization();
 
-            app.UseWelcomePage();
-
             app.UseCookiePolicy();
+
+            app.UseWelcomePage("/welcome");
+
+            app.UseRewriter();
 
             app.UseEndpoints(endpoints =>
             {

@@ -10,7 +10,7 @@ namespace OAuth.Api.Models.Result
         public string Token { get; set; }
         public DateTime Date { get; set; }
         public bool IsValid { get; set; }
-        public int AccountID { get; set; }
+        public string AccountKey { get; set; }
         public Authentication() { }
         public Authentication(Dal.Models.Authentication authentication)
         {

@@ -141,7 +141,7 @@ namespace OAuth.Api.Controllers
 
             var result = new Models.Result.Authentication(authentication);
             authentication.Token = HashPassword(result.Token);
-            result.AccountID = account.Id;
+            result.AccountKey = account.Key;
 
             await db.Authentications.AddAsync(authentication);
             await db.SaveChangesAsync();

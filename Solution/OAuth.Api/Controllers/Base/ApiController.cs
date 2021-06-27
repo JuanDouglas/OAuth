@@ -33,7 +33,7 @@ namespace OAuth.Api.Controllers.Base
         /// </summary>
         /// <returns></returns>
         [NonAction]
-        public Login GetInformations()
+        private Login GetInformations()
         {
             string authorizationToken = string.Empty;
             string accountKey = string.Empty;

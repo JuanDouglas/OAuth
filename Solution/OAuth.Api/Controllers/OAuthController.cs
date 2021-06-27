@@ -26,6 +26,7 @@ namespace OAuth.Api.Controllers
     {
         public const string ReplaceAuthorizationToken = "{authorization-token}";
         public const string ReplaceAccountID = "{account-id}";
+        public const string ReplaceAuthenticationToken = "{authentication-token}";
 
         /// <summary>
         /// Get Application Authorization 
@@ -155,7 +156,7 @@ namespace OAuth.Api.Controllers
             Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key &&
                 fs.PrivateKey == private_key);
 
-            ApplicationAuthentication authentication = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs => fs.Token == login.LoginToken &&
+            ApplicationAuthentication authentication = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs => fs.Token == login.AuthenticationToken &&
                 fs.AuthorizationNavigation.Key == login.AuthorizationKey &&
                 fs.AuthenticationNavigation.LoginFirstStepNavigation.Account == login.AccountID &&
                 fs.ApplicationNavigation.Key == app_key &&
