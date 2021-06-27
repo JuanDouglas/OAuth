@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using OAuth.Api.Controllers.Base;
-using OAuth.Api.Models;
-using OAuth.Api.Models.Attributes;
 using OAuth.Api.Models.Enums;
 using OAuth.Api.Models.Result;
-using OAuth.Dal;
 using OAuth.Dal.Models;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 using Account = OAuth.Dal.Models.Account;
 using Authentication = OAuth.Dal.Models.Authentication;
 
@@ -164,7 +159,6 @@ namespace OAuth.Api.Controllers
         /// </summary>
         /// <param name="password">String password</param>
         /// <returns>New hash by password</returns>
-        /// 
         [NonAction]
         public static string HashPassword(string password)
         {

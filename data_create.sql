@@ -35,7 +35,7 @@ CREATE TABLE [Application](
 [Site] VARCHAR(100) NOT NULL,
 [Owner] INTEGER NOT NULL,
 [Icon] INTEGER NOT NULL,
-[PrivateKey] VARCHAR(300) UNIQUE NOT NULL,
+[PrivateKey] VARCHAR(300) NOT NULL,
 FOREIGN KEY ([Owner]) REFERENCES [Account]([ID]),
 FOREIGN KEY ([Icon]) REFERENCES [Image]([ID])
 );
@@ -91,6 +91,7 @@ CREATE TABLE [ApplicationAuthentication] (
 [Application] INTEGER NOT NULL,
 [Authorization] INTEGER  NOT NULL,
 [Authentication] INTEGER NOT NUlL,
+[Active] BIT NOT NULL,
 FOREIGN KEY ([IPAdress]) REFERENCES [IP]([Adress]),
 FOREIGN KEY ([Application]) REFERENCES [Application]([ID]),
 FOREIGN KEY ([Authorization]) REFERENCES [Authorization]([ID]),

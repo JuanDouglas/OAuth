@@ -6,7 +6,6 @@ using OAuth.Api.Models;
 using OAuth.Api.Models.Attributes;
 using OAuth.Api.Models.Enums;
 using OAuth.Api.Models.Result;
-using OAuth.Dal;
 using OAuth.Dal.Models;
 using System;
 using System.Net;

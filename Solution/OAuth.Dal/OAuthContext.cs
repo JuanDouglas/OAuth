@@ -1,14 +1,19 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using OAuth.Dal.Models;
 
 namespace OAuth.Dal
 {
     public partial class OAuthContext : DbContext
     {
+        public string ConnectionString { get; set; }
+        public static bool Development { get; set; }
         public OAuthContext()
         {
+            ConnectionString = Properties.Resources.ConnectionString;
+            if (Development)
+            {
+                ConnectionString = Properties.Resources.DevelopmentConnectionString;
+            }
         }
 
         public OAuthContext(DbContextOptions<OAuthContext> options)
@@ -32,7 +37,7 @@ namespace OAuth.Dal
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(Properties.Resources.ConnectionString);
+                optionsBuilder.UseSqlServer(ConnectionString);
             }
         }
 

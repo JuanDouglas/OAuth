@@ -7,7 +7,6 @@ using OAuth.Dal;
 using OAuth.Dal.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OAuth.Api.Controllers.Base

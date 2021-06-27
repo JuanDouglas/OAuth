@@ -1,5 +1,4 @@
-﻿using OAuth.Api.Controllers;
-using OAuth.Api.Models.Attributes;
+﻿using OAuth.Api.Models.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
 using static OAuth.Api.Controllers.LoginController;
@@ -47,4 +46,4 @@ namespace OAuth.Api.Models.Uploads
             };
         }
     }
- }
+}
