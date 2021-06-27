@@ -12,11 +12,12 @@ using System.Threading.Tasks;
 
 namespace OAuth.Api.Controllers.Base
 {
-    public class ApiController : ControllerBase
+    [Controller]
+    public abstract class ApiController : ControllerBase
     {
         public Login Login { get { return GetInformations(); } }
         protected internal OAuthContext db = new();
-
+        [NonAction]
         public UnauthorizedResult Unauthorized(Login login)
         {
             if (!login.IsValid)
@@ -24,6 +25,7 @@ namespace OAuth.Api.Controllers.Base
                 Task task = RegisterFailAttempAsync(AttempType.RequestLoginInvalid);
                 task.Wait();
             }
+
             return base.Unauthorized();
         }
 
@@ -31,12 +33,12 @@ namespace OAuth.Api.Controllers.Base
         /// Get login informations 
         /// </summary>
         /// <returns></returns>
+        [NonAction]
         public Login GetInformations()
         {
             string authorizationToken = string.Empty;
             string accountKey = string.Empty;
             string firstStepKey = string.Empty;
-            int accountId = 0;
 
             try
             {
@@ -50,9 +52,10 @@ namespace OAuth.Api.Controllers.Base
             {
                 throw;
             }
-            return new(accountId, accountKey, authorizationToken, firstStepKey);
-        }
 
+            return new(accountKey, authorizationToken, firstStepKey);
+        }
+        [NonAction]
         public async Task RegisterFailAttempAsync(AttempType attempType)
         {
             string ipAdress = HttpContext.Connection.RemoteIpAddress.ToString();

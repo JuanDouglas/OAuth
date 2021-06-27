@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OAuth.Api.Models.Uploads
 {
-    public class Login
+    public class LoginUpload
     {
         public string AuthorizationKey { get; set; }
         public string LoginToken { get; set; }

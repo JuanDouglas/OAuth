@@ -17,7 +17,9 @@ using Authorization = OAuth.Dal.Models.Authorization;
 
 namespace OAuth.Api.Controllers
 {
-
+    /// <summary>
+    /// 
+    /// </summary>
     [RequireHttps]
     [ApiController]
     [Route("api/[controller]")]
@@ -37,7 +39,7 @@ namespace OAuth.Api.Controllers
         [RequireAuthentication]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Models.Result.Authorization), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult> AuthorizeAsync(string app_key, AuthorizationLevel level, bool redirect)
+        public async Task<ActionResult<Models.Result.Authorization>> AuthorizeAsync(string app_key, AuthorizationLevel level, bool redirect)
         {
             if (!Login.IsValid)
             {
@@ -46,7 +48,8 @@ namespace OAuth.Api.Controllers
             }
 
             Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == Login.AuthenticationToken &&
-                fs.LoginFirstStepNavigation.Account == Login.AccountID);
+                fs.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
+
             Application app = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
             if (app == null)
             {
@@ -76,7 +79,7 @@ namespace OAuth.Api.Controllers
         }
 
         /// <summary>
-        /// Get Login in App
+        /// Get Authentication in especific App
         /// </summary>
         /// <param name="authorization_token">Application Authorization Token</param>
         /// <param name="app_key">Application Key</param>
@@ -88,7 +91,7 @@ namespace OAuth.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(LoginApp), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult> LoginApp(string authorization_token, string app_key)
+        public async Task<ActionResult<LoginApp>> LoginApp(string authorization_token, string app_key)
         {
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
 
@@ -99,10 +102,11 @@ namespace OAuth.Api.Controllers
 
             Authorization authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.Key == authorization_token &&
                 fs.ApplicationNavigation.Key == app_key &&
-                fs.AuthenticationNavigation.LoginFirstStepNavigation.Account == Login.AccountID);
+                fs.AuthenticationNavigation.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
 
             Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == Login.AuthenticationToken &&
-                fs.LoginFirstStepNavigation.Account == Login.AccountID);
+                fs.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
+
             if (authorization == null || authentication == null)
                 return Unauthorized();
 
@@ -131,7 +135,7 @@ namespace OAuth.Api.Controllers
         }
 
         /// <summary>
-        /// 
+        ///  Valid Application Authentication
         /// </summary>
         /// <param name="app_key">Application Key</param>
         /// <param name="private_key">Application Private Key</param>
@@ -144,7 +148,7 @@ namespace OAuth.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ValidLogin), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult> ValidLoginAsync(string app_key, string private_key, [FromBody] Models.Uploads.Login login)
+        public async Task<ActionResult<ValidLogin>> ValidLoginAsync(string app_key, string private_key, [FromBody] Models.Uploads.LoginUpload login)
         {
             if (!Login.IsValid)
                 return Unauthorized(Login);
@@ -165,7 +169,10 @@ namespace OAuth.Api.Controllers
             if (authentication == null)
                 return Unauthorized();
 
-            return Ok(new ValidLogin(authentication) { ValidationDate = DateTime.UtcNow });
+            return Ok(new ValidLogin(authentication)
+            {
+                ValidationDate = DateTime.UtcNow
+            });
         }
     }
 }

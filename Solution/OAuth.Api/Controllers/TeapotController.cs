@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace OAuth.Api.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class TeapotController : ControllerBase

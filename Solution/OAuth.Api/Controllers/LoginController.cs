@@ -45,7 +45,7 @@ namespace OAuth.Api.Controllers
         [ProducesResponseType(typeof(FirstStep), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<ActionResult> FirstStepAsync(string user)
+        public async Task<ActionResult<FirstStep>> FirstStepAsync(string user)
         {
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == user || fs.Email == user);
             IPAddress ip = HttpContext.Connection.RemoteIpAddress;
@@ -92,7 +92,7 @@ namespace OAuth.Api.Controllers
         [Route("SecondStep")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(Models.Result.Authentication), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult> SecondStepAsync(string pwd, string key, int fs_id)
+        public async Task<ActionResult<Models.Result.Authentication>> SecondStepAsync(string pwd, string key, int fs_id)
         {
             LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Token == key && fs.Valid && fs.Id == fs_id);
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
@@ -164,6 +164,8 @@ namespace OAuth.Api.Controllers
         /// </summary>
         /// <param name="password">String password</param>
         /// <returns>New hash by password</returns>
+        /// 
+        [NonAction]
         public static string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
@@ -175,6 +177,7 @@ namespace OAuth.Api.Controllers
         /// <param name="password">Password</param>
         /// <param name="hash">Password hash.</param>
         /// <returns>password is valid</returns>
+        [NonAction]
         public static bool ValidPassword(string password, string hash)
         {
             return BCrypt.Net.BCrypt.Verify(password, hash);
@@ -185,6 +188,7 @@ namespace OAuth.Api.Controllers
         /// </summary>
         /// <param name="size">Token Size</param>
         /// <returns>New token with size value.</returns>
+        [NonAction]
         public static string GenerateToken(int size)
         {
             string result = string.Empty;

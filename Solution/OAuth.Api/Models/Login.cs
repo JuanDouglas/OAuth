@@ -18,14 +18,12 @@ namespace OAuth.Api.Models
                 return validLogin.Result;
             }
         }
-        public int AccountID { get; set; }
         public string AuthenticationToken { get; set; }
         public string AccountKey { get; set; }
         public string FirstStepKey { get; set; }
         private readonly OAuthContext db = new();
-        public Login(int accountID, string accountKey, string authenticationToken, string firstStepKey)
+        public Login(string accountKey, string authenticationToken, string firstStepKey)
         {
-            AccountID = accountID;
             AuthenticationToken = authenticationToken;
             AccountKey = accountKey;
             FirstStepKey = firstStepKey;
@@ -35,7 +33,6 @@ namespace OAuth.Api.Models
         {
             Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == AuthenticationToken &&
             fs.LoginFirstStepNavigation.Token == FirstStepKey &&
-            fs.LoginFirstStepNavigation.Account == AccountID &&
             fs.LoginFirstStepNavigation.AccountNavigation.Key == AccountKey);
 
             if (authentication == null)
