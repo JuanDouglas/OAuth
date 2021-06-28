@@ -155,38 +155,7 @@ namespace OAuth.Api.Controllers
             return Ok(result);
         }
 
-        /// <summary>
-        /// Get loginInformations 
-        /// </summary>
-        /// <param name="httpRequest"></param>
-        /// <returns></returns>
-        public static Login GetInformations(HttpRequest httpRequest)
-        {
-            string
-                authorizationToken = string.Empty,
-                accountKey = string.Empty,
-                fsKey = string.Empty;
-
-            int accountId = 0;
-
-
-            IHeaderDictionary headers = httpRequest.Headers;
-            headers.TryGetValue(AuthorizationTokenHeader, out StringValues authorizationTokenSV);
-            headers.TryGetValue(AccountIDHeader,out StringValues accountIdSV); 
-            headers.TryGetValue(AccountKeyHeader,out StringValues accountKeySV);
-            headers.TryGetValue(FirstStepKey,);
-            try
-            {
-
-            }
-            catch (NullReferenceException)
-            {
-
-                throw;
-            }
-            return new(accountId, accountKey, fsKey, authorizationToken);
-        }
-
+        
         /// <summary>
         /// Transform string password in string hash 
         /// </summary>

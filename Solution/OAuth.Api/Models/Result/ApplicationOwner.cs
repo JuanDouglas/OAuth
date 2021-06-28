@@ -10,6 +10,7 @@ namespace OAuth.Api.Models.Result
         public string Name { get; set; }
         public string Key { get; set; }
         public string Site { get; set; }
+        public string PrivateKey { get; set; }
         public File Icon { get; set; }
 
         public ApplicationOwner()
@@ -22,6 +23,7 @@ namespace OAuth.Api.Models.Result
             Key = application.Key;
             Site = application.Site;
             Icon = new(application.IconNavigation);
+            PrivateKey = application.PrivateKey;
         }
     }
 }
