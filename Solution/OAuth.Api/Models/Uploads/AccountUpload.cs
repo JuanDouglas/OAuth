@@ -1,12 +1,11 @@
-﻿using OAuth.Api.Controllers;
-using OAuth.Api.Models.Attributes;
+﻿using OAuth.Api.Models.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
 using static OAuth.Api.Controllers.LoginController;
 
 namespace OAuth.Api.Models.Uploads
 {
-    public class Account
+    public class AccountUpload
     {
         private const int DefaultIconID = 1;
         private string _username;
@@ -27,7 +26,7 @@ namespace OAuth.Api.Models.Uploads
         [Required]
         public bool AcceptTerms { get; set; }
 
-        public Account()
+        public AccountUpload()
         {
         }
 
@@ -47,4 +46,4 @@ namespace OAuth.Api.Models.Uploads
             };
         }
     }
- }
+}

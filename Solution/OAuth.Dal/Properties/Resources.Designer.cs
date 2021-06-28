@@ -68,5 +68,14 @@ namespace OAuth.Dal.Properties {
                 return ResourceManager.GetString("ConnectionString", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Server=.\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;.
+        /// </summary>
+        internal static string DevelopmentConnectionString {
+            get {
+                return ResourceManager.GetString("DevelopmentConnectionString", resourceCulture);
+            }
+        }
     }
 }

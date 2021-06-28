@@ -120,4 +120,7 @@
   <data name="ConnectionString" xml:space="preserve">
     <value>Server=.\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;</value>
   </data>
+  <data name="DevelopmentConnectionString" xml:space="preserve">
+    <value>Server=.\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;</value>
+  </data>
 </root>

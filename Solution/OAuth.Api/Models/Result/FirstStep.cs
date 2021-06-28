@@ -14,7 +14,8 @@ namespace OAuth.Api.Models.Result
         public FirstStep()
         {
         }
-        public FirstStep(LoginFirstStep loginFirstStep) {
+        public FirstStep(LoginFirstStep loginFirstStep)
+        {
             Date = loginFirstStep.Date;
             Token = loginFirstStep.Token;
             Valid = loginFirstStep.Valid;
