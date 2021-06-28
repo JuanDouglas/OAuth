@@ -28,8 +28,9 @@ namespace OAuth.Api.Controllers
         public const int LargerTokenSize = 96;
         public const string AuthorizationHeader = "Authorization";
         public const string AuthorizationTokenHeader = "Authorization-token";
-        public const string AccountID = "Account-id";
-        public const string AccountKey = "Account-Key";
+        public const string AccountIDHeader = "Account-id";
+        public const string AccountKeyHeader = "Account-Key";
+        public const string FirstStepKeyHeader = "First-Step-Key";
 
         private readonly OAuthContext db = new();
         /// <summary>
@@ -157,28 +158,39 @@ namespace OAuth.Api.Controllers
         /// </summary>
         /// <param name="httpRequest"></param>
         /// <returns></returns>
-        public static LoginInformations GetInformations(HttpRequest httpRequest) {
-            string authorizationToken = string.Empty;
-            string accountKey = string.Empty;
+        public static Login GetInformations(HttpRequest httpRequest)
+        {
+            string
+                authorizationToken = string.Empty,
+                accountKey = string.Empty,
+                fsKey = string.Empty;
+
             int accountId = 0;
 
 
+            IHeaderDictionary headers = httpRequest.Headers;
+            headers.TryGetValue(AuthorizationTokenHeader, out StringValues authorizationTokenSV);
+            headers.TryGetValue(AccountIDHeader,out StringValues accountIdSV); 
+            headers.TryGetValue(AccountKeyHeader,out StringValues accountKeySV);
+            headers.TryGetValue(FirstStepKey,);
             try
             {
+
             }
             catch (NullReferenceException)
             {
 
                 throw;
             }
-            return new(accountId,accountKey,authorizationToken);
+            return new(accountId, accountKey, fsKey, authorizationToken);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns>Login informations valided.</returns>
-        public static LoginInformations ValidInformations(HttpRequest httpRequest) {
+        public static Login ValidInformations(HttpRequest httpRequest)
+        {
             return ValidInformations(GetInformations(httpRequest));
         }
 
@@ -187,7 +199,8 @@ namespace OAuth.Api.Controllers
         /// </summary>
         /// <param name="loginInformations"></param>
         /// <returns></returns>
-        public static LoginInformations ValidInformations(LoginInformations loginInformations) {
+        public static Login ValidInformations(Login loginInformations)
+        {
             throw new NotImplementedException();
         }
 
