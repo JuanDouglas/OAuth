@@ -34,6 +34,8 @@ namespace OAuth.Api.Controllers
         /// <param name="app_key">Application Key</param>
         /// <param name="level">Authorization Level</param>
         /// <returns></returns>
+        /// 
+
         [HttpPost]
         [Route("Authorize")]
         [RequireAuthentication]

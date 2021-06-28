@@ -30,20 +30,18 @@ namespace OAuth.Api.Models.Uploads
         {
         }
 
-        public Dal.Models.Account ToAccountDB()
+        public Dal.Models.Account ToAccountDB() => new()
         {
-            return new Dal.Models.Account()
-            {
-                Password = HashPassword(Password),
-                AcceptTermsDate = DateTime.UtcNow,
-                UserName = UserName,
-                CreateDate = DateTime.UtcNow,
-                Key = GenerateToken(LargerTokenSize),
-                Email = Email,
-                IsCompany = IsCompany,
-                Valid = false,
-                ProfileImageId = DefaultIconID
-            };
-        }
+            Password = HashPassword(Password),
+            AcceptTermsDate = DateTime.UtcNow,
+            UserName = UserName,
+            CreateDate = DateTime.UtcNow,
+            Key = GenerateToken(LargerTokenSize),
+            Email = Email,
+            IsCompany = IsCompany,
+            Valid = false,
+            ProfileImageId = DefaultIconID
+        };
+
     }
 }

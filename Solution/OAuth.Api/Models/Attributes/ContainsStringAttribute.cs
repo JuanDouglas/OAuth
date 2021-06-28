@@ -17,7 +17,7 @@ namespace OAuth.Api.Models.Attributes
 
         public override bool IsValid(object obj)
         {
-            string value = string.Empty;
+            string value;
             if (obj is string result)
             {
                 value = result;
@@ -30,7 +30,10 @@ namespace OAuth.Api.Models.Attributes
             foreach (string item in Values)
             {
                 if (!value.Contains(item))
+                {
+                    ErrorMessage = $"The string not contains: {item}";
                     return false;
+                }
             }
 
             return base.IsValid(value);
