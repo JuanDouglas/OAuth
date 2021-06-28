@@ -32,7 +32,7 @@ CREATE TABLE [Application](
 [Key] VARCHAR(300) UNIQUE NOT NULL,
 [AuthorizeRedirect] VARCHAR(500) NOT NULL,
 [LoginRedirect] VARCHAR(500) NOT NULL,
-[Site] VARCHAR(100) NOT NULL,
+[Site] VARCHAR(200) NOT NULL,
 [Owner] INTEGER NOT NULL,
 [Icon] INTEGER NOT NULL,
 [PrivateKey] VARCHAR(300) NOT NULL,
@@ -106,5 +106,13 @@ CREATE TABLE [FailAttemp](
 FOREIGN KEY ([IPAdress]) REFERENCES [IP]([Adress])
 );
 
+/* INSERT IMAGES */
 INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_profile_image.png',1);
 INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_application_icon.png',2);
+
+/* INSERT USERS */
+INSERT INTO [Account] ([UserName],[Password],[Key],[Email],[IsCompany],[AccepTermsDate],[Valid],[CreateDate],[ProfileImage]) VALUES ('JuanDouglas','$2a$10$vl2ajEUyNi7/pGsMqy1N1.h65XLywq.FRwiX43t.58f2Ou1fYgSSu','pr1v@t3K31H4Sh','juandouglas2004@gmail.com',1,GETDATE(),1,GETDATE(),1);
+
+/* INSERT APPLICATIONS */
+INSERT INTO [Application] ([Name],[Owner],[Key],[Icon],[PrivateKey],[Site],[LoginRedirect],[AuthorizeRedirect]) 
+VALUES('Stock Manager Api',1,'Nexus-Stock-Manager',2,'Pr1v4T3K31H@sh3d','https://stock-manager.azurewebsites.net','','');

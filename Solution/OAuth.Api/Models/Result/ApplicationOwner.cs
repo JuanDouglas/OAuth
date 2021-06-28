@@ -1,16 +1,22 @@
-﻿namespace OAuth.Api.Models.Result
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace OAuth.Api.Models.Result
 {
-    public class Application
+    public class ApplicationOwner
     {
         public string Name { get; set; }
         public string Key { get; set; }
         public string Site { get; set; }
         public File Icon { get; set; }
-        public Application()
+
+        public ApplicationOwner()
         {
 
         }
-        public Application(Dal.Models.Application application)
+        public ApplicationOwner(Dal.Models.Application application)
         {
             Name = application.Name;
             Key = application.Key;
