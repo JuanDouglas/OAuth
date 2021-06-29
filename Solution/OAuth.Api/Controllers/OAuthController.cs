@@ -34,8 +34,6 @@ namespace OAuth.Api.Controllers
         /// <param name="app_key">Application Key</param>
         /// <param name="level">Authorization Level</param>
         /// <returns></returns>
-        /// 
-
         [HttpPost]
         [Route("Authorize")]
         [RequireAuthentication]
@@ -87,11 +85,10 @@ namespace OAuth.Api.Controllers
         /// <param name="app_key">Application Key</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("AppAuthentication")]
         [RequireAuthentication]
+        [Route("AppAuthentication")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(LoginApp), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<LoginApp>> LoginApp(string authorization_token, string app_key)
         {
@@ -144,11 +141,10 @@ namespace OAuth.Api.Controllers
         /// <param name="login">Login Informations</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("ValidAuthentication")]
         [RequireAuthentication]
+        [Route("ValidAuthentication")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ValidLogin), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ValidLogin>> ValidLoginAsync(string app_key, string private_key, [FromBody] Models.Uploads.LoginUpload login)
         {

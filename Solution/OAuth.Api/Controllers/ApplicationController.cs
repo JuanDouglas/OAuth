@@ -19,7 +19,7 @@ namespace OAuth.Api.Controllers
         [HttpPut]
         [Route("Add")]
         [RequireAuthentication]
-        public async Task<ActionResult> AddAplication([FromBody] Models.Uploads.ApplicationUpload applicationUpload)
+        public async Task<ActionResult<Models.Result.ApplicationOwner>> AddAplication([FromBody] Models.Uploads.ApplicationUpload applicationUpload)
         {
             if (!Login.IsValid)
                 return Unauthorized(Login);
@@ -47,5 +47,6 @@ namespace OAuth.Api.Controllers
 
             return Ok(new Models.Result.ApplicationOwner(application));
         }
+
     }
 }

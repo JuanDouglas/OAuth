@@ -37,9 +37,8 @@ namespace OAuth.Api.Controllers
         /// <returns>First Step Model</returns>
         [HttpGet]
         [Route("FirstStep")]
-        [ProducesResponseType(typeof(FirstStep), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(FirstStep), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<FirstStep>> FirstStepAsync(string user)
         {
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == user || fs.Email == user);
