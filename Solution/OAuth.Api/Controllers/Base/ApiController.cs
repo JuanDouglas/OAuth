@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using OAuth.Api.Models;
@@ -14,7 +15,7 @@ namespace OAuth.Api.Controllers.Base
     [Controller]
     public abstract class ApiController : ControllerBase
     {
-        public Login Login { get { return GetInformations(); } }
+        public Login Login { get { return GetInformations(Request); } }
         protected internal OAuthContext db = OAuthDb;
         private static OAuthContext OAuthDb;
 
@@ -48,27 +49,30 @@ namespace OAuth.Api.Controllers.Base
         /// </summary>
         /// <returns></returns>
         [NonAction]
-        private Login GetInformations()
+        public static Login GetInformations(HttpRequest httpRequest)
         {
-            string authorizationToken = string.Empty;
-            string accountKey = string.Empty;
-            string firstStepKey = string.Empty;
+            string
+                authorizationToken = string.Empty,
+                accountKey = string.Empty,
+                fsKey = string.Empty;
 
+            IHeaderDictionary headers = httpRequest.Headers;
+            headers.TryGetValue(LoginController.AuthorizationTokenHeader, out StringValues authorizationTokenSV);
+            headers.TryGetValue(LoginController.AccountKeyHeader, out StringValues accountKeySV);
+            headers.TryGetValue(LoginController.FirstStepKeyHeader, out StringValues firstStepKeySV);
+           
             try
             {
-                IEnumerator<KeyValuePair<string, StringValues>> headers = Request.Headers.GetEnumerator();
-                do
-                {
-                    KeyValuePair<string, StringValues> header = headers.Current;
-                } while (headers.MoveNext());
+
             }
             catch (NullReferenceException)
             {
+
                 throw;
             }
-
-            return new(accountKey, authorizationToken, firstStepKey);
+            return new( accountKey, fsKey, authorizationToken);
         }
+
         [NonAction]
         public async Task RegisterFailAttempAsync(AttempType attempType)
         {

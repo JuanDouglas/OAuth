@@ -27,6 +27,7 @@ namespace OAuth.Api.Controllers
         public const string ReplaceAuthorizationToken = "{authorization-token}";
         public const string ReplaceAccountID = "{account-id}";
         public const string ReplaceAuthenticationToken = "{authentication-token}";
+        public const string ReplaceLoginToken = "{login-token}"; 
 
         /// <summary>
         /// Get Application Authorization 
@@ -90,7 +91,7 @@ namespace OAuth.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(LoginApp), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<LoginApp>> LoginApp(string authorization_token, string app_key)
+        public async Task<ActionResult<LoginApp>> LoginApp(string authorization_token, string app_key, bool redirect)
         {
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
 
@@ -130,7 +131,12 @@ namespace OAuth.Api.Controllers
             appAuth = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs => fs.Token == appAuth.Token &&
                 fs.Authentication == appAuth.Authentication);
 
-            return Ok(new Models.Result.LoginApp(appAuth));
+            LoginApp login = new(appAuth);
+
+            if (redirect)
+                return Redirect(login.Redirect);
+
+            return Ok();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using OAuth.Dal;
+﻿using OAuth.Api.Controllers;
+using OAuth.Dal;
 using System;
 using System.Linq;
 
@@ -10,10 +11,10 @@ namespace OAuth.Api.Models.Result
         public string IPAdress { get; set; }
         public DateTime Date { get; set; }
         public Application Application { get; set; }
-        public string AuthorizationKey { get; set; }
+        public string AuthorizationToken { get; set; }
         public string LoginToken { get; set; }
         public int AccountID { get; set; }
-
+        public string Redirect { get; set; }
         private readonly OAuthContext db = new();
         public LoginApp()
         {
@@ -29,7 +30,12 @@ namespace OAuth.Api.Models.Result
             Date = appAuth.Date;
             Application = new(application);
             UserAgent = appAuth.UserAgent;
-            AuthorizationKey = authorization.Key;
+            AuthorizationToken = authorization.Key;
+            Redirect = application.LoginRedirect
+                .Replace(OAuthController.ReplaceAuthorizationToken, AuthorizationToken)
+                .Replace(OAuthController.ReplaceAccountID, AccountID.ToString())
+                .Replace(OAuthController.ReplaceLoginToken, LoginToken);
+
         }
     }
 }

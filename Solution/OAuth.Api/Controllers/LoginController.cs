@@ -27,8 +27,9 @@ namespace OAuth.Api.Controllers
         public const int LargerTokenSize = 96;
         public const string AuthorizationHeader = "Authorization";
         public const string AuthorizationTokenHeader = "Authorization-token";
-        public const string AccountID = "Account-id";
-        public const string AccountKey = "Account-Key";
+        public const string AccountIDHeader = "Account-id";
+        public const string AccountKeyHeader = "Account-Key";
+        public const string FirstStepKeyHeader = "First-Step-Key";
 
         /// <summary>
         /// First Step to Login.
@@ -153,6 +154,7 @@ namespace OAuth.Api.Controllers
             return Ok(result);
         }
 
+        
         /// <summary>
         /// Transform string password in string hash 
         /// </summary>
