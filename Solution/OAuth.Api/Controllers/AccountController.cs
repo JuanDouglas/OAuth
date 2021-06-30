@@ -94,6 +94,11 @@ namespace OAuth.Api.Controllers
                 ModelState.AddModelError("Email", "The email is already being used.");
             }
 
+            if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.PhoneNumber == accountModel.PhoneNumber)) != null)
+            {
+                ModelState.AddModelError("PhoneNumber", "The PhoneNumber is already being used.");
+            }
+
             if (accountModel.ConfirmPassword != accountModel.Password)
             {
                 ModelState.AddModelError("ConfirmPassword", "Password not equal at confirm password.");

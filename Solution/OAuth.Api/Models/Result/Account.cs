@@ -10,6 +10,7 @@ namespace OAuth.Api.Models.Result
         public string Key { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public bool IsCompany { get; set; }
         public DateTime AcceptTermsDate { get; set; }
         public bool Valid { get; set; }

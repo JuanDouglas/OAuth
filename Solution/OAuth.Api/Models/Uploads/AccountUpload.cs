@@ -22,6 +22,10 @@ namespace OAuth.Api.Models.Uploads
         [EmailAddress]
         [StringLength(500)]
         public string Email { get; set; }
+        [Phone]
+        [Required]
+        [StringLength(32)]
+        public string PhoneNumber { get; set; }
         public bool IsCompany { get; set; }
         [Required]
         public bool AcceptTerms { get; set; }

@@ -23,6 +23,7 @@ namespace OAuth.Dal.Models
         public bool Valid { get; set; }
         public DateTime CreateDate { get; set; }
         public int ProfileImageId { get; set; }
+        public string PhoneNumber { get; set; }
 
         public virtual Image ProfileImage { get; set; }
         public virtual AccountDetail AccountDetail { get; set; }
