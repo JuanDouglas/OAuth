@@ -77,7 +77,7 @@ namespace OAuth.Api.Controllers
         public async Task<ActionResult<Models.Result.Account>> UpdateAsync(int id, string pas, [FromBody] Models.Uploads.AccountUpload accountModel)
         {
             if (!Login.IsValid)
-                return Unauthorized(Login);
+                return Unauthorized();
 
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == id && fs.Key == Login.AccountKey);
             if (account == null)

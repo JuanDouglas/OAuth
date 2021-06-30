@@ -9,7 +9,6 @@ namespace OAuth.Api.Models.Result
         public DateTime Date { get; set; }
         public string Token { get; set; }
         public bool Valid { get; set; }
-        public string IPAdress { get; set; }
 
         public FirstStep()
         {
@@ -19,7 +18,6 @@ namespace OAuth.Api.Models.Result
             Date = loginFirstStep.Date;
             Token = loginFirstStep.Token;
             Valid = loginFirstStep.Valid;
-            IPAdress = loginFirstStep.Ipadress;
             ID = loginFirstStep.Id;
         }
     }

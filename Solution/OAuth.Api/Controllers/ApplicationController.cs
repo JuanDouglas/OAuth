@@ -22,7 +22,7 @@ namespace OAuth.Api.Controllers
         public async Task<ActionResult<Models.Result.ApplicationOwner>> AddAplication([FromBody] Models.Uploads.ApplicationUpload applicationUpload)
         {
             if (!Login.IsValid)
-                return Unauthorized(Login);
+                return Unauthorized();
 
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
             Application exits = await db.Applications.FirstOrDefaultAsync(fs => fs.Name == applicationUpload.Name &&

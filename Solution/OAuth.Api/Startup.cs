@@ -13,6 +13,7 @@ namespace OAuth.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            OAuthContext.ConnectionString = "Server=.\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;Info=False;User ID=Master;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         }
 
         public IConfiguration Configuration { get; }
@@ -26,8 +27,9 @@ namespace OAuth.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OAuth.Api", Version = "v1" });
             });
-        }
 
+           
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -55,7 +57,7 @@ namespace OAuth.Api
                 endpoints.MapControllers();
             });
 
-            OAuthContext.Development = env.IsDevelopment();
+            //OAuthContext.Development = env.IsDevelopment();
         }
     }
 }

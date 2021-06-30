@@ -16,16 +16,10 @@ namespace OAuth.Api.Controllers.Base
     public abstract class ApiController : ControllerBase
     {
         public Login Login { get { return GetInformations(Request); } }
-        protected internal OAuthContext db = OAuthDb;
-        private static OAuthContext OAuthDb;
+        protected internal OAuthContext db = new();
 
         public ApiController()
         {
-            OAuthDb ??= new();
-
-            if (OAuthDb != null)
-                OAuthDb.SaveChangesFailed -= this.SaveChangesFailed;
-            OAuthDb.SaveChangesFailed += this.SaveChangesFailed;
         }
         public override UnauthorizedResult Unauthorized()
         {

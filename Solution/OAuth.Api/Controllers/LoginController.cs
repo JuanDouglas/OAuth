@@ -70,10 +70,12 @@ namespace OAuth.Api.Controllers
                 Ipadress = ip.ToString()
             };
 
-            db.LoginFirstSteps.Add(loginFirstStep);
+            await db.LoginFirstSteps.AddAsync(loginFirstStep);
             await db.SaveChangesAsync();
 
-            return Ok(new FirstStep(await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Token == loginFirstStep.Token && fs.Valid)));
+            Console.WriteLine(loginFirstStep.ToString());
+            loginFirstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Token == loginFirstStep.Token);
+            return Ok(new FirstStep(loginFirstStep));
         }
 
         /// <summary>
@@ -154,7 +156,7 @@ namespace OAuth.Api.Controllers
             return Ok(result);
         }
 
-        
+
         /// <summary>
         /// Transform string password in string hash 
         /// </summary>
