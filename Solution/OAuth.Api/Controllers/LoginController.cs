@@ -26,7 +26,7 @@ namespace OAuth.Api.Controllers
         public const int NormalTokenSize = 64;
         public const int LargerTokenSize = 96;
         public const string AuthorizationHeader = "Authorization";
-        public const string AuthorizationTokenHeader = "Authorization-token";
+        public const string AuthorizationTokenHeader = "Authorization-Token";
         public const string AccountIDHeader = "Account-id";
         public const string AccountKeyHeader = "Account-Key";
         public const string FirstStepKeyHeader = "First-Step-Key";
@@ -73,9 +73,15 @@ namespace OAuth.Api.Controllers
             await db.LoginFirstSteps.AddAsync(loginFirstStep);
             await db.SaveChangesAsync();
 
-            Console.WriteLine(loginFirstStep.ToString());
             loginFirstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Token == loginFirstStep.Token);
-            return Ok(new FirstStep(loginFirstStep));
+
+            FirstStep result = new(loginFirstStep);
+
+            loginFirstStep.Token = HashPassword(loginFirstStep.Token);
+            db.LoginFirstSteps.Update(loginFirstStep);
+            await db.SaveChangesAsync();
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -91,7 +97,7 @@ namespace OAuth.Api.Controllers
         [ProducesResponseType(typeof(Models.Result.Authentication), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Models.Result.Authentication>> SecondStepAsync(string pwd, string key, int fs_id)
         {
-            LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Token == key && fs.Valid && fs.Id == fs_id);
+            LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Valid && fs.Id == fs_id);
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
             IPAddress ip = HttpContext.Connection.RemoteIpAddress;
             firstStep ??= new LoginFirstStep();
@@ -117,6 +123,9 @@ namespace OAuth.Api.Controllers
                 return Unauthorized();
             }
 
+            if (!ValidPassword(key, firstStep.Token))
+                return Unauthorized();
+
             if (firstStep.Ipadress != ip.ToString())
             {
                 return Unauthorized();
@@ -141,9 +150,10 @@ namespace OAuth.Api.Controllers
                 LoginFirstStep = firstStep.Id
             };
 
-            var result = new Models.Result.Authentication(authentication);
-            authentication.Token = HashPassword(result.Token);
-            result.AccountKey = account.Key;
+            var result = new Models.Result.Authentication(authentication)
+            {
+                AccountKey = account.Key
+            };
 
             await db.Authentications.AddAsync(authentication);
             await db.SaveChangesAsync();

@@ -112,5 +112,23 @@ namespace OAuth.Api.Controllers
 
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        ///  Get Account 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("Get")]
+        [RequireAuthentication]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(Models.Result.Account), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Models.Result.Account>> GetAsync()
+        {
+            if (!Login.IsValid)
+                return Unauthorized();
+
+            Account account = await db.Accounts.FirstOrDefaultAsync(fs=>fs.Key == Login.AccountKey);
+            return Ok(new Models.Result.Account(account) );
+        }
     }
 }

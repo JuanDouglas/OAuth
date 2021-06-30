@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OAuth.Api.Controllers;
 using OAuth.Dal;
 using OAuth.Dal.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace OAuth.Api.Models
@@ -28,12 +30,31 @@ namespace OAuth.Api.Models
 
         private async Task<bool> ValidLogin()
         {
-            Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == AuthenticationToken &&
-            fs.LoginFirstStepNavigation.Token == FirstStepKey &&
-            fs.LoginFirstStepNavigation.AccountNavigation.Key == AccountKey);
+            try
+            {
+                Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == AuthenticationToken);
+                if (authentication == null)
+                    return false;
 
-            if (authentication == null)
+                LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Id == authentication.LoginFirstStep);
+                if (firstStep == null)
+                    return false;
+
+                if (!LoginController.ValidPassword(FirstStepKey, firstStep.Token))
+                    return false;
+
+                Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == firstStep.Account);
+                if (account == null)
+                    return false;
+
+                if (account.Key != AccountKey)
+                    return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
                 return false;
+            }
 
             return true;
 

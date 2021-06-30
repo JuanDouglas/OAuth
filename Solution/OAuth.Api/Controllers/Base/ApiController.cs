@@ -27,12 +27,19 @@ namespace OAuth.Api.Controllers.Base
         }
 
         [NonAction]
+        public UnauthorizedResult Unauthorized(AttempType attempType)
+        {
+            Task task = RegisterFailAttempAsync(attempType);
+            task.Wait();
+            return base.Unauthorized();
+        }
+
+        [NonAction]
         public UnauthorizedResult Unauthorized(Login login)
         {
             if (!login.IsValid)
             {
-                Task task = RegisterFailAttempAsync(AttempType.RequestLoginInvalid);
-                task.Wait();
+                return Unauthorized(AttempType.RequestLoginInvalid);
             }
 
             return base.Unauthorized();
@@ -54,17 +61,19 @@ namespace OAuth.Api.Controllers.Base
             headers.TryGetValue(LoginController.AuthorizationTokenHeader, out StringValues authorizationTokenSV);
             headers.TryGetValue(LoginController.AccountKeyHeader, out StringValues accountKeySV);
             headers.TryGetValue(LoginController.FirstStepKeyHeader, out StringValues firstStepKeySV);
-           
+
             try
             {
-
+                authorizationToken = authorizationTokenSV.ToString();
+                accountKey = accountKeySV.ToString();
+                fsKey = firstStepKeySV.ToString();
             }
             catch (NullReferenceException)
             {
 
                 throw;
             }
-            return new( accountKey, fsKey, authorizationToken);
+            return new(accountKey, authorizationToken, fsKey);
         }
 
         [NonAction]

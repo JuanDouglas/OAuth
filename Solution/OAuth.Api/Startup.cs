@@ -13,7 +13,7 @@ namespace OAuth.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            OAuthContext.ConnectionString = "Server=.\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;Info=False;User ID=Master;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            OAuthContext.ConnectionString = "Server=.\\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;User ID=Master;Password=P@ssw0rd;MultipleActiveResultSets=False;Connection Timeout=30;";
         }
 
         public IConfiguration Configuration { get; }
