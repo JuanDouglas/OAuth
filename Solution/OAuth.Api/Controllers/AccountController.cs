@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OAuth.Api.Controllers.Base;
 using OAuth.Api.Models.Attributes;
+using OAuth.Api.Models.Enums;
 using OAuth.Dal.Models;
 using System;
 using System.Net;
@@ -25,26 +26,7 @@ namespace OAuth.Api.Controllers
         public async Task<ActionResult<Models.Result.Account>> CreateAsync([FromBody] Models.Uploads.AccountUpload accountModel)
         {
             #region ValidModel
-            if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == accountModel.UserName)) != null)
-            {
-                ModelState.AddModelError("UserName", "The username is already being used.");
-            }
-
-            if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.Email == accountModel.Email)) != null)
-            {
-                ModelState.AddModelError("Email", "The email is already being used.");
-            }
-
-            if (accountModel.ConfirmPassword != accountModel.Password)
-            {
-                ModelState.AddModelError("ConfirmPassword", "Password not equal at confirm password.");
-            }
-
-            if (!accountModel.AcceptTerms)
-            {
-                ModelState.AddModelError("AcceptTerms", "We must be accepted to continue registration.");
-            }
-
+            await ValidModelAsync(accountModel);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -83,7 +65,42 @@ namespace OAuth.Api.Controllers
             if (account == null)
                 return NotFound();
 
+            if (LoginController.ValidPassword(pas, account.Password))
+                return Unauthorized(AttempType.PasswordIncorrect);
+
+            #region UpdateModel 
+            account.Email = string.IsNullOrEmpty(accountModel.Email) ? account.Email : accountModel.Email;
+            account.PhoneNumber = string.IsNullOrEmpty(accountModel.PhoneNumber) ? account.PhoneNumber : accountModel.Email;
+            account.UserName = string.IsNullOrEmpty(accountModel.UserName) ? account.UserName : accountModel.UserName;
+            account.IsCompany = accountModel.IsCompany ?? account.IsCompany;
+
+            accountModel.Email = account.Email;
+            accountModel.PhoneNumber = account.PhoneNumber;
+            accountModel.UserName =  account.UserName;
+            accountModel.IsCompany = account.IsCompany;
+
+            if (!string.IsNullOrEmpty(accountModel.Password))
+                account.Password = LoginController.HashPassword(accountModel.Password);
+            #endregion
+
             #region ValidModel
+            await ValidModelAsync(accountModel);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            #endregion
+
+            db.Accounts.Update(account);
+            await db.SaveChangesAsync();
+
+            account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == id);
+
+            return Ok(new Models.Result.Account(account));
+        }
+
+        private async Task ValidModelAsync(Models.Uploads.AccountUpload accountModel)
+        {
             if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == accountModel.UserName)) != null)
             {
                 ModelState.AddModelError("UserName", "The username is already being used.");
@@ -92,11 +109,6 @@ namespace OAuth.Api.Controllers
             if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.Email == accountModel.Email)) != null)
             {
                 ModelState.AddModelError("Email", "The email is already being used.");
-            }
-
-            if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.PhoneNumber == accountModel.PhoneNumber)) != null)
-            {
-                ModelState.AddModelError("PhoneNumber", "The PhoneNumber is already being used.");
             }
 
             if (accountModel.ConfirmPassword != accountModel.Password)
@@ -108,16 +120,7 @@ namespace OAuth.Api.Controllers
             {
                 ModelState.AddModelError("AcceptTerms", "We must be accepted to continue registration.");
             }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            #endregion
-
-            throw new NotImplementedException();
         }
-
         /// <summary>
         ///  Get Account 
         /// </summary>
@@ -132,8 +135,8 @@ namespace OAuth.Api.Controllers
             if (!Login.IsValid)
                 return Unauthorized();
 
-            Account account = await db.Accounts.FirstOrDefaultAsync(fs=>fs.Key == Login.AccountKey);
-            return Ok(new Models.Result.Account(account) );
+            Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
+            return Ok(new Models.Result.Account(account));
         }
     }
 }

@@ -26,7 +26,7 @@ namespace OAuth.Api.Models.Uploads
         [Required]
         [StringLength(32)]
         public string PhoneNumber { get; set; }
-        public bool IsCompany { get; set; }
+        public Nullable<bool> IsCompany { get; set; }
         [Required]
         public bool AcceptTerms { get; set; }
 
