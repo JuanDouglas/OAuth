@@ -5,8 +5,9 @@ using static OAuth.Api.Controllers.LoginController;
 
 namespace OAuth.Api.Models.Uploads
 {
-    public class Account
+    public class AccountUpload
     {
+        private const int DefaultIconID = 1;
         private string _username;
         [Required]
         [StringLength(100, MinimumLength = 5)]
@@ -21,26 +22,30 @@ namespace OAuth.Api.Models.Uploads
         [EmailAddress]
         [StringLength(500)]
         public string Email { get; set; }
-        public bool IsCompany { get; set; }
+        [Phone]
+        [Required]
+        [StringLength(32)]
+        public string PhoneNumber { get; set; }
+        public Nullable<bool> IsCompany { get; set; }
         [Required]
         public bool AcceptTerms { get; set; }
 
-        public Account()
+        public AccountUpload()
         {
         }
 
-        public Dal.Models.Account ToAccountDB()
+        public Dal.Models.Account ToAccountDB() => new()
         {
-            return new Dal.Models.Account()
-            {
-                Password = BCrypt.Net.BCrypt.HashPassword(Password),
-                AcceptTermsDate = DateTime.UtcNow,
-                UserName = UserName,
-                CreateDate = DateTime.UtcNow,
-                Key = GenerateToken(LargerTokenSize),
-                Email = Email,
-                IsCompany = IsCompany
-            };
-        }
+            Password = HashPassword(Password),
+            AcceptTermsDate = DateTime.UtcNow,
+            UserName = UserName,
+            CreateDate = DateTime.UtcNow,
+            Key = GenerateToken(LargerTokenSize),
+            Email = Email,
+            IsCompany = IsCompany.Value,
+            Valid = false,
+            ProfileImageId = DefaultIconID
+        };
+
     }
- }
+}

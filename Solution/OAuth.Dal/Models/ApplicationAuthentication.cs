@@ -15,6 +15,7 @@ namespace OAuth.Dal.Models
         public int Application { get; set; }
         public int Authorization { get; set; }
         public int Authentication { get; set; }
+        public bool Active { get; set; }
 
         public virtual Application ApplicationNavigation { get; set; }
         public virtual Authentication AuthenticationNavigation { get; set; }
