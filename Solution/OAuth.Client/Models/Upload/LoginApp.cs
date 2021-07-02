@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OAuth.Client.Models.Upload
 {
+    [Serializable]
     public class LoginApp
     {
         public string AuthorizationKey { get; set; }

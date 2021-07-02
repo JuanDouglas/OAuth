@@ -15,5 +15,9 @@ namespace OAuth.Client.Models.Results
         public ValidLoginResult() { 
         
         }
+        public override string ToString()
+        {
+            return $"Validation Date: {ValidationDate}\nLogin Date: {LoginDate}\nIs Valid: {IsValid}";
+        }
     }
 }

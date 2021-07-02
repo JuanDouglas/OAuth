@@ -124,7 +124,8 @@ namespace OAuth.Api.Controllers
                 Token = LoginController.GenerateToken(LoginController.LargerTokenSize),
                 UserAgent = userAgent.ToString(),
                 Authentication = authentication.Id,
-                Authorization = authorization.Id
+                Authorization = authorization.Id,
+                Active = true
             };
 
             await db.ApplicationAuthentications.AddAsync(appAuth);
@@ -145,7 +146,6 @@ namespace OAuth.Api.Controllers
         ///  Valid Application Authentication
         /// </summary>
         /// <param name="app_key">Application Key</param>
-        /// <param name="private_key">Application Private Key</param>
         /// <param name="login">Login Informations</param>
         /// <returns></returns>
         [HttpGet]
@@ -154,25 +154,19 @@ namespace OAuth.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ValidLogin), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ValidLogin>> ValidLoginAsync(string app_key, string private_key, [FromBody] Models.Uploads.LoginUpload login)
+        public async Task<ActionResult<ValidLogin>> ValidLoginAsync([FromQuery] string app_key, [FromBody] Models.Uploads.LoginUpload login)
         {
             if (!Login.IsValid)
                 return Unauthorized(Login);
 
-            Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key &&
-                fs.PrivateKey == private_key);
-
+            Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
-
-            ApplicationAuthentication authentication = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs =>
-                fs.Token == login.AuthenticationToken &&
-                fs.AuthorizationNavigation.Key == login.AuthorizationKey &&
-                fs.AuthenticationNavigation.LoginFirstStepNavigation.Account == login.AccountID &&
-                fs.ApplicationNavigation.Key == app_key &&
-                fs.Active == true
-            );
+            ApplicationAuthentication authentication = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs =>fs.Token == login.AuthenticationToken);
 
             if (application == null)
+                return NotFound();
+
+            if (authentication == null)
                 return NotFound();
 
             if (application.Owner != account.Id)
@@ -188,9 +182,6 @@ namespace OAuth.Api.Controllers
                 if (firstStep.Account != account.Id)
                     return NotFound();
             }
-
-            if (authentication == null)
-                return Unauthorized();
 
             return Ok(new ValidLogin(authentication)
             {

@@ -7,6 +7,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace OAuth.Client
@@ -119,7 +120,7 @@ namespace OAuth.Client
             HttpRequestMessage requestMessage = Authentication.AuthenticatedRequest;
             requestMessage.Method = HttpMethod.Get;
             requestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/ValidAuthentication?app_key={apiAuthentication.AppKey}");
-            requestMessage.Content = JsonContent.Create(new LoginApp(apiAuthentication));
+            requestMessage.Content = new StringContent(JsonConvert.SerializeObject(new LoginApp(apiAuthentication)),Encoding.UTF8,"application/json");
 
             HttpResponseMessage responseMessage = await Authentication.httpClient.SendAsync(requestMessage);
             string responseString = await responseMessage.Content.ReadAsStringAsync();
