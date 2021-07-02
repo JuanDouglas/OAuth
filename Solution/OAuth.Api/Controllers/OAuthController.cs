@@ -10,6 +10,7 @@ using OAuth.Dal.Models;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Account = OAuth.Dal.Models.Account;
 using Application = OAuth.Dal.Models.Application;
 using Authentication = OAuth.Dal.Models.Authentication;
 using Authorization = OAuth.Dal.Models.Authorization;
@@ -27,7 +28,7 @@ namespace OAuth.Api.Controllers
         public const string ReplaceAuthorizationToken = "{authorization-token}";
         public const string ReplaceAccountID = "{account-id}";
         public const string ReplaceAuthenticationToken = "{authentication-token}";
-        public const string ReplaceLoginToken = "{login-token}"; 
+        public const string ReplaceLoginToken = "{login-token}";
 
         /// <summary>
         /// Get Application Authorization 
@@ -50,7 +51,7 @@ namespace OAuth.Api.Controllers
 
             Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == Login.AuthenticationToken &&
                 fs.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
-
+            Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
             Application app = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
             if (app == null)
             {
@@ -71,12 +72,12 @@ namespace OAuth.Api.Controllers
             await db.SaveChangesAsync();
             authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.Key == authorization.Key && fs.Authentication == authentication.Id);
 
-            Models.Result.Authorization result = new(authorization);
+            Models.Result.Authorization result = new(authorization) { AccountID = account.Id };
 
             if (redirect)
                 return Redirect(result.Redirect);
 
-            return Ok(new Models.Result.Authorization(authorization));
+            return Ok(result);
         }
 
         /// <summary>
@@ -97,6 +98,7 @@ namespace OAuth.Api.Controllers
 
             if (!containsUserAgent)
                 return BadRequest("User-Agent is mandatory");
+
             if (!Login.IsValid)
                 return Unauthorized(Login);
 
@@ -136,7 +138,7 @@ namespace OAuth.Api.Controllers
             if (redirect)
                 return Redirect(login.Redirect);
 
-            return Ok();
+            return Ok(login);
         }
 
         /// <summary>
@@ -160,7 +162,10 @@ namespace OAuth.Api.Controllers
             Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key &&
                 fs.PrivateKey == private_key);
 
-            ApplicationAuthentication authentication = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs => fs.Token == login.AuthenticationToken &&
+            Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
+
+            ApplicationAuthentication authentication = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs =>
+                fs.Token == login.AuthenticationToken &&
                 fs.AuthorizationNavigation.Key == login.AuthorizationKey &&
                 fs.AuthenticationNavigation.LoginFirstStepNavigation.Account == login.AccountID &&
                 fs.ApplicationNavigation.Key == app_key &&
@@ -169,6 +174,20 @@ namespace OAuth.Api.Controllers
 
             if (application == null)
                 return NotFound();
+
+            if (application.Owner != account.Id)
+            {
+                Authentication userAuthentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Id == authentication.Authentication);
+                if (userAuthentication == null)
+                    return NotFound();
+
+                LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Id == userAuthentication.LoginFirstStep);
+                if (firstStep == null)
+                    return NotFound();
+
+                if (firstStep.Account != account.Id)
+                    return NotFound();
+            }
 
             if (authentication == null)
                 return Unauthorized();

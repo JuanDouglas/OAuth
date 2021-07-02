@@ -26,10 +26,11 @@ namespace OAuth.Api.Controllers
         public const int NormalTokenSize = 64;
         public const int LargerTokenSize = 96;
         public const string AuthorizationHeader = "Authorization";
-        public const string AuthorizationTokenHeader = "Authorization-Token";
-        public const string AccountIDHeader = "Account-id";
+        public const string AuthenticationTokenHeader = "Authentication-Token";
         public const string AccountKeyHeader = "Account-Key";
         public const string FirstStepKeyHeader = "First-Step-Key";
+        public const string AccountIDHeader = "Account-id";
+
 
         /// <summary>
         /// First Step to Login.
@@ -40,7 +41,7 @@ namespace OAuth.Api.Controllers
         [Route("FirstStep")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(FirstStep), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<FirstStep>> FirstStepAsync(string user)
+        public async Task<ActionResult<FirstStep>> FirstStepAsync(string user, bool web_page, string redirect)
         {
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == user || fs.Email == user);
             IPAddress ip = HttpContext.Connection.RemoteIpAddress;
@@ -95,7 +96,7 @@ namespace OAuth.Api.Controllers
         [Route("SecondStep")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(Models.Result.Authentication), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Models.Result.Authentication>> SecondStepAsync(string pwd, string key, int fs_id)
+        public async Task<ActionResult<Models.Result.Authentication>> SecondStepAsync(string pwd, string key, int fs_id,bool web_page,string redirect)
         {
             LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Valid && fs.Id == fs_id);
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);

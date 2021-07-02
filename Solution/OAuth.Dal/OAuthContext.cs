@@ -200,7 +200,8 @@ namespace OAuth.Dal
                 entity.Property(e => e.UserAgent)
                     .IsRequired()
                     .HasMaxLength(300)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .HasColumnName("User-Agent");
 
                 entity.HasOne(d => d.ApplicationNavigation)
                     .WithMany(p => p.ApplicationAuthentications)

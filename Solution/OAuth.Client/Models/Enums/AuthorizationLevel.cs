@@ -1,6 +1,6 @@
 ﻿namespace OAuth.Client.Models.Enums
 {
-    public enum Level
+    public enum AuthorizationLevel
     {
         Basic = 1
     }

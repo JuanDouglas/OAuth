@@ -8,6 +8,8 @@ Servidor de autenticação OAuth2.0
 /*
  * Authenticated request example
  */
+Authentication nexusLogin = new Authentication("User-Agent", "User", "Password")
+ApiAuthentication apiAuthentication = new ApiAuthentication(Level.Basic, "App-Key", nexusLogin);
 
 ```
 - **_2._** Auth Server 

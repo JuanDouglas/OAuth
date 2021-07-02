@@ -42,7 +42,7 @@ namespace OAuth.Api.Models.Uploads
             CreateDate = DateTime.UtcNow,
             Key = GenerateToken(LargerTokenSize),
             Email = Email,
-            IsCompany = IsCompany,
+            IsCompany = IsCompany.Value,
             Valid = false,
             ProfileImageId = DefaultIconID
         };

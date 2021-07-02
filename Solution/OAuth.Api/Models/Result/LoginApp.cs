@@ -29,6 +29,7 @@ namespace OAuth.Api.Models.Result
             IPAdress = appAuth.Ipadress;
             Date = appAuth.Date;
             Application = new(application);
+            LoginToken = appAuth.Token;
             UserAgent = appAuth.UserAgent;
             AuthorizationToken = authorization.Key;
             Redirect = application.LoginRedirect

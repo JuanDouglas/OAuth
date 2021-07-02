@@ -53,18 +53,18 @@ namespace OAuth.Api.Controllers.Base
         public static Login GetInformations(HttpRequest httpRequest)
         {
             string
-                authorizationToken = string.Empty,
+                authenticationToken = string.Empty,
                 accountKey = string.Empty,
                 fsKey = string.Empty;
 
             IHeaderDictionary headers = httpRequest.Headers;
-            headers.TryGetValue(LoginController.AuthorizationTokenHeader, out StringValues authorizationTokenSV);
+            headers.TryGetValue(LoginController.AuthenticationTokenHeader, out StringValues authorizationTokenSV);
             headers.TryGetValue(LoginController.AccountKeyHeader, out StringValues accountKeySV);
             headers.TryGetValue(LoginController.FirstStepKeyHeader, out StringValues firstStepKeySV);
 
             try
             {
-                authorizationToken = authorizationTokenSV.ToString();
+                authenticationToken = authorizationTokenSV.ToString();
                 accountKey = accountKeySV.ToString();
                 fsKey = firstStepKeySV.ToString();
             }
@@ -73,7 +73,7 @@ namespace OAuth.Api.Controllers.Base
 
                 throw;
             }
-            return new(accountKey, authorizationToken, fsKey);
+            return new(accountKey, authenticationToken, fsKey);
         }
 
         [NonAction]

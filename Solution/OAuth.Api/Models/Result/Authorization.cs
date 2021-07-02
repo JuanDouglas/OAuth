@@ -31,7 +31,7 @@ namespace OAuth.Api.Models.Result
         }
         public Authorization(Dal.Models.Authorization authorization)
         {
-            Dal.Models.Application application = db.Applications.FirstOrDefault(fs => fs.Id == authorization.Id);
+            Dal.Models.Application application = db.Applications.FirstOrDefault(fs => fs.Id == authorization.Application);
 
             Key = authorization.Key;
             Level = (AuthorizationLevel)authorization.Level;
