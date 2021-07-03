@@ -14,7 +14,7 @@ namespace OAuth.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            OAuthContext.ConnectionString = "Server=.\\SQLEXPRESS;Initial Catalog=OAuth;Integrated Security=true;";
+            OAuthContext.ConnectionString = "";
         }
 
         public IConfiguration Configuration { get; }
@@ -54,11 +54,6 @@ namespace OAuth.Api
             app.UseRewriter();
 
             app.UseStaticFiles();
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Request handled and response generated");
-            });
             
             app.UseEndpoints(endpoints =>
             {
