@@ -126,9 +126,9 @@ namespace OAuth.Client
             {
                 throw new LoginException("One error ocurred!");
             }
-            string stringResponse = await responseMessage.Content.ReadAsStringAsync();
 
-            AuthenticationResult authenticationResult = JsonConvert.DeserializeObject<AuthenticationResult>(stringResponse);
+            responseString = await responseMessage.Content.ReadAsStringAsync();
+            AuthenticationResult authenticationResult = JsonConvert.DeserializeObject<AuthenticationResult>(responseString);
 
             AccountKey = authenticationResult.AccountKey;
             AuthenticationToken = authenticationResult.Token;

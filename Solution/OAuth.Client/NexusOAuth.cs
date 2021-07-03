@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using OAuth.Client;
+using OAuth.Client.Exceptions;
 using OAuth.Client.Models.Enums;
 using OAuth.Client.Models.Results;
 using OAuth.Client.Models.Upload;
@@ -77,6 +78,30 @@ namespace OAuth.Client
             task.Wait();
             return task.Result;
         }
+        public async Task<AuthorizationResult> GetAuthorizationAsync(string app_key, AuthorizationLevel minimumLevel)
+        {
+            AuthorizationResult result = await GetAuthorizationAsync(app_key);
+
+            if (result.Level < minimumLevel)
+                result = await AuthorizeAsync(app_key, minimumLevel);
+
+            return result;
+        }
+        public async Task<AuthorizationResult> GetAuthorizationAsync(string app_key)
+        {
+            HttpRequestMessage httpRequestMessage = Authentication.AuthenticatedRequest;
+            httpRequestMessage.Method = HttpMethod.Get;
+            httpRequestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/GetAuthorization?app_key={app_key}");
+
+            HttpResponseMessage response = await Authentication.httpClient.SendAsync(httpRequestMessage);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                throw new AuthorizationNotFoundException();
+
+            string responseString = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<AuthorizationResult>(responseString);
+        }
         public async Task<AuthorizationResult> AuthorizeAsync(string app_key, AuthorizationLevel level)
         {
             HttpRequestMessage httpRequestMessage = Authentication.AuthenticatedRequest;
@@ -86,14 +111,13 @@ namespace OAuth.Client
             HttpResponseMessage response = await Authentication.httpClient.SendAsync(httpRequestMessage);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
                 throw new ArgumentException("Invalid Login keys! Please log in again! ");
-            }
 
             if (response.StatusCode == HttpStatusCode.NotFound)
-            {
                 throw new ArgumentException("Invalid App Key!");
-            }
+
+            if (response.StatusCode == HttpStatusCode.Conflict)
+                throw new AlreadyBeenAuthorizedException();
 
             string responseString = await response.Content.ReadAsStringAsync();
             AuthorizationResult authorizationResult = JsonConvert.DeserializeObject<AuthorizationResult>(responseString);
@@ -109,18 +133,19 @@ namespace OAuth.Client
             task.Wait();
             return task.Result;
         }
-        public ValidLoginResult ValidLogin(ApiAuthentication apiAuthentication) {
+        public ValidLoginResult ValidLogin(ApiAuthentication apiAuthentication)
+        {
             Task<ValidLoginResult> validLoginTask = ValidLoginAsync(apiAuthentication);
             validLoginTask.Wait();
 
             return validLoginTask.Result;
         }
-        public async Task<ValidLoginResult> ValidLoginAsync(ApiAuthentication apiAuthentication) 
+        public async Task<ValidLoginResult> ValidLoginAsync(ApiAuthentication apiAuthentication)
         {
             HttpRequestMessage requestMessage = Authentication.AuthenticatedRequest;
             requestMessage.Method = HttpMethod.Get;
-            requestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/ValidAuthentication?app_key={apiAuthentication.AppKey}");
-            requestMessage.Content = new StringContent(JsonConvert.SerializeObject(new LoginApp(apiAuthentication)),Encoding.UTF8,"application/json");
+            requestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/Authentication/ValidAuthentication?app_key={apiAuthentication.AppKey}");
+            requestMessage.Content = new StringContent(JsonConvert.SerializeObject(new LoginApp(apiAuthentication)), Encoding.UTF8, "application/json");
 
             HttpResponseMessage responseMessage = await Authentication.httpClient.SendAsync(requestMessage);
             string responseString = await responseMessage.Content.ReadAsStringAsync();
@@ -131,7 +156,7 @@ namespace OAuth.Client
         {
             HttpRequestMessage httpRequestMessage = Authentication.AuthenticatedRequest;
             httpRequestMessage.Method = HttpMethod.Get;
-            httpRequestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/AppAuthentication?app_key={authorizationResult.Application.Key}&authorization_token={authorizationResult.Key}&account_id={authorizationResult.AccountID}");
+            httpRequestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/Authentication/AppAuthentication?app_key={authorizationResult.Application.Key}&authorization_token={authorizationResult.Key}&account_id={authorizationResult.AccountID}");
 
             HttpResponseMessage response = await Authentication.httpClient.SendAsync(httpRequestMessage);
             if (response.StatusCode == HttpStatusCode.Unauthorized)

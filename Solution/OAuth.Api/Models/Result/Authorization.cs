@@ -18,8 +18,10 @@ namespace OAuth.Api.Models.Result
         {
             get
             {
-                return _redirect.Replace(OAuthController.ReplaceAuthorizationToken, Key)
+                if(_redirect !=null)
+                    return _redirect.Replace(OAuthController.ReplaceAuthorizationToken, Key)
                     .Replace(OAuthController.ReplaceAccountID, AccountID.ToString());
+                return string.Empty;
             }
         }
         private string _redirect;

@@ -44,21 +44,48 @@ namespace OAuth.Api.Controllers
         public async Task<ActionResult<Models.Result.Authorization>> AuthorizeAsync(string app_key, AuthorizationLevel level, bool redirect)
         {
             if (!Login.IsValid)
-            {
-                await RegisterFailAttempAsync(AttempType.AuthorizeApp);
-                return Unauthorized(Login);
-            }
+                return Unauthorized(AttempType.AuthorizeApp);
+
 
             Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == Login.AuthenticationToken &&
                 fs.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
             Application app = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
+
             if (app == null)
-            {
                 return NotFound();
+
+            Models.Result.Authorization result;
+            Authorization authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.ApplicationNavigation.Key == app_key &&
+                fs.AuthenticationNavigation.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
+
+            /*
+             * Validates that the application has already been authorized if it has already 
+             * been authorised and the level of authorisation required is 
+             * higher than the autual will increase the level of authorisation, 
+             * otherwise ira case returns HTTP 409 Conflict.
+             */
+            if (authorization != null)
+            {
+                if (((AuthorizationLevel)authorization.Level) < level)
+                {
+                    if (authorization.Active)
+                    {
+                        authorization.Level = (int)level;
+                        db.Authorizations.Update(authorization);
+                        await db.SaveChangesAsync();
+
+                        result = new(authorization) { AccountID = account.Id };
+                        return Ok(result);
+                    }
+                }
+                else
+                {
+                    return Conflict("This app has already been authorized for this account");
+                }
             }
 
-            Authorization authorization = new()
+            authorization = new()
             {
                 Key = LoginController.GenerateToken(LoginController.LargerTokenSize),
                 Date = DateTime.UtcNow,
@@ -70,9 +97,10 @@ namespace OAuth.Api.Controllers
 
             await db.Authorizations.AddAsync(authorization);
             await db.SaveChangesAsync();
-            authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.Key == authorization.Key && fs.Authentication == authentication.Id);
+            authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.Key == authorization.Key &&
+                fs.AuthenticationNavigation.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
 
-            Models.Result.Authorization result = new(authorization) { AccountID = account.Id };
+            result = new(authorization) { AccountID = account.Id };
 
             if (redirect)
                 return Redirect(result.Redirect);
@@ -80,113 +108,27 @@ namespace OAuth.Api.Controllers
             return Ok(result);
         }
 
-        /// <summary>
-        /// Get Authentication in especific App
-        /// </summary>
-        /// <param name="authorization_token">Application Authorization Token</param>
-        /// <param name="app_key">Application Key</param>
-        /// <returns></returns>
         [HttpGet]
         [RequireAuthentication]
-        [Route("AppAuthentication")]
+        [Route("GetAuthorization")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(LoginApp), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<LoginApp>> LoginApp(string authorization_token, string app_key, bool redirect)
+        [ProducesResponseType(typeof(Models.Result.Authorization), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Models.Result.Authorization>> GetAuthorization(string app_key)
         {
-            bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
-
-            if (!containsUserAgent)
-                return BadRequest("User-Agent is mandatory");
-
             if (!Login.IsValid)
-                return Unauthorized(Login);
-
-            Authorization authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.Key == authorization_token &&
-                fs.ApplicationNavigation.Key == app_key &&
-                fs.AuthenticationNavigation.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
-
-            Authentication authentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Token == Login.AuthenticationToken &&
-                fs.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
-
-            if (authorization == null || authentication == null)
                 return Unauthorized();
 
-            Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
-            if (application == null)
-                return NotFound();
-
-            ApplicationAuthentication appAuth = new()
-            {
-                Application = application.Id,
-                Date = DateTime.UtcNow,
-                Ipadress = HttpContext.Connection.RemoteIpAddress.ToString(),
-                Token = LoginController.GenerateToken(LoginController.LargerTokenSize),
-                UserAgent = userAgent.ToString(),
-                Authentication = authentication.Id,
-                Authorization = authorization.Id,
-                Active = true
-            };
-
-            await db.ApplicationAuthentications.AddAsync(appAuth);
-            await db.SaveChangesAsync();
-
-            appAuth = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs => fs.Token == appAuth.Token &&
-                fs.Authentication == appAuth.Authentication);
-
-            LoginApp login = new(appAuth);
-
-            if (redirect)
-                return Redirect(login.Redirect);
-
-            return Ok(login);
-        }
-
-        /// <summary>
-        ///  Valid Application Authentication
-        /// </summary>
-        /// <param name="app_key">Application Key</param>
-        /// <param name="login">Login Informations</param>
-        /// <returns></returns>
-        [HttpGet]
-        [RequireAuthentication]
-        [Route("ValidAuthentication")]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(ValidLogin), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ValidLogin>> ValidLoginAsync([FromQuery] string app_key, [FromBody] Models.Uploads.LoginUpload login)
-        {
-            if (!Login.IsValid)
-                return Unauthorized(Login);
-
-            Application application = await db.Applications.FirstOrDefaultAsync(fs => fs.Key == app_key);
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
-            ApplicationAuthentication authentication = await db.ApplicationAuthentications.FirstOrDefaultAsync(fs =>fs.Token == login.AuthenticationToken);
+            Authorization authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.ApplicationNavigation.Key == app_key &&
+                fs.AuthenticationNavigation.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
 
-            if (application == null)
+            if (authorization == null)
                 return NotFound();
 
-            if (authentication == null)
-                return NotFound();
-
-            if (application.Owner != account.Id)
-            {
-                Authentication userAuthentication = await db.Authentications.FirstOrDefaultAsync(fs => fs.Id == authentication.Authentication);
-                if (userAuthentication == null)
-                    return NotFound();
-
-                LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Id == userAuthentication.LoginFirstStep);
-                if (firstStep == null)
-                    return NotFound();
-
-                if (firstStep.Account != account.Id)
-                    return NotFound();
-            }
-
-            return Ok(new ValidLogin(authentication)
-            {
-                ValidationDate = DateTime.UtcNow
-            });
+            Models.Result.Authorization result = new() { AccountID = account.Id };
+            return Ok(result);
         }
+
+
     }
 }

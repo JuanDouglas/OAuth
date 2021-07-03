@@ -1,6 +1,7 @@
 ﻿using OAuth.Client.Exceptions;
 using OAuth.Client.Models.Enums;
 using OAuth.Client.Models.Results;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -50,14 +51,14 @@ namespace OAuth.Client
                 HttpRequestMessage httpRequestMessage = new();
                 httpRequestMessage.Headers.Add(AccountIDHeader, AccountID.ToString());
                 httpRequestMessage.Headers.Add(AuthenticationTokenHeader, AuthenticationToken);
-                httpRequestMessage.Headers.Add(FirstStepKeyHeader, AuthorizationToken);
+                httpRequestMessage.Headers.Add(AuthorizationTokenHeader, AuthorizationToken);
                 httpRequestMessage.Headers.Add("User-Agent", UserAgent);
                 return httpRequestMessage;
             }
         }
-        public const string AccountIDHeader = "";
-        public const string AuthenticationTokenHeader = "";
-        public const string FirstStepKeyHeader = "";
+        public const string AccountIDHeader = "AccountID";
+        public const string AuthenticationTokenHeader = "AuthenticationToken";
+        public const string AuthorizationTokenHeader = "AuthorizationToken";
         private NexusOAuth oAuth;
         private AuthorizationResult authorization;
         private ApplicationLoginResult applicationLogin;
@@ -99,8 +100,17 @@ namespace OAuth.Client
         /// <returns></returns>
         public async Task<ApplicationLoginResult> LoginAsync()
         {
-           oAuth = new(userAuthentication);
-            authorization = await oAuth.AuthorizeAsync(AppKey, Level);
+            oAuth = new(userAuthentication);
+
+            try
+            {
+                authorization = await oAuth.GetAuthorizationAsync(AppKey, Level);
+            }
+            catch (AuthorizationNotFoundException)
+            {
+                authorization = await oAuth.AuthorizeAsync(AppKey, Level);
+            }
+
             applicationLogin = await oAuth.LoginAsync(authorization);
 
             AuthorizationToken = applicationLogin.AuthorizationToken;

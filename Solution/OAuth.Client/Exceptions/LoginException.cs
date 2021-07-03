@@ -2,7 +2,6 @@
 
 namespace OAuth.Client.Exceptions
 {
-
     [Serializable]
     public class LoginException : Exception
     {
