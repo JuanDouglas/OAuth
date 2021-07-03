@@ -1,0 +1,15 @@
+﻿body {
+}
+
+div.soon {
+    text-align: left;
+    margin: 1rem;
+    width: 30rem;
+    font-size: 20px;
+    font-family: 'Javanese Text';
+    display: inline-block;
+}
+
+nav.main {
+    background-color: #1C4D3B;
+}

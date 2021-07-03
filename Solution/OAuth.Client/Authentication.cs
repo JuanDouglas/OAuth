@@ -109,7 +109,9 @@ namespace OAuth.Client
                 throw new LoginException(LoginException.UserField, "The user does not exist or is not typed correctly!");
             }
 
-            FirstStepResult loginFirstStep = JsonConvert.DeserializeObject<FirstStepResult>(await responseMessage.Content.ReadAsStringAsync());
+            string responseString = await responseMessage.Content.ReadAsStringAsync();
+
+            FirstStepResult loginFirstStep = JsonConvert.DeserializeObject<FirstStepResult>(responseString);
             requestMessage = new HttpRequestMessage(HttpMethod.Get,
                 $"{Host}/Login/SecondStep?pwd={pwd}&key={loginFirstStep.Key}&web_page=false&redirect=none&fs_id={loginFirstStep.ID}");
             requestMessage.Headers.Add("User-Agent", UserAgent);
