@@ -156,7 +156,7 @@ namespace OAuth.Client
         {
             HttpRequestMessage httpRequestMessage = Authentication.AuthenticatedRequest;
             httpRequestMessage.Method = HttpMethod.Get;
-            httpRequestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/Authentication/AppAuthentication?app_key={authorizationResult.Application.Key}&authorization_token={authorizationResult.Key}&account_id={authorizationResult.AccountID}");
+            httpRequestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/Authentication/AppAuthentication?app_key={authorizationResult.Application.Key}&authorization_token={authorizationResult.Token}&account_id={authorizationResult.AccountID}");
 
             HttpResponseMessage response = await Authentication.httpClient.SendAsync(httpRequestMessage);
             if (response.StatusCode == HttpStatusCode.Unauthorized)

@@ -3,20 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Api", "OAuth.Api\OAuth.Api.csproj", "{C939361E-8A81-4C39-9186-195C6DA185F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Api", "OAuth.Api\OAuth.Api.csproj", "{C939361E-8A81-4C39-9186-195C6DA185F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Dal", "OAuth.Dal\OAuth.Dal.csproj", "{8224FD21-85E6-4BE7-9DB4-309603B68458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Dal", "OAuth.Dal\OAuth.Dal.csproj", "{8224FD21-85E6-4BE7-9DB4-309603B68458}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Api.Test", "OAuth.Api.Test\OAuth.Api.Test.csproj", "{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Api.Test", "OAuth.Api.Test\OAuth.Api.Test.csproj", "{E8E9D800-E50B-47EE-AF7D-BBE15CDCEA94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Client", "OAuth.Client\OAuth.Client.csproj", "{2D571FE7-0243-40C1-B7C0-0469AEB29444}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Client", "OAuth.Client\OAuth.Client.csproj", "{2D571FE7-0243-40C1-B7C0-0469AEB29444}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Client.Test", "Oauth.Client.Test\OAuth.Client.Test.csproj", "{6A3C1316-0076-4D92-AE81-77BA2B7792A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Client.Test", "Oauth.Client.Test\OAuth.Client.Test.csproj", "{6A3C1316-0076-4D92-AE81-77BA2B7792A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAut.Client.Android", "OAut.Client.Android\OAut.Client.Android.csproj", "{DD880EC9-AED9-4657-9231-B292F86C8D5B}"
 EndProject
 Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -86,5 +85,23 @@ Global
 		{6A3C1316-0076-4D92-AE81-77BA2B7792A1}.Release|x64.Build.0 = Release|Any CPU
 		{6A3C1316-0076-4D92-AE81-77BA2B7792A1}.Release|x86.ActiveCfg = Release|Any CPU
 		{6A3C1316-0076-4D92-AE81-77BA2B7792A1}.Release|x86.Build.0 = Release|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Debug|x64.Build.0 = Debug|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Debug|x86.Build.0 = Debug|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Release|x64.ActiveCfg = Release|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Release|x64.Build.0 = Release|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Release|x86.ActiveCfg = Release|Any CPU
+		{DD880EC9-AED9-4657-9231-B292F86C8D5B}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A104D841-169B-405A-9700-3D35FF1FE809}
 	EndGlobalSection
 EndGlobal

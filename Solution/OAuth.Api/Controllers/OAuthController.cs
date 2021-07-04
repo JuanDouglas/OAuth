@@ -10,6 +10,7 @@ using OAuth.Dal.Models;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using System.Linq;
 using Account = OAuth.Dal.Models.Account;
 using Application = OAuth.Dal.Models.Application;
 using Authentication = OAuth.Dal.Models.Authentication;
@@ -120,15 +121,41 @@ namespace OAuth.Api.Controllers
 
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
             Authorization authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.ApplicationNavigation.Key == app_key &&
+                fs.AuthenticationNavigation.LoginFirstStepNavigation.Account == account.Id);
+
+            if (authorization == null)
+                return NotFound();
+
+            Models.Result.Authorization result = new(authorization) { AccountID = account.Id };
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("Revoke")]
+        [RequireAuthentication]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> RevokeAuthorization(string app_key, string authorization_token)
+        {
+            if (!Login.IsValid)
+                return Unauthorized();
+
+            Authorization authorization = await db.Authorizations.FirstOrDefaultAsync(fs => fs.Key == authorization_token &&
+                fs.ApplicationNavigation.Key == app_key &&
                 fs.AuthenticationNavigation.LoginFirstStepNavigation.AccountNavigation.Key == Login.AccountKey);
 
             if (authorization == null)
                 return NotFound();
 
-            Models.Result.Authorization result = new() { AccountID = account.Id };
-            return Ok(result);
+            db.ApplicationAuthentications.RemoveRange(db.ApplicationAuthentications.Where(fs => fs.Authorization == authorization.Id));
+            await db.SaveChangesAsync();
+
+            db.Authorizations.Remove(authorization);
+            await db.SaveChangesAsync();
+
+            return Ok();
         }
 
-
     }
+
 }

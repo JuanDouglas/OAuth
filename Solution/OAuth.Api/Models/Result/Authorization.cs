@@ -9,7 +9,7 @@ namespace OAuth.Api.Models.Result
     public class Authorization
     {
         public Application Application { get; set; }
-        public string Key { get; set; }
+        public string Token { get; set; }
         public bool Active { get; set; }
         public AuthorizationLevel Level { get; set; }
         public DateTime Date { get; set; }
@@ -19,7 +19,7 @@ namespace OAuth.Api.Models.Result
             get
             {
                 if(_redirect !=null)
-                    return _redirect.Replace(OAuthController.ReplaceAuthorizationToken, Key)
+                    return _redirect.Replace(OAuthController.ReplaceAuthorizationToken, Token)
                     .Replace(OAuthController.ReplaceAccountID, AccountID.ToString());
                 return string.Empty;
             }
@@ -35,7 +35,7 @@ namespace OAuth.Api.Models.Result
         {
             Dal.Models.Application application = db.Applications.FirstOrDefault(fs => fs.Id == authorization.Application);
 
-            Key = authorization.Key;
+            Token = authorization.Key;
             Level = (AuthorizationLevel)authorization.Level;
             Active = authorization.Active;
             Date = authorization.Date;

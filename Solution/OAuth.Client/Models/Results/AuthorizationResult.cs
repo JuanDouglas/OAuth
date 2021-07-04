@@ -6,7 +6,7 @@ namespace OAuth.Client.Models.Results
     public class AuthorizationResult
     {
         public ApplicationResult Application { get; set; }
-        public string Key { get; set; }
+        public string Token { get; set; }
         public bool Active { get; set; }
         public AuthorizationLevel Level { get; set; }
         public DateTime Date { get; set; }
