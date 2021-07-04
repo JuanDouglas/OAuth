@@ -2,7 +2,6 @@
 
 namespace OAuth.Client.Android.Exceptions
 {
-
     [Serializable]
     public class LoginException : Exception
     {

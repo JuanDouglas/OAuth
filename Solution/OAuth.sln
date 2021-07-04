@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Client", "OAuth.Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Client.Test", "Oauth.Client.Test\OAuth.Client.Test.csproj", "{6A3C1316-0076-4D92-AE81-77BA2B7792A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAut.Client.Android", "OAut.Client.Android\OAut.Client.Android.csproj", "{DD880EC9-AED9-4657-9231-B292F86C8D5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Client.Android", "OAuth.Client.Android\OAuth.Client.Android.csproj", "{DD880EC9-AED9-4657-9231-B292F86C8D5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

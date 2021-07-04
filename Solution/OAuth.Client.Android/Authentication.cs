@@ -13,8 +13,9 @@ namespace OAuth.Client.Android
     /// </summary>
     public class Authentication
     {
-        public string UserKey { get; set; }
-        public string LoginToken { get; set; }
+        public string AccountKey { get; set; }
+        public string AuthenticationToken { get; set; }
+        public string FirstStepKey { get; set; }
         public string UserAgent { get; set; }
         public bool Logued { get; private set; }
         internal HttpRequestMessage AuthenticatedRequest
@@ -26,8 +27,9 @@ namespace OAuth.Client.Android
                     throw new LoginException("You must be logged in to obtain a request that requires authentication.");
                 }
                 HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-                httpRequestMessage.Headers.Add(AuthAcountKey, UserKey);
-                httpRequestMessage.Headers.Add(AuthKey, LoginToken);
+                httpRequestMessage.Headers.Add(AccountKeyHeader, AccountKey);
+                httpRequestMessage.Headers.Add(AuthenticationTokenHeader, AuthenticationToken);
+                httpRequestMessage.Headers.Add(FirstStepKeyHeader, FirstStepKey);
                 httpRequestMessage.Headers.Add("User-Agent", UserAgent);
                 return httpRequestMessage;
             }
@@ -35,21 +37,25 @@ namespace OAuth.Client.Android
         internal static string Host = "https://nexus-oauth.azurewebsites.net/api";
         internal static readonly HttpClient httpClient = new HttpClient(new HttpClientHandler()
         {
-            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyerrors) =>
-            {
-                return true;
-            }
-        });
-        public const string AuthAcountKey = "auth-account-key";
-        public const string AuthKey = "auth-token";
+            AllowAutoRedirect = false
+            //ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyerrors) =>
+            //{
+            //    return true;
+            //}
+        })
+        ;
+        public const string AuthenticationTokenHeader = "Authentication-Token";
+        public const string AccountKeyHeader = "Account-Key";
+        public const string FirstStepKeyHeader = "First-Step-Key";
         /// <summary>
         /// Constructor for User-Agent
         /// </summary>
         /// <param name="user_agent">Name for you HTTP 'User-Agent'.</param>
         public Authentication(string user_agent)
         {
-            UserKey = string.Empty;
-            LoginToken = string.Empty;
+            AccountKey = string.Empty;
+            AuthenticationToken = string.Empty;
+            FirstStepKey = string.Empty;
             UserAgent = user_agent;
         }
 
@@ -67,7 +73,6 @@ namespace OAuth.Client.Android
         /// </summary>
         /// <param name="user">User</param>
         /// <param name="pwd">Password</param>
-        /// <returns>void</returns>
         public void Login(string user, string pwd)
         {
             try
@@ -77,7 +82,7 @@ namespace OAuth.Client.Android
             }
             catch (AggregateException e)
             {
-                if (e.InnerExceptions is LoginException)
+                if (e.InnerException is LoginException)
                 {
                     LoginException exception = e.InnerException as LoginException;
                     throw exception;
@@ -95,7 +100,7 @@ namespace OAuth.Client.Android
         public async Task LoginAsync(string user, string pwd)
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
-                $"{Host}/OAuth/Login/FirstStep?user={user}&web_view=false&post=none");
+                $"{Host}/Login/FirstStep?user={user}&web_page=false&redirect=none");
 
             HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage);
 
@@ -104,9 +109,11 @@ namespace OAuth.Client.Android
                 throw new LoginException(LoginException.UserField, "The user does not exist or is not typed correctly!");
             }
 
-            LoginFirstStepResult loginFirstStep = JsonConvert.DeserializeObject<LoginFirstStepResult>(await responseMessage.Content.ReadAsStringAsync());
+            string responseString = await responseMessage.Content.ReadAsStringAsync();
+
+            FirstStepResult loginFirstStep = JsonConvert.DeserializeObject<FirstStepResult>(responseString);
             requestMessage = new HttpRequestMessage(HttpMethod.Get,
-                $"{Host}/OAuth/Login/SecondStep?pwd={pwd}&key={loginFirstStep.Token}&web_view=false&post=none");
+                $"{Host}/Login/SecondStep?pwd={pwd}&key={loginFirstStep.Key}&web_page=false&redirect=none&fs_id={loginFirstStep.ID}");
             requestMessage.Headers.Add("User-Agent", UserAgent);
             responseMessage = await httpClient.SendAsync(requestMessage);
 
@@ -119,13 +126,19 @@ namespace OAuth.Client.Android
             {
                 throw new LoginException("One error ocurred!");
             }
-            string stringResponse = await responseMessage.Content.ReadAsStringAsync();
-            LoginStatusResult loginResult = JsonConvert.DeserializeObject<LoginStatusResult>(stringResponse);
-            UserKey = loginResult.AccountKey;
-            LoginToken = loginResult.Token;
+
+            responseString = await responseMessage.Content.ReadAsStringAsync();
+            AuthenticationResult authenticationResult = JsonConvert.DeserializeObject<AuthenticationResult>(responseString);
+
+            AccountKey = authenticationResult.AccountKey;
+            AuthenticationToken = authenticationResult.Token;
+            FirstStepKey = loginFirstStep.Key;
             Logued = true;
         }
 
-
+        public override string ToString()
+        {
+            return $"Account Key: {AccountKey}\nFirst step Key: {FirstStepKey}\nAuthentication Token: {AuthenticationToken}\nUser Agent: {UserAgent}";
+        }
     }
 }
