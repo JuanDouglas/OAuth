@@ -7,39 +7,20 @@ namespace OAuth.Client.Models.Results
     /// Account for OAuth API Search.
     /// </summary>
     public class AccountResult
-    { /// <summary>
-      /// Account ID.
-      /// </summary>
+    {
         public int ID { get; set; }
-        /// <summary>
-        /// Username for Login.
-        /// </summary>
-        public string UserName { get; set; }
-        /// <summary>
-        /// Account Create Date.
-        /// </summary>
-        public DateTime CreateDate { get; set; }
-        /// <summary>
-        /// E-mail.
-        /// </summary>
         public string Email { get; set; }
-        /// <summary>
-        /// Valided E-mail.
-        /// </summary>
-        public bool IsValidEmail { get; set; }
-        /// <summary>
-        /// Is Company Account.
-        /// </summary>
+        public string PhoneNumber { get; set; }
         public bool IsCompany { get; set; }
-        /// <summary>
-        /// Profile Image.
-        /// </summary>
+        public DateTime AcceptTermsDate { get; set; }
+        public bool Valid { get; set; }
+        public DateTime CreateDate { get; set; }
         public FileModel ProfileImage { get; set; }
         public List<AuthorizationResult> Authorizations { get; set; }
 
         public override string ToString()
         {
-            return $"ID: {ID}\nUserName: {UserName}\nEmail: {Email}\nIsCompany: {IsCompany}";
+            return $"ID: {ID}\nEmail: {Email}\nPhoneNumber: {PhoneNumber}\nAcceptTermsDate: {AcceptTermsDate}\nCreate Account Date: {CreateDate}\nIsCompany: {IsCompany}\nValided: {Valid}";
         }
         /// <summary>
         /// Compare obj for equal result.
@@ -72,10 +53,7 @@ namespace OAuth.Client.Models.Results
                     return false;
                 }
 
-                if (@object.IsValidEmail != IsValidEmail)
-                {
-                    return false;
-                }
+
 
                 return true;
             }

@@ -10,6 +10,7 @@ namespace OAuth.Client.Models.Results
     {
         public DateTime ValidationDate { get; set; }
         public DateTime LoginDate { get; set; }
+        public DateTime Expires { get; set; }
         public bool IsValid { get; set; }
 
         public ValidLoginResult() { 

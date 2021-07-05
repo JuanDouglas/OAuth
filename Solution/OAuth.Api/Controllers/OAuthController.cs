@@ -114,7 +114,7 @@ namespace OAuth.Api.Controllers
         [Route("GetAuthorization")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Models.Result.Authorization), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Models.Result.Authorization>> GetAuthorization(string app_key)
+        public async Task<ActionResult<Models.Result.Authorization>> GetAuthorization(string app_key, bool redirect)
         {
             if (!Login.IsValid)
                 return Unauthorized();
@@ -127,6 +127,9 @@ namespace OAuth.Api.Controllers
                 return NotFound();
 
             Models.Result.Authorization result = new(authorization) { AccountID = account.Id };
+
+            if (redirect)
+                return Redirect(result.Redirect);
             return Ok(result);
         }
 

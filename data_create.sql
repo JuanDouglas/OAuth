@@ -19,10 +19,15 @@ CREATE TABLE [Account](
 FOREIGN KEY ([ProfileImageID]) REFERENCES [Image]([ID])
 );
 
-CREATE TABLE [AccountDetails](
+CREATE TABLE [Company] (
+[ID] INTEGER PRIMARY KEY NOT NULL,
+[Name] VARCHAR(500) NOT NULL,
+[CNPJ] VARCHAR(100) UNIQUE NOT NULL,
+[Icon]
+);
+
+CREATE TABLE [Personal](
 [ID] INTEGER IDENTITY PRIMARY KEY NOT NULL,
-[Name] VARCHAR(100) NOT NULL,
-[CPFOrCNPJ] VARCHAR(100) UNIQUE,
 [Account] INTEGER UNIQUE NOT NULL,
 FOREIGN KEY ([Account]) REFERENCES [Account]([ID])
 );
@@ -110,6 +115,7 @@ FOREIGN KEY ([IPAdress]) REFERENCES [IP]([Adress])
 /* INSERT IMAGES */
 INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_profile_image.png',1);
 INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_application_icon.png',2);
+INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_company_icon.png',3);
 
 /* INSERT USERS */
 INSERT INTO [Account] ([UserName],[Password],[Key],[Email],[PhoneNumber],[IsCompany],[AcceptTermsDate],[Valid],[CreateDate],[ProfileImageID]) VALUES ('JuanDouglas','$2a$10$vl2ajEUyNi7/pGsMqy1N1.h65XLywq.FRwiX43t.58f2Ou1fYgSSu','pr1v@t3K31H4Sh','juandouglas2004@gmail.com','+55 (61) 9 9260-6441',1,GETDATE(),1,GETDATE(),1);

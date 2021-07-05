@@ -18,6 +18,8 @@ namespace OAuth.Client
         public string FirstStepKey { get; set; }
         public string UserAgent { get; set; }
         public bool Logued { get; private set; }
+        public DateTime Date { get; set; }
+        public string IPAdress { get; set; }
         internal HttpRequestMessage AuthenticatedRequest
         {
             get
@@ -133,12 +135,14 @@ namespace OAuth.Client
             AccountKey = authenticationResult.AccountKey;
             AuthenticationToken = authenticationResult.Token;
             FirstStepKey = loginFirstStep.Key;
-            Logued = true;
+            Logued = authenticationResult.IsValid;
+            Date = authenticationResult.Date.ToLocalTime();
+            IPAdress = authenticationResult.IPAdress;
         }
 
         public override string ToString()
         {
-            return $"Account Key: {AccountKey}\nFirst step Key: {FirstStepKey}\nAuthentication Token: {AuthenticationToken}\nUser Agent: {UserAgent}";
+            return $"Account Key: {AccountKey}\nFirst step Key: {FirstStepKey}\nAuthentication Token: {AuthenticationToken}\nUser Agent: {UserAgent}\nIP Adress: {IPAdress}\nDate: {Date}";
         }
     }
 }

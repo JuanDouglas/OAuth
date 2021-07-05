@@ -9,10 +9,12 @@ namespace OAuth.Api.Models.Result
         {
             LoginDate = authentication.Date;
             IsValid = authentication.Active;
+            Expires = LoginDate + TimeSpan.FromDays(150);
         }
 
         public DateTime ValidationDate { get; set; }
         public DateTime LoginDate { get; set; }
+        public DateTime Expires { get; set; }
         public bool IsValid { get; set; }
     }
 }

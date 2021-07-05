@@ -11,13 +11,21 @@ namespace OAuth.Client.Test
         static void Main(string[] args)
         {
             Authentication authentication = new("Test Console", "JuanDouglas", "Am4@0309");
-            Console.WriteLine($"\t** Nexus Authentication ** \n\n{authentication}\n");
-
-            ApiAuthentication apiAuthentication = new(AuthorizationLevel.Basic, AppKey, authentication);
-            Console.WriteLine($"\t** Api Authentication ** \n\n{apiAuthentication}\n");
+            Console.WriteLine($"\t** Nexus Authentication **\n{authentication}\n");
 
             NexusOAuth nexusOAuth = new(authentication);
-            Console.WriteLine($"\t** Validation Result ** \n\n{nexusOAuth.ValidLogin(apiAuthentication)}\n");
+
+            AuthorizationResult authorizationResult = nexusOAuth.GetAuthorization(AppKey, AuthorizationLevel.Basic);
+            Console.WriteLine($"\t** Authorization **\n{authorizationResult}\n");
+
+            ApiAuthentication apiAuthentication = new(AuthorizationLevel.Basic, AppKey, authentication);
+            Console.WriteLine($"\t** Api Authentication **\n{apiAuthentication}\n");
+
+            
+            Console.WriteLine($"\t** Validation **\n{nexusOAuth.ValidLogin(apiAuthentication)}\n");
+
+            AccountResult account = nexusOAuth.GetAccount(apiAuthentication);
+            Console.WriteLine($"\t** Account **\n{account}\n");
             Console.ReadLine();
         }
     }

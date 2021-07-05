@@ -27,7 +27,7 @@ namespace OAuth.Client.Android
         {
             HttpRequestMessage httpRequestMessage = Authentication.AuthenticatedRequest;
             httpRequestMessage.Method = HttpMethod.Get;
-            httpRequestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/Account?app_key={app_key}&account_id={account_id}&auth_token={authorization_token}");
+            httpRequestMessage.RequestUri = new Uri($"{Authentication.Host}/OAuth/Account/Get?app_key={app_key}&account_id={account_id}&auth_token={authorization_token}");
 
             var response = await Authentication.httpClient.SendAsync(httpRequestMessage);
             if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -48,8 +48,6 @@ namespace OAuth.Client.Android
             {
                 return null;
             }
-
-
 
             return accountResult;
         }

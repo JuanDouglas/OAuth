@@ -1,15 +1,83 @@
 ﻿body {
+    padding: 0px; 
+    margin: 0px;
+    font-family: sans-serif;
 }
 
-div.soon {
+div.nav-soon {
     text-align: left;
     margin: 1rem;
-    width: 30rem;
-    font-size: 20px;
-    font-family: 'Javanese Text';
+    width: 20rem;
+    font-size: 26px;
     display: inline-block;
+    color: #032538;
+}
+div.nav-soon:hover {
+    color: #3C9BAB;
+    cursor: pointer;
+}
+nav{
+    padding: 0.5rem 1.5rem;
 }
 
 nav.main {
-    background-color: #1C4D3B;
+    background-color:transparent;
+    max-height: 25%;
+}
+
+div.nav-right{
+    text-align: right;
+    align-content: right;
+    float:right;
+    margin: 1rem 1rem 5rem 0rem;
+}
+
+div.nav-text{
+    background: transparent;
+    color: #9395B2;
+    outline: none;
+    margin:  0rem 1rem;
+    font-size: medium;
+    display: inline-block;
+}
+
+div.nav-text:hover {
+    color: #3C9BAB;
+    cursor: pointer;
+}
+
+button.outlined {
+    padding: 0.5rem 2rem;
+    background: transparent;
+    outline-color: #032538;
+    margin:  0rem 1rem;
+    font-size: medium;
+    color: #032538;
+    cursor: pointer;
+    border-radius: 1rem;
+    border-color: #032538;
+}
+
+button.outlined:hover {
+    border-color: #3F9E76;
+    outline-color: #3F9E76;
+    color: #3F9E76;
+}
+
+button.normal {
+    padding: 0.5rem 2rem;
+    background: #032538;
+    margin:  0rem 1rem;
+    font-size: medium;
+    color: white;
+    cursor: pointer;
+    border-radius: 1rem;
+    border-color: #032538;
+}
+
+button.normal:hover{
+    border-color: #3F9E76;
+    outline-color: #3F9E76;
+    color: #032538;
+    background: #3F9E76;
 }

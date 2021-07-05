@@ -16,5 +16,9 @@ namespace OAuth.Client.Models.Results
         {
 
         }
+        public override string ToString()
+        {
+            return $"AccountID {AccountID}\nAuthorization Token: {Token}\nAuthorization Date: {Date}\nActive: {Active}\nRedirect URL: {Redirect}\nLevel: {Level}";
+        }
     }
 }
