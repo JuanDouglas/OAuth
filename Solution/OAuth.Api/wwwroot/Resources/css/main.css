@@ -7,21 +7,22 @@
 div.nav-soon {
     text-align: left;
     margin: 1rem;
-    width: 20rem;
+    width: 13rem;
     font-size: 26px;
     display: inline-block;
     color: #032538;
-}
-div.nav-soon:hover {
-    color: #3C9BAB;
-    cursor: pointer;
-}
-nav{
-    padding: 0.5rem 1.5rem;
+    font-family: unset;
 }
 
-nav.main {
-    background-color:transparent;
+div.nav-soon:hover {
+    cursor: pointer;
+}
+
+nav {
+    padding: 0.5rem 1.5rem;
+    background-color: #EEE;
+    border-width: 3px;
+    border-color: #000;
     max-height: 25%;
 }
 
@@ -29,7 +30,7 @@ div.nav-right{
     text-align: right;
     align-content: right;
     float:right;
-    margin: 1rem 1rem 5rem 0rem;
+    margin: 0.8rem 1rem 5rem 0rem;
 }
 
 div.nav-text{
@@ -41,16 +42,27 @@ div.nav-text{
     display: inline-block;
 }
 
+div.body{
+    margin: 2rem;
+    min-height: 70%;
+}
+
 div.nav-text:hover {
     color: #3C9BAB;
     cursor: pointer;
 }
 
+div.content-left{
+    width: 35%;
+    margin: 12% 0.5rem;
+}
+
+
 button.outlined {
     padding: 0.5rem 2rem;
     background: transparent;
     outline-color: #032538;
-    margin:  0rem 1rem;
+    margin:  0rem;
     font-size: medium;
     color: #032538;
     cursor: pointer;
@@ -80,4 +92,44 @@ button.normal:hover{
     outline-color: #3F9E76;
     color: #032538;
     background: #3F9E76;
+}
+
+footer{
+    text-align: center;
+}
+
+
+@font-face {
+    font-family: Roboto;
+    src: url('../font/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Italic';
+    src: url('../font/Roboto-Italic.ttf');
+}
+
+h2.center-text{
+    color: #3F9E76;
+    text-align: left;
+    font-size: 30px;
+    font-family: Roboto;
+    margin: 0.5rem 1rem;
+}
+
+p.center-graph {
+    color: #999;
+    text-align: left;
+    font-family: Roboto;
+    margin: 2rem 1.2rem;
+}
+
+i.reference {
+    color: #032538;
+    font-family: 'Roboto Italic';
+}
+
+i.reference:hover {
+    color: #3F9E76;
+    cursor: pointer;
 }
