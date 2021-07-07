@@ -1,4 +1,9 @@
 @font-face {
+    font-family: 'Roboto Black';
+    src: url('../font/Roboto-Black.ttf');
+}
+
+@font-face {
     font-family: 'Roboto Regular';
     src: url('../font/Roboto-Regular.ttf');
 }
@@ -13,6 +18,7 @@ body {
     margin: 0px;
     margin-top: 9rem;
     font-family: 'Roboto Regular';
+    background: linear-gradient(to bottom left,#3F9E76, #3C9BAB)
 }
 
 nav {
@@ -29,7 +35,7 @@ nav {
     outline-color: #CCC;
     outline-width: 1px;
     outline-style: inset;
-    box-shadow: 0 0 25px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 0 25px 0 rgba(0,0,0,0.5);
 }
 
 div.nav-soon {
@@ -62,7 +68,7 @@ div.nav-text {
 }
 
 div.body {
-    margin: 0px 2.7rem;
+    margin: 0;
     height: 70%;
     display: inline;
 }
@@ -100,11 +106,15 @@ button.normal {
         border-color: #3F9E76;
         outline-color: #3F9E76;
         color: #032538;
-        background: #3F9E76;
+        background: #3F9E76; 
     }
 
 footer {
     text-align: center;
+    background: #032538;
+    color: white;
+    margin: 0;
+    margin-top:5rem;
 }
 
 i.reference {
@@ -117,12 +127,27 @@ i.reference {
         cursor: pointer;
     }
 
-
+p {
+    margin: 0;
+}
 
 div.card {
     box-shadow: 0 0 12px 0 rgba(0,0,0,0.2);
     padding: 1.5rem;
     border-radius: 2rem;
     transition: 0.4s;
+    background: white;
     max-width: 27.5rem;
+}
+
+input.form {
+    border-width: 2px;
+    border-radius: 8px;
+    font-size: 17px;
+    padding: 10px;
+    width: 82%;
+    max-width: 300px;
+    margin-top: 25px;
+    text-decoration-color: #b4b4b4;
+    border-color: #000;
 }
