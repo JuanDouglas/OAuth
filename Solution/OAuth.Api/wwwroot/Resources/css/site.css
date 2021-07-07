@@ -9,8 +9,9 @@
 }
 
 body {
-    padding: 0px; 
+    padding: 0px;
     margin: 0px;
+    margin-top: 9rem;
     font-family: 'Roboto Regular';
 }
 
@@ -19,7 +20,16 @@ nav {
     background-color: #EEE;
     border-width: 3px;
     border-color: #000;
-    max-height: 25%;
+    max-height: 10rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    height: 4.2rem;
+    outline-color: #CCC;
+    outline-width: 1px;
+    outline-style: inset;
+    box-shadow: 0 0 25px 0 rgba(0,0,0,0.2);
 }
 
 div.nav-soon {
@@ -32,37 +42,36 @@ div.nav-soon {
     font-family: unset;
 }
 
-div.nav-soon:hover {
-    cursor: pointer;
-}
+    div.nav-soon:hover {
+        cursor: pointer;
+    }
 
-div.nav-right{
+div.nav-right {
     text-align: right;
-    align-content: right;
-    float:right;
+    float: right;
     margin: 0.8rem 1rem 5rem 0rem;
 }
 
-div.nav-text{
+div.nav-text {
     background: transparent;
     color: #9395B2;
     outline: none;
-    margin:  0rem 1rem;
+    margin: 0rem 1rem;
     font-size: medium;
     display: inline-block;
 }
 
-div.body{
-    margin: 2rem;
+div.body {
+    margin: 0px 2.7rem;
     height: 70%;
-    display: inline-flex;
+    display: inline;
 }
 
 button.outlined {
     padding: 0.5rem 2rem;
     background: transparent;
     outline-color: #032538;
-    margin:  0rem;
+    margin: 0rem;
     font-size: medium;
     color: #032538;
     cursor: pointer;
@@ -70,16 +79,16 @@ button.outlined {
     border-color: #032538;
 }
 
-button.outlined:hover {
-    border-color: #3F9E76;
-    outline-color: #3F9E76;
-    color: #3F9E76;
-}
+    button.outlined:hover {
+        border-color: #3F9E76;
+        outline-color: #3F9E76;
+        color: #3F9E76;
+    }
 
 button.normal {
     padding: 0.5rem 2rem;
     background: #032538;
-    margin:  0rem 1rem;
+    margin: 0rem 1rem;
     font-size: medium;
     color: white;
     cursor: pointer;
@@ -87,14 +96,14 @@ button.normal {
     border-color: #032538;
 }
 
-button.normal:hover{
-    border-color: #3F9E76;
-    outline-color: #3F9E76;
-    color: #032538;
-    background: #3F9E76;
-}
+    button.normal:hover {
+        border-color: #3F9E76;
+        outline-color: #3F9E76;
+        color: #032538;
+        background: #3F9E76;
+    }
 
-footer{
+footer {
     text-align: center;
 }
 
@@ -103,7 +112,17 @@ i.reference {
     font-family: 'Roboto Italic';
 }
 
-i.reference:hover {
-    color: #3F9E76;
-    cursor: pointer;
+    i.reference:hover {
+        color: #3F9E76;
+        cursor: pointer;
+    }
+
+
+
+div.card {
+    box-shadow: 0 0 12px 0 rgba(0,0,0,0.2);
+    padding: 1.5rem;
+    border-radius: 2rem;
+    transition: 0.4s;
+    max-width: 27.5rem;
 }
