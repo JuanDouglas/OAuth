@@ -13,8 +13,8 @@ namespace OAuth.Api.Models.Uploads
         [StringLength(100, MinimumLength = 5)]
         public string UserName { get { return _username; } set { _username = value.ToLowerInvariant(); } }
         [Required]
-        [StringLength(25, MinimumLength = 8)]
         [Password]
+        [StringLength(25, MinimumLength = 8)]
         public string Password { get; set; }
         [Required]
         public string ConfirmPassword { get; set; }

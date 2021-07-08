@@ -6,6 +6,7 @@
     <link rel="icon" type="image/ico" href="../Resources/favicon.ico">
     <link rel="stylesheet" type="text/css" href="../Resources/css/site.css" />
     <link rel="stylesheet" type="text/css" href="../Resources/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="../Resources/css/checkbox.css" />
     <script src="../Resources/js/login_scripts.js"></script>
     <title>Nexus Company</title>
 </head>
@@ -13,7 +14,7 @@
     <div class="content-line">
         <div class="content-left">
             <img class="clickable" src="../Resources/img/back_button_white.png" onclick="location.href='../index.html'" />
-           
+
             <div class="left-center">
                 <h1>Sign In</h1>
                 &emsp;Already have an account with the Nexus? Now log in to access all our feature.
@@ -21,7 +22,7 @@
 
             <div class="singup">
                 <p>Don't have account?</p>
-                <b class="singup">Sign Up</b>
+                <b>Sign Up</b>
             </div>
         </div>
         <div class="content-center">
@@ -32,11 +33,16 @@
 
                 <!-- Inputs -->
                 <p class="left form login-card-margin-left form-text">User</p>
-                <p><input class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser" onfocus="showOrHiddenLoginError(false)"/></p>  
+                <p><input class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser" onfocus="showOrHiddenLoginError(false)" /></p>
                 <p class="left form login-card-margin-left form-error-invisible" id="userError">Username or e-mail incorrect or invalid!</p>
                 <p class="left form login-card-margin-left form-text">Passsword</p>
-                <input class="form" type="password" placeholder="Write password" name="pwd"  id="inputPassword" onfocus="showOrHiddenPasswordError(false)"/>
+                <input class="form" type="password" placeholder="Write password" name="password" id="inputPassword" onfocus="showOrHiddenPasswordError(false)" />
                 <p class="left form login-card-margin-left form-error-invisible" id="passwordError">Password incorrect or invalid!</p>
+                <p class="left" style="margin-left: 15px;">
+                    <input id="c1" type="checkbox" onclick="showOrHidePassword()">
+                    <label for="c1">Show Password</label>
+                </p>
+
                 <p class="link login-card-margin-right">Forgot Password?</p>
 
                 <!-- Buttons -->

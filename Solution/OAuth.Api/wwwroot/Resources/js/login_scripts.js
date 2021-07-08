@@ -80,5 +80,11 @@ function showOrHiddenPasswordError(show) {
     }
 }
 
-
-
+function showOrHidePassword() {
+    var inputPassword = document.getElementById('inputPassword')
+    if (inputPassword.type == "password") {
+        inputPassword.type = "text";
+    } else {
+        inputPassword.type = "password";
+    }
+}

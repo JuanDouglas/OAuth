@@ -174,11 +174,11 @@ div.card {
 }
 
 input.form {
-    border-width: 2px;
+    border-width: 0.12rem;
     border-radius: 8px;
     font-size: 17px;
     padding: 10px;
-    width: 82%;
+    width: 92%;
     max-width: 300px;
     margin-top: 5px;
     text-decoration-color: #b4b4b4;
@@ -216,3 +216,15 @@ input.error {
     visibility: visible;
     transition: 0.1s;
 }
+
+input.checkbox{
+    font: 16pt sans-serif;
+    color: #000;
+    cursor: pointer;
+    content: '\00f096';
+    display: inline-block;
+    width: 16pt;
+    padding: 2px 0 0 3px;
+    margin-right: 0.3em;
+}
+

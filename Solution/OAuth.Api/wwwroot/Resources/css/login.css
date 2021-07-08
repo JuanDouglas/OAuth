@@ -2,13 +2,14 @@
     padding: 0;
     margin: 0;
     font-family: 'Roboto Regular';
+    background: #cdd;
 }
 
 div.content-line {
     display: inline-flex;
     margin: 0;
     width: 100%;
-    height:;
+    height: 100%;
 }
 
 div.content-left {
@@ -97,11 +98,11 @@ div.login-buttons {
 }
 
 .login-card-margin-right {
-    margin-right: 14.5%;
+    margin-right: 3.5%;
 }
 
 .login-card-margin-left {
-    margin-left: 14.5%;
+    margin-left: 7.5%;
 }
 
 p.soon-text {
@@ -113,5 +114,8 @@ p.soon-text {
 }
 
 div.card {
-    padding: 0.5rem;
+    padding: 0.9rem 2rem;
+    margin: 1.5rem;
+    position: inherit;
+    float: right;
 }
