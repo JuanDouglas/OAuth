@@ -1,7 +1,6 @@
 ﻿body {
     padding: 0;
     margin: 0;
-    background: none;
     font-family: 'Roboto Regular';
 }
 
@@ -100,6 +99,7 @@ div.login-buttons {
 .login-card-margin-right {
     margin-right: 14.5%;
 }
+
 .login-card-margin-left {
     margin-left: 14.5%;
 }
@@ -110,4 +110,8 @@ p.soon-text {
     margin-bottom: 0px;
     font-family: 'Roboto Regular';
     margin-bottom: 2.2rem;
+}
+
+div.card {
+    padding: 0.5rem;
 }

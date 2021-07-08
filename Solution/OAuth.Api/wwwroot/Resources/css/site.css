@@ -180,7 +180,7 @@ input.form {
     padding: 10px;
     width: 82%;
     max-width: 300px;
-    margin-top: 25px;
+    margin-top: 5px;
     text-decoration-color: #b4b4b4;
     border-color: #031926;
     border-style: solid;
@@ -202,9 +202,17 @@ input.error {
     margin-top: 1.1rem;
 }
 
-.form-error {
+.form-error-invisible {
     color: #CC2936;
     font-size: 14px;
-    margin-top: 0.5rem;
+    margin-top: 0rem;
+    visibility: hidden;
     font-family: 'Roboto Regular';
+    transition: 0.1s;
+}
+
+.form-error-visible {
+    margin-top: 0.5rem;
+    visibility: visible;
+    transition: 0.1s;
 }

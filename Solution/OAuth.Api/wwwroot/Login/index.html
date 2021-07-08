@@ -30,19 +30,19 @@
                 <p style="text-align: center;margin-top:10%"><img src="../Resources/img/nexus_crystal.png" width="120px"></p>
                 <p class="soon-text">Nexus Company</p>
 
-
                 <!-- Inputs -->
                 <p class="left form login-card-margin-left form-text">User</p>
-                <p><input style="margin-top: 10px;" class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser"></p>
+                <p><input class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser" onfocus="showOrHiddenLoginError(false)"/></p>  
+                <p class="left form login-card-margin-left form-error-invisible" id="userError">Username or e-mail incorrect or invalid!</p>
                 <p class="left form login-card-margin-left form-text">Passsword</p>
-                <input class="form error" type="password" placeholder="Write password" name="pwd" style="margin-top:6px" id="inputPassword">
-                <p class="left form login-card-margin-left form-error" >Simple error</p>
+                <input class="form" type="password" placeholder="Write password" name="pwd"  id="inputPassword" onfocus="showOrHiddenPasswordError(false)"/>
+                <p class="left form login-card-margin-left form-error-invisible" id="passwordError">Password incorrect or invalid!</p>
                 <p class="link login-card-margin-right">Forgot Password?</p>
 
                 <!-- Buttons -->
                 <div class="login-buttons">
                     <label class="link">Sign Up</label>
-                    <button class="normal" type="submit" style="margin-right: 0rem;">Login</button>
+                    <button class="normal" type="submit" onclick="OnClickLogin()">Login</button>
                 </div>
 
             </div>
