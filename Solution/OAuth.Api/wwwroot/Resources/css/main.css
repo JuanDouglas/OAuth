@@ -1,9 +1,4 @@
 ﻿
-@font-face {
-    font-family: 'Roboto Black';
-    src: url('../font/Roboto-Black.ttf');
-}
-
 div.nav-text:hover {
     color: #3C9BAB;
     cursor: pointer;
@@ -14,6 +9,15 @@ div.content-line {
     margin: 0rem 10%;
 }
 
+div.circle {
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 14px 0 rgba(0,0,0,0.2);
+    padding: 15%;
+    margin: 1rem;
+    transition: 0.6s;
+}
+
 div.content-left {
     width: 28%;
     text-align: right;
@@ -22,7 +26,7 @@ div.content-left {
 
 div.content-right {
     width: 28%;
-    text-align: left;
+    text-align: right;
     margin: 2% 0.5rem 1rem 15%;
 }
 
