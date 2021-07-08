@@ -24,26 +24,25 @@
                 <b class="singup">Sign Up</b>
             </div>
         </div>
-        <div class="content-right">
-            <div>
+        <div class="content-center">
+            <div class="card">
                 <!-- Header -->
                 <p style="text-align: center;margin-top:10%"><img src="../Resources/img/nexus_crystal.png" width="120px"></p>
-                <p class="index" style="margin-top: 50px;font-size: 25px;margin-bottom: 0px;">Fazer login</p>
-                <p class="index" style="margin-top: 10px;font-size: 17px;">Educa��o e divers�o com a mesma paix�o</p>
-
+                <p class="soon-text">Nexus Company</p>
 
                 <!-- Inputs -->
-                <p><input style="margin-top: 10px;" class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser"></p>
-                <input class="form" type="password" placeholder="Write password" name="pwd" style="margin-top:6px" id="inputPassword">
-                <p class="link" style="text-align: right;margin-right: 11%;font-size: 14px;margin-top: 5px;">
-                    Esqueceu a
-                    senha?
-                </p>
+                <p class="left form login-card-margin-left form-text">User</p>
+                <p><input class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser" onfocus="showOrHiddenLoginError(false)"/></p>  
+                <p class="left form login-card-margin-left form-error-invisible" id="userError">Username or e-mail incorrect or invalid!</p>
+                <p class="left form login-card-margin-left form-text">Passsword</p>
+                <input class="form" type="password" placeholder="Write password" name="pwd"  id="inputPassword" onfocus="showOrHiddenPasswordError(false)"/>
+                <p class="left form login-card-margin-left form-error-invisible" id="passwordError">Password incorrect or invalid!</p>
+                <p class="link login-card-margin-right">Forgot Password?</p>
 
                 <!-- Buttons -->
-                <div style="display: inline-block; padding: 5%;">
-                    <label class="link" style="font-size: 17px;padding-right: 5em;">Criar Conta</label>
-                    <button class="normal" type="submit" onclick="OnClickLogin()">Entrar</button>
+                <div class="login-buttons">
+                    <label class="link">Sign Up</label>
+                    <button class="normal" type="submit" onclick="OnClickLogin()">Login</button>
                 </div>
 
             </div>

@@ -16,7 +16,7 @@ namespace OAuth.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            OAuthContext.ConnectionString = "";
+            OAuthContext.ConnectionString = "Server=tcp:nexus-data-server.database.windows.net,1433;Initial Catalog=nexus-oauth;Persist Security Info=False;User ID=Master;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         }
 
         public IConfiguration Configuration { get; }

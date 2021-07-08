@@ -1,7 +1,6 @@
 ﻿body {
     padding: 0;
     margin: 0;
-    background: none;
     font-family: 'Roboto Regular';
 }
 
@@ -31,6 +30,12 @@ div.content-right {
     height: 100%;
 }
 
+div.content-center {
+    width: 50%;
+    text-align: center;
+    margin: 0 0 0 30%;
+    height: 100%;
+}
 
 img.clickable {
     width: 40px;
@@ -70,6 +75,11 @@ b.singup {
     font-family: 'Roboto Black'
 }
 
+    b.singup:hover {
+        cursor: pointer;
+        font-size: 20px;
+    }
+
 div.left-center {
     color: white;
     font-family: 'Robot Regular';
@@ -80,4 +90,28 @@ div.left-center {
 
 h1 {
     font-family: 'Roboto Black';
+}
+
+div.login-buttons {
+    margin: 2rem 0rem;
+}
+
+.login-card-margin-right {
+    margin-right: 14.5%;
+}
+
+.login-card-margin-left {
+    margin-left: 14.5%;
+}
+
+p.soon-text {
+    margin-top: 1rem;
+    font-size: 26px;
+    margin-bottom: 0px;
+    font-family: 'Roboto Regular';
+    margin-bottom: 2.2rem;
+}
+
+div.card {
+    padding: 0.5rem;
 }
