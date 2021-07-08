@@ -102,6 +102,7 @@ namespace OAuth.Api.Controllers
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
             IPAddress ip = HttpContext.Connection.RemoteIpAddress;
             firstStep ??= new LoginFirstStep();
+            pwd ??= string.Empty;
 
             if (!containsUserAgent)
             {
