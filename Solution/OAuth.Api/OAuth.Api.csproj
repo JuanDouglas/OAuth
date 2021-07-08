@@ -30,8 +30,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\Resources\js\" />
-  </ItemGroup>
-
 </Project>

@@ -18,9 +18,7 @@ namespace OAuth.Api.Controllers.Base
         public Login Login { get { return GetInformations(Request); } }
         protected internal OAuthContext db = new();
 
-        public ApiController()
-        {
-        }
+     
         public override UnauthorizedResult Unauthorized()
         {
             return Unauthorized(Login);
@@ -102,8 +100,11 @@ namespace OAuth.Api.Controllers.Base
                 Date = DateTime.UtcNow,
                 Ipadress = ip.Adress
             };
+
             await db.FailAttemps.AddAsync(failAttemp);
             await db.SaveChangesAsync();
         }
+
+
     }
 }
