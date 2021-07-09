@@ -8,10 +8,12 @@ namespace OAuth.Api.Models.Uploads
     public class AccountUpload
     {
         private const int DefaultIconID = 1;
-        private string _username;
+
         [Required]
         [StringLength(100, MinimumLength = 5)]
         public string UserName { get { return _username; } set { _username = value.ToLowerInvariant(); } }
+        private string _username;
+
         [Required]
         [Password]
         [StringLength(25, MinimumLength = 8)]

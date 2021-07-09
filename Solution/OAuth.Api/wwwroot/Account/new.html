@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/ico" href="../Resources/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="../Resources/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="../Resources/css/checkbox.css" />
+    <link rel="stylesheet" type="text/css" href="../Resources/css/loading.css" />
+    <script src="../Resources/js/new_account.js"></script>
+    <title>Nexus Company</title>
+</head>
+<body onload="showOrHideModal()">
+    <p class="left form login-card-margin-left form-text">User</p>
+    <p><input class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser" onfocus="showOrHiddenLoginError(false)" /></p>
+    <p class="left form login-card-margin-left form-error-invisible" id="userError">Username or e-mail incorrect or invalid!</p>
+
+    <div class="modal" id="loadingModal">
+        <div class="lds-ripple"><div></div><div></div></div>
+    </div>
+</body>
+</html>

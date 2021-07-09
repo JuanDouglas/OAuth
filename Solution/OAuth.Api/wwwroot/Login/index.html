@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../Resources/css/site.css" />
     <link rel="stylesheet" type="text/css" href="../Resources/css/login.css" />
     <link rel="stylesheet" type="text/css" href="../Resources/css/checkbox.css" />
+    <link rel="stylesheet" type="text/css" href="../Resources/css/loading.css" />
     <script src="../Resources/js/login_scripts.js"></script>
     <title>Nexus Company</title>
 </head>
@@ -20,7 +21,7 @@
                 &emsp;Already have an account with the Nexus? Now log in to access all our feature.
             </div>
 
-            <div class="singup">
+            <div class="singup" onclick="location.href='../Account/new.html'">
                 <p>Don't have account?</p>
                 <b>Sign Up</b>
             </div>
@@ -38,21 +39,25 @@
                 <p class="left form login-card-margin-left form-text">Passsword</p>
                 <input class="form" type="password" placeholder="Write password" name="password" id="inputPassword" onfocus="showOrHiddenPasswordError(false)" />
                 <p class="left form login-card-margin-left form-error-invisible" id="passwordError">Password incorrect or invalid!</p>
-                <p class="left" style="margin-left: 15px;">
+                <p class="left" style="margin-left: 25px;">
                     <input id="c1" type="checkbox" onclick="showOrHidePassword()">
-                    <label for="c1">Show Password</label>
+                    <label for="c1" id="lblCBSPas">Show Password</label>
                 </p>
 
                 <p class="link login-card-margin-right">Forgot Password?</p>
 
                 <!-- Buttons -->
                 <div class="login-buttons">
-                    <label class="link">Sign Up</label>
+                    <label class="link signup-text" onclick="location.href='../Account/new.html'">Sign Up</label>
                     <button class="normal" type="submit" onclick="OnClickLogin()">Login</button>
                 </div>
 
             </div>
         </div>
+    </div>
+
+    <div class="modal" id="loadingModal">
+        <div class="lds-ripple"><div></div><div></div></div>
     </div>
 </body>
 </html>

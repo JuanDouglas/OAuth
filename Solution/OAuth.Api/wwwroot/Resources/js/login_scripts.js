@@ -3,8 +3,9 @@
 
 function OnClickLogin() {
     var inputUser = document.getElementById('inputUser');
-
+    var modal = document.getElementById('loadingModal');
     var URL = host + '/api/Login/FirstStep?web_page=false&user=' + inputUser.value;
+    modal.style.display = "block"; 
 
     var firstStepKey;
     var firstStepID;
@@ -27,6 +28,7 @@ function OnClickLogin() {
 function VerifyFirstStepResponse(xhr) {
     var status = xhr.status;
     var inputPas = document.getElementById('inputPassword');
+    var modal = document.getElementById('loadingModal');
 
     if (status === 200) {
         firstStepKey = xhr.response.key;
@@ -48,9 +50,13 @@ function VerifyFirstStepResponse(xhr) {
             } else {
                 showOrHiddenPasswordError(true);
             }
+            modal.style.display = "none";
         };
         xhr.send();
+    } else {
+        modal.style.display = "none";
     }
+
 
 };
 
@@ -82,9 +88,12 @@ function showOrHiddenPasswordError(show) {
 
 function showOrHidePassword() {
     var inputPassword = document.getElementById('inputPassword')
+    var checkbox = document.getElementById('lblCBSPas');
     if (inputPassword.type == "password") {
         inputPassword.type = "text";
+        checkbox.innerText = 'Hide password';
     } else {
         inputPassword.type = "password";
+        checkbox.innerText = 'Show password';
     }
 }
