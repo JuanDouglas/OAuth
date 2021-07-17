@@ -25,6 +25,7 @@ namespace OAuth.Dal.Models
         public DateTime CreateDate { get; set; }
         public int ProfileImageId { get; set; }
         public string PhoneNumber { get; set; }
+        public string ZipCode { get; set; }
 
         public virtual Image ProfileImage { get; set; }
         public virtual AccountDetail AccountDetail { get; set; }

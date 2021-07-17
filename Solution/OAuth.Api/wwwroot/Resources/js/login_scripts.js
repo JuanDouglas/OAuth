@@ -4,7 +4,7 @@
 function OnClickLogin() {
     var inputUser = document.getElementById('inputUser');
     var modal = document.getElementById('loadingModal');
-    var URL = host + '/api/Login/FirstStep?web_page=false&user=' + inputUser.value;
+    var URL = host + '/api/Login/FirstStep?user=' + inputUser.value;
     modal.style.display = "block"; 
 
     var firstStepKey;
@@ -41,7 +41,7 @@ function VerifyFirstStepResponse(xhr) {
     }
 
     if (valid) {
-        URL = host + '/api/Login/SecondStep?web_page=false&key=' + firstStepKey + '&fs_id=' + firstStepID + '&pwd=' + inputPas.value;
+        URL = host + '/api/Login/SecondStep?set_cookie=true&key=' + firstStepKey + '&fs_id=' + firstStepID + '&pwd=' + inputPas.value;
         xhr.open('GET', URL, true);
         xhr.onload = function () {
             status = xhr.status;
