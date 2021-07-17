@@ -11,6 +11,7 @@ namespace OAuth.Dal.Models
         {
             Accounts = new HashSet<Account>();
             Applications = new HashSet<Application>();
+            Companies = new HashSet<Company>();
         }
 
         public int Id { get; set; }
@@ -19,5 +20,6 @@ namespace OAuth.Dal.Models
 
         public virtual ICollection<Account> Accounts { get; set; }
         public virtual ICollection<Application> Applications { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
     }
 }

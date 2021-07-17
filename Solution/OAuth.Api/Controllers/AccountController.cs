@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OAuth.Api.Controllers.Base;
+using OAuth.Api.Models;
 using OAuth.Api.Models.Attributes;
 using OAuth.Api.Models.Enums;
 using OAuth.Dal.Models;
@@ -76,7 +77,7 @@ namespace OAuth.Api.Controllers
 
             accountModel.Email = account.Email;
             accountModel.PhoneNumber = account.PhoneNumber;
-            accountModel.UserName =  account.UserName;
+            accountModel.UserName = account.UserName;
             accountModel.IsCompany = account.IsCompany;
 
             if (!string.IsNullOrEmpty(accountModel.Password))
@@ -137,6 +138,76 @@ namespace OAuth.Api.Controllers
 
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
             return Ok(new Models.Result.Account(account));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key">Confirmation key</param>
+        /// <param name="email">Email</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("VerifyAccount")]
+        [RequireAuthentication]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.Redirect)]
+        public async Task<ActionResult> VerifyAccount(string key, string email)
+        {
+            AccountConfirmation confirmation = await db.AccountConfirmations.FirstOrDefaultAsync(fs => fs.Key == key && fs.AccountNavigation.Email == email);
+
+            if (confirmation == null)
+                return NotFound();
+
+            if ((DateTime.UtcNow - confirmation.Date).TotalMinutes > 15)
+                return Forbid(); 
+
+                Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == confirmation.Account && fs.Email == email);
+            if (account == null)
+                return NotFound();
+
+            account.Valid = true;
+
+            db.Accounts.Update(account);
+            await db.SaveChangesAsync();
+
+            string redirect = "https://" + Request.Host + $"/index.html";
+
+            return Redirect(redirect);
+        }
+
+        /// <summary>
+        /// Send e-mail confirnmation.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("SendConfirmation")]
+        [RequireAuthentication]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult> SendConfirmation()
+        {
+            if (!Login.IsValid)
+                return Unauthorized();
+
+            Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Key == Login.AccountKey);
+
+            AccountConfirmation confirmation = new()
+            {
+                Account = account.Id,
+                Key = LoginController.GenerateToken(LoginController.LargerTokenSize),
+                Date = DateTime.UtcNow
+            };
+
+            string confirmationLink = "https://" + Request.Host + $"/api/Account/VerifyAccount?key={confirmation.Key}&email={account.Email}";
+
+            await db.AccountConfirmations.AddAsync(confirmation);
+            await db.SaveChangesAsync();
+
+            Smtp.SendEmail(account.Email,
+                "Nexus Account Confirmation",
+                Properties.Resources.confirm_account.Replace("{confirmation-link}", confirmationLink),
+                true);
+
+            return Ok();
         }
     }
 }

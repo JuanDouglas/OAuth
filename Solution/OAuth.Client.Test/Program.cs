@@ -1,6 +1,8 @@
 ﻿using OAuth.Client.Models.Enums;
 using OAuth.Client.Models.Results;
 using System;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace OAuth.Client.Test
@@ -28,5 +30,6 @@ namespace OAuth.Client.Test
             Console.WriteLine($"\t** Account **\n{account}\n");
             Console.ReadLine();
         }
+ 
     }
 }

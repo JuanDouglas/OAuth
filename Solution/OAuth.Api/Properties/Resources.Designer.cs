@@ -59,5 +59,28 @@ namespace OAuth.Api.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///
+        ///&lt;head&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+        ///    &lt;style type=&quot;text/css&quot;&gt;
+        ///        @media screen {
+        ///            @font-face {
+        ///                font-family: &apos;Lato&apos;;
+        ///                font-style: normal;
+        ///                font-weight: 400;
+        ///                src: local(&apos;Lato Regular&apos;), local(&apos;Lato-Regular&apos;), url [o restante da cadeia de caracteres foi truncado]&quot;;.
+        /// </summary>
+        internal static string confirm_account {
+            get {
+                return ResourceManager.GetString("confirm_account", resourceCulture);
+            }
+        }
     }
 }

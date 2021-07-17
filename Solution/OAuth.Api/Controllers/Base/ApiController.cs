@@ -69,8 +69,7 @@ namespace OAuth.Api.Controllers.Base
             }
             catch (NullReferenceException)
             {
-                fsKey = cookies["Authentication"].;
-                accountKey = cookies[LoginController.AccountKeyHeader];
+               
 
             }
             return new(accountKey, authenticationToken, fsKey);

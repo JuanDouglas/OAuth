@@ -103,7 +103,8 @@ namespace OAuth.Api.Controllers
             IPAddress ip = HttpContext.Connection.RemoteIpAddress;
             firstStep ??= new LoginFirstStep();
             pwd ??= string.Empty;
-
+            set_cookie ??= false;
+            
             if (!containsUserAgent)
             {
                 return BadRequest("User-Agent is mandatory");
