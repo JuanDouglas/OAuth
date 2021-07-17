@@ -92,17 +92,21 @@ namespace OAuth.Client
                 throw e.InnerException;
             }
         }
-
+        public async Task LoginAsync(string user, string pwd)
+        {
+            await LoginAsync(user, pwd, false);
+        }
         /// <summary>
         /// Login in OAuth Server.
         /// </summary>
         /// <param name="user">Username</param>
         /// <param name="pwd">Password</param>
+        /// <param name="setCookie"></param>
         /// <returns>Task for work.</returns>
-        public async Task LoginAsync(string user, string pwd)
+        public async Task LoginAsync(string user, string pwd, bool setCookie)
         {
             HttpRequestMessage requestMessage = new(HttpMethod.Get,
-                $"{Host}/Login/FirstStep?user={user}&web_page=false&redirect=none");
+                $"{Host}/Login/FirstStep?user={user}&redirect=none");
 
             HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage);
 
@@ -115,7 +119,7 @@ namespace OAuth.Client
 
             FirstStepResult loginFirstStep = JsonConvert.DeserializeObject<FirstStepResult>(responseString);
             requestMessage = new HttpRequestMessage(HttpMethod.Get,
-                $"{Host}/Login/SecondStep?pwd={pwd}&key={loginFirstStep.Key}&web_page=false&redirect=none&fs_id={loginFirstStep.ID}");
+                $"{Host}/Login/SecondStep?pwd={pwd}&key={loginFirstStep.Key}&set_cookie={setCookie}&redirect=none&fs_id={loginFirstStep.ID}");
             requestMessage.Headers.Add("User-Agent", UserAgent);
             responseMessage = await httpClient.SendAsync(requestMessage);
 

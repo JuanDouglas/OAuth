@@ -7,16 +7,39 @@
     <link rel="stylesheet" type="text/css" href="../Resources/css/site.css" />
     <link rel="stylesheet" type="text/css" href="../Resources/css/checkbox.css" />
     <link rel="stylesheet" type="text/css" href="../Resources/css/loading.css" />
+    <link rel="stylesheet" type="text/css" href="../Resources/css/account_new_account.css" />
     <script src="../Resources/js/new_account.js"></script>
     <title>Nexus Company</title>
 </head>
 <body onload="showOrHideModal()">
-    <p class="left form login-card-margin-left form-text">User</p>
-    <p><input class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser" onfocus="showOrHiddenLoginError(false)" /></p>
-    <p class="left form login-card-margin-left form-error-invisible" id="userError">Username or e-mail incorrect or invalid!</p>
 
-    <div class="modal" id="loadingModal">
-        <div class="lds-ripple"><div></div><div></div></div>
+    <div class="card">
+        <h2>Contact</h2>
+        <p class="left form login-card-margin-left form-text">Email</p>
+        <p><input class="form" type="text" placeholder="Write your e-mail" name="user" /></p>
+
+        <p class="left form login-card-margin-left form-text">Phone number</p>
+        <p><input class="form" type="tel" placeholder="Your phone number." name="phonenumber" pattern="^\d{3}-\d{3}-\d{4}$" required></p>
+
+        <p class="left">
+            <input id="c1" type="checkbox">
+            <label for="c1" id="lblCBSPas">Is Company</label>
+        </p>
+
+        <h2>Login</h2>
+        <p class="left form login-card-margin-left form-text">UserName</p>
+        <p><input class="form" type="text" placeholder="Create your username" name="user" /></p>
+
+        <p class="left form login-card-margin-left form-text">Password</p>
+        <p><input class="form" type="password" placeholder="Password" name="password" /></p>
+
+        <p class="left form login-card-margin-left form-text">Confirm password</p>
+        <p><input class="form" type="password" placeholder="Confirm password." name="cfPassword" /></p>
+
+        <p class="left error">
+            <input id="c2" type="checkbox">
+            <label for="c2">Accept <i class="link">Terms</i> and <i class="link">Privaci Policy</i>.</label>
+        </p>
     </div>
 </body>
 </html>

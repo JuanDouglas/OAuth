@@ -1,0 +1,11 @@
+﻿body {
+    background: white;
+}
+
+h2 {
+    color: #3F9E76;
+    text-align: left;
+    font-size: 30px;
+    font-family: 'Roboto Black';
+    margin: 0.5rem 1rem;
+}

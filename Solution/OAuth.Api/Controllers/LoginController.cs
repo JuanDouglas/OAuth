@@ -30,7 +30,7 @@ namespace OAuth.Api.Controllers
         public const string AccountKeyHeader = "Account-Key";
         public const string FirstStepKeyHeader = "First-Step-Key";
         public const string AccountIDHeader = "Account-id";
-
+        public const string CookieAuthetication = "Authentication";
 
         /// <summary>
         /// First Step to Login.
@@ -41,7 +41,7 @@ namespace OAuth.Api.Controllers
         [Route("FirstStep")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(FirstStep), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<FirstStep>> FirstStepAsync(string user, bool web_page, string redirect)
+        public async Task<ActionResult<FirstStep>> FirstStepAsync(string user, string redirect)
         {
             Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == user || fs.Email == user);
             IPAddress ip = HttpContext.Connection.RemoteIpAddress;
@@ -96,7 +96,7 @@ namespace OAuth.Api.Controllers
         [Route("SecondStep")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(Models.Result.Authentication), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Models.Result.Authentication>> SecondStepAsync(string pwd, string key, int fs_id,bool web_page,string redirect)
+        public async Task<ActionResult<Models.Result.Authentication>> SecondStepAsync(string pwd, string key, int fs_id, Nullable<bool> set_cookie, string redirect)
         {
             LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Valid && fs.Id == fs_id);
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
@@ -165,10 +165,27 @@ namespace OAuth.Api.Controllers
             db.LoginFirstSteps.Update(firstStep);
             await db.SaveChangesAsync();
 
+            if (set_cookie.Value)
+                Response.Cookies.Append(CookieAuthetication,
+                    AuthenticationCookieValue(firstStep, authentication, account),
+                    AuthenticationCookieOptions);
+
             return Ok(result);
         }
-
-
+        private CookieOptions AuthenticationCookieOptions => new()
+        {
+            Domain = Request.Host.Value,
+            Expires = DateTime.Now.AddDays(30),
+            HttpOnly = true,
+            IsEssential = true,
+            SameSite = SameSiteMode.Lax,
+            Secure = true,
+            Path = "/*"
+        };
+        private static string AuthenticationCookieValue(LoginFirstStep firstStep, Authentication authentication, Account account)
+        {
+            return $"{AuthenticationTokenHeader}={authentication.Token}; {FirstStepKeyHeader}={firstStep.Token}; {AccountKeyHeader}={account.Key};";
+        }
         /// <summary>
         /// Transform string password in string hash 
         /// </summary>
@@ -185,7 +202,7 @@ namespace OAuth.Api.Controllers
         /// </summary>
         /// <param name="password">Password</param>
         /// <param name="hash">Password hash.</param>
-        /// <returns>password is valid</returns>
+        /// <returns>Password is valid</returns>
         [NonAction]
         public static bool ValidPassword(string password, string hash)
         {
