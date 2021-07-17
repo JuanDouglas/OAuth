@@ -1,4 +1,9 @@
-﻿.lds-ripple {
+﻿/*
+
+
+
+*/
+.lds-ripple {
     display: inline-block;
     position: relative;
     width: 200px;
@@ -34,5 +39,173 @@
         width: 72px;
         height: 72px;
         opacity: 0;
+    }
+}
+/*
+    <div id="loading">
+            <div id="loading-center">
+                <div id="loading-center-absolute">
+                    <div class="cssload-wrap">
+                        <div class="cssload-cssload-spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+*/
+#loading {
+    background-color: #ffffff;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+    margin-top: 0px;
+    top: 0px;
+}
+
+#loading-center {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#loading-center-absolute {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.cssload-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -o-flex;
+    display: -ms-flex;
+    display: -moz-flex;
+    box-pack: center;
+    -o-box-pack: center;
+    -ms-box-pack: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -o-justify-content: center;
+    -ms-justify-content: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    box-align: center;
+    -o-box-align: center;
+    -ms-box-align: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -o-align-items: center;
+    -ms-align-items: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    perspective: 290px;
+    -o-perspective: 290px;
+    -ms-perspective: 290px;
+    -webkit-perspective: 290px;
+    -moz-perspective: 290px;
+    height: 100%;
+    padding: 50px;
+    overflow: hidden;
+}
+
+
+.cssload-cssload-spinner {
+    position: relative;
+    transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    animation: cssload-wobble 4.59s ease-in-out infinite;
+    -o-animation: cssload-wobble 4.59s ease-in-out infinite;
+    -ms-animation: cssload-wobble 4.59s ease-in-out infinite;
+    -webkit-animation: cssload-wobble 4.59s ease-in-out infinite;
+    -moz-animation: cssload-wobble 4.59s ease-in-out infinite;
+}
+
+    .cssload-cssload-spinner:before,
+    .cssload-cssload-spinner:after {
+        display: block;
+        content: "";
+        width: 65px;
+        height: 65px;
+        border: 33px solid;
+        border-radius: 50%;
+        animation: cssload-spin 1.73s ease-in-out infinite both reverse;
+        -o-animation: cssload-spin 1.73s ease-in-out infinite both reverse;
+        -ms-animation: cssload-spin 1.73s ease-in-out infinite both reverse;
+        -webkit-animation: cssload-spin 1.73s ease-in-out infinite both reverse;
+        -moz-animation: cssload-spin 1.73s ease-in-out infinite both reverse;
+    }
+
+    .cssload-cssload-spinner:before {
+        border-color: #d85b1f;
+        position: absolute;
+    }
+
+    .cssload-cssload-spinner:after {
+        border-color: #22263D;
+        animation-delay: -0.86s;
+        -o-animation-delay: -0.86s;
+        -ms-animation-delay: -0.86s;
+        -webkit-animation-delay: -0.86s;
+        -moz-animation-delay: -0.86s;
+    }
+
+@keyframes cssload-wobble {
+    0%, 100% {
+        -webkit-transform: rotateX(8.75deg) rotateY(35deg);
+        transform: rotateX(8.75deg) rotateY(35deg);
+    }
+
+    50% {
+        -webkit-transform: rotateX(35deg) rotateY(-35deg) rotate(180deg);
+        transform: rotateX(35deg) rotateY(-35deg) rotate(180deg);
+    }
+}
+
+@-webkit-keyframes cssload-wobble {
+    0%, 100% {
+        -webkit-transform: rotateX(8.75deg) rotateY(35deg);
+    }
+
+    50% {
+        -webkit-transform: rotateX(35deg) rotateY(-35deg) rotate(180deg);
+    }
+}
+
+@keyframes cssload-spin {
+    0%, 100% {
+        -webkit-transform: translateZ(36px) rotateX(14deg);
+        transform: translateZ(36px) rotateX(14deg);
+    }
+
+    33% {
+        -webkit-transform: translateZ(-36px) scale(0.4);
+        transform: translateZ(-36px) scale(0.4);
+    }
+
+    66% {
+        -webkit-transform: translateZ(-36px);
+        transform: translateZ(-36px);
+    }
+}
+
+@-webkit-keyframes cssload-spin {
+    0%, 100% {
+        -webkit-transform: translateZ(36px) rotateX(14deg);
+    }
+
+    33% {
+        -webkit-transform: translateZ(-36px) scale(0.4);
+    }
+
+    66% {
+        -webkit-transform: translateZ(-36px);
     }
 }

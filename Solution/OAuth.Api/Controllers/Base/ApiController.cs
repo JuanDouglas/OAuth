@@ -18,7 +18,7 @@ namespace OAuth.Api.Controllers.Base
         public Login Login { get { return GetInformations(Request); } }
         protected internal OAuthContext db = new();
 
-     
+
         public override UnauthorizedResult Unauthorized()
         {
             return Unauthorized(Login);
@@ -56,6 +56,7 @@ namespace OAuth.Api.Controllers.Base
                 fsKey = string.Empty;
 
             IHeaderDictionary headers = httpRequest.Headers;
+            IRequestCookieCollection cookies = httpRequest.Cookies;
             headers.TryGetValue(LoginController.AuthenticationTokenHeader, out StringValues authorizationTokenSV);
             headers.TryGetValue(LoginController.AccountKeyHeader, out StringValues accountKeySV);
             headers.TryGetValue(LoginController.FirstStepKeyHeader, out StringValues firstStepKeySV);
@@ -68,8 +69,9 @@ namespace OAuth.Api.Controllers.Base
             }
             catch (NullReferenceException)
             {
+                fsKey = cookies["Authentication"].;
+                accountKey = cookies[LoginController.AccountKeyHeader];
 
-                throw;
             }
             return new(accountKey, authenticationToken, fsKey);
         }

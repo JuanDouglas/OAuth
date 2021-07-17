@@ -113,7 +113,7 @@ namespace OAuth.Client.Android
 
             FirstStepResult loginFirstStep = JsonConvert.DeserializeObject<FirstStepResult>(responseString);
             requestMessage = new HttpRequestMessage(HttpMethod.Get,
-                $"{Host}/Login/SecondStep?pwd={pwd}&key={loginFirstStep.Key}&web_page=false&redirect=none&fs_id={loginFirstStep.ID}");
+                $"{Host}/Login/SecondStep?pwd={pwd}&key={loginFirstStep.Key}&cookie=false&redirect=none&fs_id={loginFirstStep.ID}");
             requestMessage.Headers.Add("User-Agent", UserAgent);
             responseMessage = await httpClient.SendAsync(requestMessage);
 
