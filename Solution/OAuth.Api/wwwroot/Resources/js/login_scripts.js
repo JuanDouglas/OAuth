@@ -1,4 +1,4 @@
-﻿const host = 'https://localhost:5001'
+﻿const host = 'https://nexus-oauth.azurewebsites.net'
 const origin = 'Nexus Web Site'
 
 function OnClickLogin() {

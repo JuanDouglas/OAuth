@@ -18,6 +18,11 @@ namespace OAuth.Api.Models.Uploads
         [Password]
         [StringLength(25, MinimumLength = 8)]
         public string Password { get; set; }
+        
+        [Cep]
+        [Required]
+        [StringLength(10, MinimumLength = 8)]
+        public string ZipCode { get; set; }
         [Required]
         public string ConfirmPassword { get; set; }
         [Required]
@@ -41,6 +46,7 @@ namespace OAuth.Api.Models.Uploads
             Password = HashPassword(Password),
             AcceptTermsDate = DateTime.UtcNow,
             UserName = UserName,
+            ZipCode = ,
             CreateDate = DateTime.UtcNow,
             Key = GenerateToken(LargerTokenSize),
             Email = Email,
