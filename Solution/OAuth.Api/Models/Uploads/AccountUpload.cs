@@ -46,13 +46,14 @@ namespace OAuth.Api.Models.Uploads
             Password = HashPassword(Password),
             AcceptTermsDate = DateTime.UtcNow,
             UserName = UserName,
-            ZipCode = ,
+            ZipCode = ZipCode,
             CreateDate = DateTime.UtcNow,
             Key = GenerateToken(LargerTokenSize),
             Email = Email,
             IsCompany = IsCompany.Value,
             Valid = false,
-            ProfileImageId = DefaultIconID
+            ProfileImageId = DefaultIconID,
+            PhoneNumber = PhoneNumber
         };
 
     }

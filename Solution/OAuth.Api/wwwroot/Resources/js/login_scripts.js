@@ -90,9 +90,9 @@ function showOrHiddenPasswordError(show) {
     }
 }
 
-function showOrHidePassword() {
-    var inputPassword = document.getElementById('inputPassword')
-    var checkbox = document.getElementById('lblCBSPas');
+function showOrHidePassword(idPasswordInput, idCheckbox) {
+    var inputPassword = document.getElementById(idPasswordInput)
+    var checkbox = document.getElementById(idCheckbox);
     if (inputPassword.type == "password") {
         inputPassword.type = "text";
         checkbox.innerText = 'Hide password';

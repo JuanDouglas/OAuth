@@ -7,7 +7,7 @@ namespace OAuth.Api.Models.Attributes
     {
         public PasswordAttribute()
         {
-            ErrorMessage = "Invalid password";
+            ErrorMessage = "The password must contain a letter a number and a special character.";
         }
         public static string[] Require
         {
@@ -21,7 +21,7 @@ namespace OAuth.Api.Models.Attributes
         public override bool IsValid(object? obj)
 #pragma warning restore CS8632 // A anotação para tipos de referência anuláveis deve ser usada apenas em código em um contexto de anotações '#nullable'.
         {
-            _ = obj ?? throw new ArgumentNullException(nameof(obj));
+             obj ??= "";
 
             string str = obj.ToString();
             for (int i = 0; i < Require.Length; i++)

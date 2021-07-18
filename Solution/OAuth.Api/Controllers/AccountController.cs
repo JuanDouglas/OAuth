@@ -158,9 +158,9 @@ namespace OAuth.Api.Controllers
                 return NotFound();
 
             if ((DateTime.UtcNow - confirmation.Date).TotalMinutes > 15)
-                return Forbid(); 
+                return Forbid();
 
-                Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == confirmation.Account && fs.Email == email);
+            Account account = await db.Accounts.FirstOrDefaultAsync(fs => fs.Id == confirmation.Account && fs.Email == email);
             if (account == null)
                 return NotFound();
 

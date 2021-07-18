@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using OAuth.Api.Models;
@@ -8,6 +10,7 @@ using OAuth.Dal;
 using OAuth.Dal.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OAuth.Api.Controllers.Base
@@ -18,7 +21,17 @@ namespace OAuth.Api.Controllers.Base
         public Login Login { get { return GetInformations(Request); } }
         protected internal OAuthContext db = new();
 
-
+        public override BadRequestObjectResult BadRequest([ActionResultObjectValue] ModelStateDictionary modelState)
+        {
+            var errorList = ModelState.ToDictionary(
+      kvp => kvp.Key,
+      kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray());
+            return base.BadRequest(new { status = 400, errors = errorList, title = "One or more validation errors occurred." });
+        }
+        public override BadRequestObjectResult BadRequest([ActionResultObjectValue] object result)
+        {
+            return base.BadRequest(new { status = 400, errors = result, title = "One or more validation errors occurred." });
+        }
         public override UnauthorizedResult Unauthorized()
         {
             return Unauthorized(Login);

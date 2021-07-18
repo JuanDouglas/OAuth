@@ -1,9 +1,31 @@
-﻿function showOrHideModal() {
-    var modal = document.getElementById('loadingModal');
-
-    if (modal.style.display == "block") {
-        modal.style.display = "none";
-    } else {
-        modal.style.display = "block";
-    }
+﻿const origin = 'Nexus Web Site'
+function CreateAccount() {
+    var xhr = new XMLHttpRequest();
+    var form = document.getElementById('CreateAccount');
+    xhr.open('PUT', form.action, true);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF8;');
+    xhr.origin = origin;
+    xhr.responseType = 'json';
+    var json = {
+        "password": form.Password.value,
+        "confirmPassword": form.ConfirmPassword.value,
+        "email": form.Email.value,
+        "phonenumber": form.PhoneNumber.value,
+        "username": form.Username.value,
+        "acceptterms": form.AcceptTerms.checked,
+        "iscompany": form.IsCompany.checked,
+        "zipcode": form.ZipCode.value
+    };
+    xhr.onload = function () {
+        var status = xhr.status;
+        if (status == 400) {
+            var errors = xhr.response.errors;
+            Object.entries(errors).forEach(entry => {
+                const [key, value] = entry;
+                enableError(key, value);
+                console.log(key, value);
+            });
+        }
+    };
+    xhr.send(JSON.stringify(json));
 }

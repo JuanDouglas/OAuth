@@ -12,7 +12,7 @@ namespace OAuth.Api.Models.Attributes
     {
         public CepAttribute()
         {
-            ErrorMessage = "Incorrect or invalid!";
+            ErrorMessage = "Invalid zip code";
         }
         public override bool IsValid(object value)
         {
@@ -23,10 +23,12 @@ namespace OAuth.Api.Models.Attributes
                 response.Wait();
                 if (response.Result.StatusCode != HttpStatusCode.OK)
                     return false;
-
+                Task<string> Readresult = response.Result.Content.ReadAsStringAsync();
+                Readresult.Wait();
+                string result = Readresult.Result;
                 return true;
             }
-            return base.IsValid(value);
+            return false;
         }
     }
 }

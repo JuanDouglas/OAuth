@@ -16,39 +16,67 @@
 <body onload="showModal('modal')">
 
     <div class="card">
-        <h2>Contact</h2>
-        <p class="left form login-card-margin-left form-text">Zip Code</p>
-        <p><input class="form" type="number" placeholder="Zip Code." name="zipcode" pattern="^\d{3}-\d{3}-\d{4}$"
-                required></p>
+        <form action="../api/Account/Create" name="createAccount" id="CreateAccount">
+            <h2>Contact</h2>
+            <p class="left form login-card-margin-left form-text">Zip Code</p>
+            <p>
+                <input class="form" type="number" placeholder="Zip Code." name="ZipCode" id="ZipCode" pattern="^\d{3}-\d{3}-\d{4}$"
+                       onclick="disableError('ZipCode')" required>
+            </p>
+            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="ZipCodeError"></p>
 
-        <p class="left form login-card-margin-left form-text">Email</p>
-        <p><input class="form" type="text" placeholder="Write your e-mail" name="user" /></p>
 
-        <p class="left form login-card-margin-left form-text">Phone number</p>
-        <p><input class="form" type="tel" placeholder="Your phone number." name="phonenumber"
-                pattern="^\d{3}-\d{3}-\d{4}$" required></p>
+            <p class="left form login-card-margin-left form-text">Email</p>
+            <p><input class="form" type="text" placeholder="Write your e-mail" name="Email" id="Email" onclick="disableError('Email')" /></p>
+            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="EmailError"></p>
 
-        <p class="left">
-            <input id="c1" type="checkbox">
-            <label for="c1" id="lblCBSPas">Is Company</label>
-        </p>
+            <p class="left form login-card-margin-left form-text">Phone number</p>
+            <p>
+                <input class="form" type="tel" placeholder="Your phone number." name="PhoneNumber" id="PhoneNumber"
+                       onclick="disableError('PhoneNumber')" required>
+            </p>
+            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="PhoneNumberError"></p>
 
-        <h2>Login</h2>
-        <p class="left form login-card-margin-left form-text">UserName</p>
-        <p><input class="form" type="text" placeholder="Create your username" name="user" /></p>
+            <p class="left">
+                <input id="c1" type="checkbox" name="IsCompany">
+                <label for="c1">Is Company</label>
+            </p>
 
-        <p class="left form login-card-margin-left form-text">Password</p>
-        <p><input class="form" type="password" placeholder="Password" name="password" /></p>
+            <h2>Login</h2>
+            <p class="left form login-card-margin-left form-text">UserName</p>
+            <p><input class="form" type="text" placeholder="Create your username" name="Username" id="UserName" onclick="disableError('UserName')" /></p>
+            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="UserNameError"></p>
 
-        <p class="left form login-card-margin-left form-text">Confirm password</p>
-        <p><input class="form" type="password" placeholder="Confirm password." name="cfPassword" /></p>
+            <p class="left form login-card-margin-left form-text">Password</p>
+            <p><input class="form" type="password" placeholder="Password" name="Password" id="Password" onclick="disableError('Password')" /></p>
+            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="PasswordError"></p>
 
-        <p class="left error">
-            <input id="c2" type="checkbox">
-            <label for="c2">Accept <i class="link">Terms</i> and <i class="link">Privaci Policy</i>.</label>
-        </p>
+            <p class="left">
+                <input id="c3" type="checkbox" onclick="showOrHidePassword('password','lblCBSPas')">
+                <label for="c3" id="lblCBSPas">Show Password</label>
+            </p>
+
+            <p class="left form login-card-margin-left form-text">Confirm password</p>
+            <p><input class="form" type="password" placeholder="Confirm password." name="ConfirmPassword" id="ConfirmPassword" onclick="disableError('ConfirmPassword')" /></p>
+            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="ConfirmPasswordError"></p>
+
+            <p class="left">
+                <input id="AcceptTerms" type="checkbox" name="AcceptTerms" onclick="disableError('AcceptTerms')">
+                <label for="AcceptTerms">Accept <i class="link">Terms</i> and <i class="link">Privaci Policy</i>.</label>
+            </p>
+            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="AcceptTermsError"></p>
+        </form>
+        <p class="right"><button class="normal" onclick="CreateAccount()">Create</button></p>
     </div>
-    
+    <div id="loading" style="display:none">
+        <div id="loading-center">
+            <div id="loading-center-absolute">
+                <div class="cssload-wrap">
+                    <div class="cssload-cssload-spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

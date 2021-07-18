@@ -1,4 +1,9 @@
-﻿body {
+﻿@font-face {
+    font-family: 'Roboto Regular';
+    src: url('../font/Roboto-Regular.ttf');
+}
+
+body {
     padding: 0;
     margin: 0;
     font-family: 'Roboto Regular';
@@ -83,7 +88,7 @@ b.singup {
 
 div.left-center {
     color: white;
-    font-family: 'Robot Regular';
+    font-family: 'Roboto Regular';
     position: absolute;
     bottom: 50%;
     margin: 0 1.5rem;
