@@ -28,3 +28,45 @@ function showOrHidePassword(idPasswordInput, idCheckbox) {
         checkbox.innerText = 'Show password';
     }
 }
+
+function phoneMask(input) {
+    const phone = clean(input.value);
+    let text = phone;
+
+    if (phone.length > 5 && phone.length < 9) {
+        const part1 = phone.slice(0, 5);
+        const part2 = phone.slice(5, phone.length);
+        text = `${part1}-${part2}`
+    }
+
+    if (phone.length > 8 && phone.length < 10) {
+        const p1 = phone.slice(0, 1);
+        const p2 = phone.slice(1, 5);
+        const p3 = phone.slice(5, 9);
+        text = `${p1} ${p2}-${p3}`
+    }
+
+    if (phone.length == 11) {
+        const p1 = phone.slice(0, 2);
+        const p2 = phone.slice(2, 3);
+        const p3 = phone.slice(3, 7);
+        const p4 = phone.slice(7, 11);
+        text = `(${p1}) ${p2} ${p3}-${p4}`
+    }
+    input.value = text;
+}
+
+function zipCodeMask(input) {
+    const zipCode = clean(input.value);
+    let text = zipCode;
+    if (zipCode.length>5) {
+        const part1 = zipCode.slice(0, 5);
+        const part2 = zipCode.slice(5, zipCode.length);
+        text = `${part1}-${part2}`
+    }
+    input.value = text;
+}
+
+function clean(str) {
+    return str.replace(/[^0-9]/g, "")
+}

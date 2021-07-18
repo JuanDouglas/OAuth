@@ -90,17 +90,6 @@ function showOrHiddenPasswordError(show) {
     }
 }
 
-function showOrHidePassword(idPasswordInput, idCheckbox) {
-    var inputPassword = document.getElementById(idPasswordInput)
-    var checkbox = document.getElementById(idCheckbox);
-    if (inputPassword.type == "password") {
-        inputPassword.type = "text";
-        checkbox.innerText = 'Hide password';
-    } else {
-        inputPassword.type = "password";
-        checkbox.innerText = 'Show password';
-    }
-}
 
 function ComeOnClick() {
     var URL = host + '/api/Account/SendConfirmation';

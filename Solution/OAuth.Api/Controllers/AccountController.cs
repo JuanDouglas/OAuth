@@ -30,7 +30,7 @@ namespace OAuth.Api.Controllers
             await ValidModelAsync(accountModel);
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.ValidationState);
             }
             #endregion
 

@@ -20,8 +20,8 @@
             <h2>Contact</h2>
             <p class="left form login-card-margin-left form-text">Zip Code</p>
             <p>
-                <input class="form" type="number" placeholder="Zip Code." name="ZipCode" id="ZipCode" pattern="^\d{3}-\d{3}-\d{4}$"
-                       onclick="disableError('ZipCode')" required>
+                <input class="form" type="text" placeholder="Zip Code." name="ZipCode" id="ZipCode"
+                       onclick="disableError('ZipCode')" required onkeyup="zipCodeMask(this)">
             </p>
             <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="ZipCodeError"></p>
 
@@ -33,7 +33,7 @@
             <p class="left form login-card-margin-left form-text">Phone number</p>
             <p>
                 <input class="form" type="tel" placeholder="Your phone number." name="PhoneNumber" id="PhoneNumber"
-                       onclick="disableError('PhoneNumber')" required>
+                       onclick="disableError('PhoneNumber')" onkeyup="phoneMask(this)" required maxlength="16">
             </p>
             <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="PhoneNumberError"></p>
 
@@ -52,7 +52,7 @@
             <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="PasswordError"></p>
 
             <p class="left">
-                <input id="c3" type="checkbox" onclick="showOrHidePassword('password','lblCBSPas')">
+                <input id="c3" type="checkbox" onclick="showOrHidePassword('Password','lblCBSPas')">
                 <label for="c3" id="lblCBSPas">Show Password</label>
             </p>
 
