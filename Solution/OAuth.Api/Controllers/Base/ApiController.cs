@@ -66,12 +66,50 @@ namespace OAuth.Api.Controllers.Base
                 authenticationToken = authorizationTokenSV.ToString();
                 accountKey = accountKeySV.ToString();
                 fsKey = firstStepKeySV.ToString();
+
+                if (authenticationToken == null ||
+                    accountKey == null ||
+                    fsKey == null)
+                {
+                    throw new NullReferenceException();
+                }
+
+                if (authenticationToken == string.Empty ||
+                   accountKey == string.Empty ||
+                   fsKey == string.Empty)
+                {
+                    throw new NullReferenceException();
+                }
             }
             catch (NullReferenceException)
             {
-               
+                string cookie = httpRequest.Cookies[LoginController.CookieAuthetication];
+                string[] values = cookie.Split(';');
 
+                foreach (string keyPair in values)
+                {
+                    string[] pair = keyPair.Split('=');
+                    if (pair.Length < 2)
+                        break;
+
+                    switch (pair[0])
+                    {
+                        case LoginController.AuthenticationTokenHeader:
+                            authenticationToken = pair[1];
+                            break;
+                        case LoginController.AccountKeyHeader:
+                            accountKey = pair[1];
+                            break;
+                        case LoginController.FirstStepKeyHeader:
+                            fsKey = pair[1];
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
             }
+
             return new(accountKey, authenticationToken, fsKey);
         }
 
@@ -80,7 +118,7 @@ namespace OAuth.Api.Controllers.Base
         {
             string ipAdress = HttpContext.Connection.RemoteIpAddress.ToString();
             Ip ip = await db.Ips.FirstOrDefaultAsync(fs => fs.Adress == ipAdress);
-            if (ipAdress == null)
+            if (ip == null)
             {
                 ip = new()
                 {

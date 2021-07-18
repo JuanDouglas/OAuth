@@ -11,10 +11,12 @@
     <script src="../Resources/js/login_scripts.js"></script>
     <title>Nexus Company</title>
 </head>
+
 <body>
     <div class="content-line">
         <div class="content-left">
-            <img class="clickable" src="../Resources/img/back_button_white.png" onclick="location.href='../index.html'" />
+            <img class="clickable" src="../Resources/img/back_button_white.png"
+                onclick="location.href='../index.html'" />
 
             <div class="left-center">
                 <h1>Sign In</h1>
@@ -29,16 +31,21 @@
         <div class="content-center">
             <div class="card vertical-center" style="margin-top:10%">
                 <!-- Header -->
-                <p style="text-align: center;margin-top:10%"><img src="../Resources/img/nexus_crystal.png" width="120px"></p>
+                <p style="text-align: center;margin-top:10%"><img src="../Resources/img/nexus_crystal.png"
+                        width="120px"></p>
                 <p class="soon-text">Nexus Company</p>
 
                 <!-- Inputs -->
                 <p class="left form login-card-margin-left form-text">User</p>
-                <p><input class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser" onfocus="showOrHiddenLoginError(false)" /></p>
-                <p class="left form login-card-margin-left form-error-invisible" id="userError">Username or e-mail incorrect or invalid!</p>
+                <p><input class="form" type="text" placeholder="Write your e-mail" name="user" id="inputUser"
+                        onfocus="showOrHiddenLoginError(false)" /></p>
+                <p class="left form login-card-margin-left form-error-invisible" id="userError">Username or e-mail
+                    incorrect or invalid!</p>
                 <p class="left form login-card-margin-left form-text">Passsword</p>
-                <input class="form" type="password" placeholder="Write password" name="password" id="inputPassword" onfocus="showOrHiddenPasswordError(false)" />
-                <p class="left form login-card-margin-left form-error-invisible" id="passwordError">Password incorrect or invalid!</p>
+                <input class="form" type="password" placeholder="Write password" name="password" id="inputPassword"
+                    onfocus="showOrHiddenPasswordError(false)" />
+                <p class="left form login-card-margin-left form-error-invisible" id="passwordError">Password incorrect
+                    or invalid!</p>
                 <p class="left" style="margin-left: 25px;">
                     <input id="c1" type="checkbox" onclick="showOrHidePassword()">
                     <label for="c1" id="lblCBSPas">Show Password</label>
@@ -56,8 +63,32 @@
         </div>
     </div>
 
+    <!-- Loading Modal -->
     <div class="modal" id="loadingModal">
-        <div class="lds-ripple"><div></div><div></div></div>
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Confirm Account -->
+    <div class="modal" id="confirmModal">
+        <div class="card" style="padding-bottom: 1.8rem;margin-left: 34%;">
+            <h2 style="
+    font-family: 'Roboto Black';
+    font-size: 2rem;
+    padding: 0.5rem;
+    margin: 1rem;
+    color: #358563;
+    margin-top: 1.8rem;">Confirm e-mail</h2>
+            <p class="left" style="margin: 0.5rem 0.8rem 0rem 0.5rem;">
+                &emsp;To continue your Nexus access, please confirm your email. Press 'Come on!' and search your email box for
+                'Nexus Account Confirmation' and click in 'Confirm Account' button.
+            </p>
+            <p class="right"><button class="normal" onclick="ComeOnClick()" style="float: right;  margin-top: 1.2rem; ">Come
+                    on!</button></p>
+        </div>
     </div>
 </body>
+
 </html>

@@ -44,7 +44,7 @@ namespace OAuth.Api
             }
 
             app.Use(async (context, next) => {
-                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                context.Response.Headers.Add("Access-Control-Allow-Origin", context.Request.Host.Host);
                 await next.Invoke();
             });
 

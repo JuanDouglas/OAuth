@@ -74,6 +74,7 @@ div.body {
 }
 
 button.outlined {
+    box-shadow: 0 0 12px 0 rgba(0,0,0,0.2);
     padding: 0.5rem 2rem;
     background: transparent;
     outline-color: #032538;
@@ -93,6 +94,7 @@ button.outlined {
     }
 
 button.normal {
+    box-shadow: 0 0 12px 0 rgba(0,0,0,0.2);
     padding: 0.5rem 2rem;
     background: #032538;
     margin: 0rem 1rem;
@@ -130,12 +132,17 @@ i.reference {
     }
 
 p {
-    margin: 0;
+    margin: 1px;
 }
 
     p.left {
         text-align: left;
     }
+
+    p.right{
+        text-align: left;
+    }
+
     .link {
         text-align: right;
         font-size: 14px;

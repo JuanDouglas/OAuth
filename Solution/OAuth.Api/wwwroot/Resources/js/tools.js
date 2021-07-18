@@ -13,5 +13,10 @@ function disableError(inputID) {
 
 function enableOrDisableError(inputID, error) {
     var input = document.getElementById(inputID);
-    
+
+}
+
+function showModal(id) {
+    var modal = document.getElementById(id);
+    modal.style.display = "block";
 }

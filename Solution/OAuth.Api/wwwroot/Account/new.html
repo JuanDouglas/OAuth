@@ -9,20 +9,24 @@
     <link rel="stylesheet" type="text/css" href="../Resources/css/loading.css" />
     <link rel="stylesheet" type="text/css" href="../Resources/css/account_new_account.css" />
     <script src="../Resources/js/new_account.js"></script>
+    <script src="../Resources/js/tools.js"></script>
     <title>Nexus Company</title>
 </head>
-<body onload="showOrHideModal()">
+
+<body onload="showModal('modal')">
 
     <div class="card">
         <h2>Contact</h2>
         <p class="left form login-card-margin-left form-text">Zip Code</p>
-        <p><input class="form" type="number" placeholder="Zip Code." name="zipcode" pattern="^\d{3}-\d{3}-\d{4}$" required></p>
+        <p><input class="form" type="number" placeholder="Zip Code." name="zipcode" pattern="^\d{3}-\d{3}-\d{4}$"
+                required></p>
 
         <p class="left form login-card-margin-left form-text">Email</p>
         <p><input class="form" type="text" placeholder="Write your e-mail" name="user" /></p>
 
         <p class="left form login-card-margin-left form-text">Phone number</p>
-        <p><input class="form" type="tel" placeholder="Your phone number." name="phonenumber" pattern="^\d{3}-\d{3}-\d{4}$" required></p>
+        <p><input class="form" type="tel" placeholder="Your phone number." name="phonenumber"
+                pattern="^\d{3}-\d{3}-\d{4}$" required></p>
 
         <p class="left">
             <input id="c1" type="checkbox">
@@ -44,5 +48,7 @@
             <label for="c2">Accept <i class="link">Terms</i> and <i class="link">Privaci Policy</i>.</label>
         </p>
     </div>
+    
 </body>
+
 </html>

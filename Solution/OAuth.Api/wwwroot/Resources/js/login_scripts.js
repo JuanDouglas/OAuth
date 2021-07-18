@@ -1,11 +1,11 @@
-﻿const host = 'https://nexus-oauth.azurewebsites.net'
-
+﻿const host = 'https://localhost:5001'
+const origin = 'Nexus Web Site'
 
 function OnClickLogin() {
     var inputUser = document.getElementById('inputUser');
     var modal = document.getElementById('loadingModal');
     var URL = host + '/api/Login/FirstStep?user=' + inputUser.value;
-    modal.style.display = "block"; 
+    modal.style.display = "block";
 
     var firstStepKey;
     var firstStepID;
@@ -13,8 +13,8 @@ function OnClickLogin() {
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', URL, true);
-    xhr.mode = 'no-cors';
-    xhr.orgin = 'Nexus Web Site';
+    xhr.orgin = origin;
+    xhr.withCredentials = true;
     xhr.responseType = 'json';
     xhr.onload = function () {
         VerifyFirstStepResponse(xhr);
@@ -28,7 +28,8 @@ function OnClickLogin() {
 function VerifyFirstStepResponse(xhr) {
     var status = xhr.status;
     var inputPas = document.getElementById('inputPassword');
-    var modal = document.getElementById('loadingModal');
+    var loadingModal = document.getElementById('loadingModal');
+    var confirmModal = document.getElementById('confirmModal');
 
     if (status === 200) {
         firstStepKey = xhr.response.key;
@@ -46,18 +47,21 @@ function VerifyFirstStepResponse(xhr) {
         xhr.onload = function () {
             status = xhr.status;
             if (status == 200) {
-                window.location = '../index.html'
+                if (!xhr.response.validedAccount) {
+                    confirmModal.style.display = "block";
+
+                } else {
+                    window.location = '../index.html'
+                }
             } else {
                 showOrHiddenPasswordError(true);
             }
-            modal.style.display = "none";
+            loadingModal.style.display = "none";
         };
         xhr.send();
     } else {
-        modal.style.display = "none";
+        loadingModal.style.display = "none";
     }
-
-
 };
 
 function showOrHiddenLoginError(show) {
@@ -96,4 +100,19 @@ function showOrHidePassword() {
         inputPassword.type = "password";
         checkbox.innerText = 'Show password';
     }
+}
+
+function ComeOnClick() {
+    var URL = host + '/api/Account/SendConfirmation';
+    var xhr = new XMLHttpRequest();
+    var confirmModal = document.getElementById('confirmModal');
+
+    xhr.open('POST', URL, true);
+    xhr.orgin = origin;
+    xhr.withCredentials = true;
+    xhr.responseType = 'json';
+    xhr.onload = function () {
+        confirmModal.style.display = 'none';
+    }
+    xhr.send();
 }

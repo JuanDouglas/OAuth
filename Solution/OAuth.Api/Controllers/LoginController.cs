@@ -96,15 +96,14 @@ namespace OAuth.Api.Controllers
         [Route("SecondStep")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(Models.Result.Authentication), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Models.Result.Authentication>> SecondStepAsync(string pwd, string key, int fs_id, Nullable<bool> set_cookie, string redirect)
+        public async Task<ActionResult<Models.Result.Authentication>> SecondStepAsync(string pwd, string key, int fs_id, bool set_cookie, string redirect)
         {
             LoginFirstStep firstStep = await db.LoginFirstSteps.FirstOrDefaultAsync(fs => fs.Valid && fs.Id == fs_id);
             bool containsUserAgent = HttpContext.Request.Headers.TryGetValue("User-Agent", out StringValues userAgent);
             IPAddress ip = HttpContext.Connection.RemoteIpAddress;
             firstStep ??= new LoginFirstStep();
             pwd ??= string.Empty;
-            set_cookie ??= false;
-            
+
             if (!containsUserAgent)
             {
                 return BadRequest("User-Agent is mandatory");
@@ -155,8 +154,17 @@ namespace OAuth.Api.Controllers
 
             var result = new Models.Result.Authentication(authentication)
             {
-                AccountKey = account.Key
+                AccountKey = account.Key,
+                ValidedAccount = account.Valid
             };
+
+            if (set_cookie)
+            {
+                string cookieValue = AuthenticationCookieValue(key, result, account);
+                Response.Cookies.Append(CookieAuthetication,
+                    cookieValue,
+                 AuthenticationCookieOptions);
+            }
 
             await db.Authentications.AddAsync(authentication);
             await db.SaveChangesAsync();
@@ -166,26 +174,22 @@ namespace OAuth.Api.Controllers
             db.LoginFirstSteps.Update(firstStep);
             await db.SaveChangesAsync();
 
-            if (set_cookie.Value)
-                Response.Cookies.Append(CookieAuthetication,
-                    AuthenticationCookieValue(firstStep, authentication, account),
-                    AuthenticationCookieOptions);
 
             return Ok(result);
         }
         private CookieOptions AuthenticationCookieOptions => new()
         {
-            Domain = Request.Host.Value,
-            Expires = DateTime.Now.AddDays(30),
+            Domain = Request.Host.Host,
             HttpOnly = true,
             IsEssential = true,
             SameSite = SameSiteMode.Lax,
             Secure = true,
-            Path = "/*"
+            Path = "/",
+            MaxAge = TimeSpan.FromDays(30)
         };
-        private static string AuthenticationCookieValue(LoginFirstStep firstStep, Authentication authentication, Account account)
+        private static string AuthenticationCookieValue(string firstStep, Models.Result.Authentication authentication, Account account)
         {
-            return $"{AuthenticationTokenHeader}={authentication.Token}; {FirstStepKeyHeader}={firstStep.Token}; {AccountKeyHeader}={account.Key};";
+            return $"{AuthenticationTokenHeader}={authentication.Token};{FirstStepKeyHeader}={firstStep};{AccountKeyHeader}={account.Key};";
         }
         /// <summary>
         /// Transform string password in string hash 
