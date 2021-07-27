@@ -24,8 +24,8 @@ namespace OAuth.Api.Controllers.Base
         public override BadRequestObjectResult BadRequest([ActionResultObjectValue] ModelStateDictionary modelState)
         {
             var errorList = ModelState.ToDictionary(
-      kvp => kvp.Key,
-      kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray());
+                kvp => kvp.Key,
+                kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray());
             return base.BadRequest(new { status = 400, errors = errorList, title = "One or more validation errors occurred." });
         }
         public override BadRequestObjectResult BadRequest([ActionResultObjectValue] object result)

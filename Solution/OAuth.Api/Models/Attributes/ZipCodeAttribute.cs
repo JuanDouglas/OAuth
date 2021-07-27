@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace OAuth.Api.Models.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class CepAttribute : ValidationAttribute
+    public class ZipCodeAttribute : ValidationAttribute
     {
-        public CepAttribute()
+        public ZipCodeAttribute()
         {
-            ErrorMessage = "Invalid zip code";
+            ErrorMessage = "Invalid or incorrect zip code";
         }
         public override bool IsValid(object value)
         {

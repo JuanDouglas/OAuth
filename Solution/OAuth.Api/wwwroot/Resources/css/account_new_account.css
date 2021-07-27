@@ -1,5 +1,10 @@
-﻿body {
-    background: white;
+﻿@font-face {
+    font-family: 'Roboto Regular';
+    src: url('../font/Roboto-Regular.ttf');
+}
+
+body {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 }
 
 h2 {
@@ -8,4 +13,23 @@ h2 {
     font-size: 30px;
     font-family: 'Roboto Black';
     margin: 0.5rem 1rem;
+}
+
+div.welcome-modal {
+    text-align: -webkit-center;
+}
+
+div.welcome-card {
+    padding: 2.2rem 2rem;
+    font-family: 'Roboto Regular'
+}
+
+p.welcome-text {
+    margin: 0rem 2rem;
+    text-align: center;
+}
+
+button.go-to-login {
+    margin-left: 3.5rem;
+    margin-top: 2rem;
 }

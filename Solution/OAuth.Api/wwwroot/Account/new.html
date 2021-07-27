@@ -1,82 +1,86 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
+<html lang="pt-br"><head>
     <meta charset="utf-8">
     <link rel="icon" type="image/ico" href="../Resources/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="../Resources/css/site.css" />
-    <link rel="stylesheet" type="text/css" href="../Resources/css/checkbox.css" />
-    <link rel="stylesheet" type="text/css" href="../Resources/css/loading.css" />
-    <link rel="stylesheet" type="text/css" href="../Resources/css/account_new_account.css" />
+    <link rel="stylesheet" type="text/css" href="../Resources/css/site.css">
+    <link rel="stylesheet" type="text/css" href="../Resources/css/checkbox.css">
+    <link rel="stylesheet" type="text/css" href="../Resources/css/loading.css">
+    <link rel="stylesheet" type="text/css" href="../Resources/css/account_new_account.css">
     <script src="../Resources/js/new_account.js"></script>
     <script src="../Resources/js/tools.js"></script>
     <title>Nexus Company</title>
 </head>
 
-<body onload="showModal('modal')">
+<body>
+    <!-- Nav Bar-->
+    <nav>
 
-    <div class="card">
-        <form action="../api/Account/Create" name="createAccount" id="CreateAccount">
-            <h2>Contact</h2>
-            <p class="left form login-card-margin-left form-text">Zip Code</p>
-            <p>
-                <input class="form" type="text" placeholder="Zip Code." name="ZipCode" id="ZipCode"
-                       onclick="disableError('ZipCode')" required onkeyup="zipCodeMask(this)">
-            </p>
-            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="ZipCodeError"></p>
+        <!-- Soon -->
+        <div class="nav-soon" onclick="location.href='../index.html'"><b>Nexus Company</b></div>
 
+        <!-- Nav bar links -->
+        <div class="nav-text">Home</div>
 
-            <p class="left form login-card-margin-left form-text">Email</p>
-            <p><input class="form" type="text" placeholder="Write your e-mail" name="Email" id="Email" onclick="disableError('Email')" /></p>
-            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="EmailError"></p>
+        <div class="nav-text">Company</div>
 
-            <p class="left form login-card-margin-left form-text">Phone number</p>
-            <p>
-                <input class="form" type="tel" placeholder="Your phone number." name="PhoneNumber" id="PhoneNumber"
-                       onclick="disableError('PhoneNumber')" onkeyup="phoneMask(this)" required maxlength="16">
-            </p>
-            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="PhoneNumberError"></p>
+        <div class="nav-text">About</div>
 
-            <p class="left">
-                <input id="c1" type="checkbox" name="IsCompany">
-                <label for="c1">Is Company</label>
-            </p>
+        <div class="nav-text">FAQ</div>
 
-            <h2>Login</h2>
-            <p class="left form login-card-margin-left form-text">UserName</p>
-            <p><input class="form" type="text" placeholder="Create your username" name="Username" id="UserName" onclick="disableError('UserName')" /></p>
-            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="UserNameError"></p>
+        <!--Nav bar right content-->
+        <div class="nav-right">
+            <button class="outlined" onclick="location.href='../Login/index.html'">Sing In</button>
 
-            <p class="left form login-card-margin-left form-text">Password</p>
-            <p><input class="form" type="password" placeholder="Password" name="Password" id="Password" onclick="disableError('Password')" /></p>
-            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="PasswordError"></p>
+            <button class="normal" onclick="location.href='#'">Get Started</button>
+        </div>
 
-            <p class="left">
-                <input id="c3" type="checkbox" onclick="showOrHidePassword('Password','lblCBSPas')">
-                <label for="c3" id="lblCBSPas">Show Password</label>
-            </p>
+    </nav>
+    <div class="card" style="margin-top: 0; min-height: 38rem; display: inline-flex;padding: 0 0 0 0;margin: 10% 14%;margin-top:0;float: none;width: 80%;max-width: 59rem;">
+        <div class="card" style="margin: 0;min-width: 26.5rem;padding: 0;background: aquamarine;height: initial;border-radius: 2rem 0rem 0rem 2rem;text-align: -webkit-center;">
+            <img class="singup-image" src="../Resources/img/delivery.png">
+            <p style="
+        font-size: large;
+        margin: 0% 4%;
+        font-family: 'Roboto Italic';
+    ">&emsp;Na <i class="reference-cont">Rebbity</i> o seu trabalho vale muito mais, sem burocracias, e muito mais
+                fácil e rápido. Nós da Rebbity nos preocupamos com você e com seu bem estar.</p>
+        </div>
+        <div style="padding: 2% 6%;width: max-content;display: initial;text-align: -webkit-center;">
+            <h1 style="font-family: &quot;Roboto Italic&quot;; font-size: 41px;" id="createAccountText">Criar Conta</h1>
+            <!-- Form Create Account-->
+            <form action="../api/Account/Create" name="createAccount" id="frmCreateAccount" style="width: max-content;">
+                <p class="left form input-text form-text">Nome completo</p>
+                <p><input class="form" type="text" placeholder="Nome Completo" name="Name" id="Name"> </p>
 
-            <p class="left form login-card-margin-left form-text">Confirm password</p>
-            <p><input class="form" type="password" placeholder="Confirm password." name="ConfirmPassword" id="ConfirmPassword" onclick="disableError('ConfirmPassword')" /></p>
-            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="ConfirmPasswordError"></p>
+                <p class="left form input-text form-text">Email</p>
+                <p><input class="form" type="text" placeholder="E-mail" name="Email" id="Email"> </p>
+                <p class="left form input-text form-text">Número de telefone</p>
+                <p>
+                    <input class="form" type="tel" placeholder="Número de celular" name="PhoneNumber" id="PhoneNumber">
+                </p>
 
-            <p class="left">
-                <input id="AcceptTerms" type="checkbox" name="AcceptTerms" onclick="disableError('AcceptTerms')">
-                <label for="AcceptTerms">Accept <i class="link">Terms</i> and <i class="link">Privaci Policy</i>.</label>
-            </p>
-            <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="AcceptTermsError"></p>
-        </form>
-        <p class="right"><button class="normal" onclick="CreateAccount()">Create</button></p>
-    </div>
-    <div id="loading" style="display:none">
-        <div id="loading-center">
-            <div id="loading-center-absolute">
-                <div class="cssload-wrap">
-                    <div class="cssload-cssload-spinner"></div>
+                <p class="left form input-text form-text">Senha</p>
+                <p><input class="form" type="text" placeholder="Senha" name="Password" id="Password"> </p>
+
+                <p class="left form input-text form-text">Confirma Senha</p>
+                <p><input class="form" type="text" placeholder="Confirme sua senha" name="ConfirmPassword" id="ConfirmPassword"> </p>
+                <p></p>
+                <p class="left form login-card-margin-left form-error-invisible form-error-visible" id="PhoneNumberError"></p>
+                <p class="input-text">
+                    <input id="AcceptTerms" type="checkbox" name="AcceptTerms" onclick="disableError('AcceptTerms')">
+                    <label for="AcceptTerms">Aceito os <i class="link">Termos</i> e <i class="link">Politica de
+                            privacidade</i>.</label>
+                </p>
+                <p class="right form login-card-margin-left form-error-invisible form-error-visible" id="AcceptTermsError"></p>
+            </form>
+            <div style="text-align: right;"><button class="normal" style="max-width: fit-content; margin-right: -33%; font-size: 19px;" id="nextButton" onclick="nextButtonClick()">Próximo</button></div>
+            <div id="loading-center" style="display: none;">
+                <div id="loading-center-absolute" style="  width: 100;  margin-left: 10rem;">
+                    <div class="cssload-wrap">
+                        <div class="cssload-cssload-spinner"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
-
-</html>
+</body></html>

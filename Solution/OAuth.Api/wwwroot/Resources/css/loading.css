@@ -1,7 +1,5 @@
 ﻿/*
-
-
-
+Ripple Loading
 */
 .lds-ripple {
     display: inline-block;
@@ -53,7 +51,7 @@
         </div>
 */
 #loading {
-    background-color: #ffffff;
+    background-color: transparent;
     height: 100%;
     width: 100%;
     position: fixed;
@@ -144,7 +142,7 @@
     }
 
     .cssload-cssload-spinner:before {
-        border-color: #d85b1f;
+        border-color: #3f9e76;
         position: absolute;
     }
 

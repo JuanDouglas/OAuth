@@ -72,6 +72,11 @@ namespace OAuth.Dal
                     .HasMaxLength(300)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(100)

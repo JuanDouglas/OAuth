@@ -14,7 +14,8 @@ function CreateAccount() {
         "username": form.Username.value,
         "acceptterms": form.AcceptTerms.checked,
         "iscompany": form.IsCompany.checked,
-        "zipcode": form.ZipCode.value
+        "zipcode": form.ZipCode.value,
+        "name": form.Name.value
     };
     xhr.onload = function () {
         var status = xhr.status;
@@ -25,7 +26,14 @@ function CreateAccount() {
                 enableError(key, value);
                 console.log(key, value);
             });
+
+        } else if (status == 200) {
+            show('welcomeModal');
+        } else if (status == 500) {
+            showError('CreateAccount');
         }
+        hide('loadingModal');
     };
+    show('loadingModal');
     xhr.send(JSON.stringify(json));
 }

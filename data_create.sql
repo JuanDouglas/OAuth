@@ -4,13 +4,22 @@ CREATE TABLE [Image](
     [FileType] INT NOT NULL
 );
 
+CREATE TABLE [CompanyCategory](
+   [ID] INTEGER IDENTITY PRIMARY KEY NOT NULL,
+);
+
+CREATE TABLE [CompanyAccount](
+
+);
+
 CREATE TABLE [Account](
     [ID] INTEGER IDENTITY PRIMARY KEY NOT NULL,
     [Key] VARCHAR(300) UNIQUE NOT NULL,
+    [Name] VARCHAR(250) NOT NULL,
     [UserName] VARCHAR(500) UNIQUE NOT NULL,
     [Password] VARCHAR(100) NOT NULL,
     [Email] VARCHAR(500) UNIQUE NOT NULL,
-    [PhoneNumber] VARCHAR(32) UNIQUE NOT NULL,
+    [PhoneNumber] VARCHAR(32) NOT NULL,
     [IsCompany] BIT NOT NULL,
     [AcceptTermsDate] DATETIME2 NOT NULL,
     [Valid] BIT NOT NULL,
@@ -24,7 +33,7 @@ CREATE TABLE [Company] (
     [ID] INTEGER PRIMARY KEY NOT NULL,
     [Name] VARCHAR(500) NOT NULL,
     [CNPJ] VARCHAR(100) UNIQUE NOT NULL,
-    [Icon]INTEGER NOT NULL,
+    [Icon] INTEGER NOT NULL,
     FOREIGN KEY ([Icon]) REFERENCES [Image]([ID])
 );
 
@@ -128,7 +137,8 @@ INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_application_icon.png
 INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_company_icon.png',3);
 
 /* INSERT USERS */
-INSERT INTO [Account] ([UserName],[Password],[Key],[ZipCode],[Email],[PhoneNumber],[IsCompany],[AcceptTermsDate],[Valid],[CreateDate],[ProfileImageID]) VALUES ('JuanDouglas','$2a$10$vl2ajEUyNi7/pGsMqy1N1.h65XLywq.FRwiX43t.58f2Ou1fYgSSu','pr1v@t3K31H4Sh','71881-663','juandouglas2004@gmail.com','+55 (61) 9 9260-6441',1,GETDATE(),1,GETDATE(),1);
+INSERT INTO [Account] ([UserName],[Password],[Key],[ZipCode],[Email],[PhoneNumber],[IsCompany],[AcceptTermsDate],[Valid],[CreateDate],[ProfileImageID]) 
+VALUES ('JuanDouglas','$2a$10$vl2ajEUyNi7/pGsMqy1N1.h65XLywq.FRwiX43t.58f2Ou1fYgSSu','pr1v@t3K31H4Sh','71881-663','juandouglas2004@gmail.com','+55 (61) 9 9260-6441',1,GETDATE(),1,GETDATE(),1);
 
 /* INSERT APPLICATIONS */
 INSERT INTO [Application] ([Name],[Owner],[Key],[Icon],[PrivateKey],[Site],[LoginRedirect],[AuthorizeRedirect]) 

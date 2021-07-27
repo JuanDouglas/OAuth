@@ -18,7 +18,7 @@ div.content-line {
 }
 
 div.content-left {
-    width: 25%;
+    width: 31%;
     text-align: left;
     background-color: #192538;
     height: 100%;
@@ -27,6 +27,7 @@ div.content-left {
     box-shadow: 0 0 14px 0 rgba(0,0,0,0.5);
     min-height: 100%;
     position: absolute;
+    border-radius: 0rem 1.3rem 1.3rem 0rem;
 }
 
 div.content-right {
@@ -91,6 +92,7 @@ div.left-center {
     font-family: 'Roboto Regular';
     position: absolute;
     bottom: 50%;
+    font-size: 18px;
     margin: 0 1.5rem;
 }
 

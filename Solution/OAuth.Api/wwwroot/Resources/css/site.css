@@ -94,6 +94,29 @@ button.outlined {
     }
 
 button.normal {
+    box-shadow: 2px 2px 10px 5px rgb(0 0 0 /25%);
+    padding: 0.6rem 1.8rem;
+    margin: 0rem 1rem;
+    background: #032538;
+    font-size: medium;
+    color: white;
+    cursor: pointer;
+    border-radius: 1rem;
+    border-color: #032538;
+    transition: 0.2s;
+    border-style: solid;
+}
+
+    button.normal:hover {
+        border-color: #49B788;
+        outline-color: #49B788;
+        color: #032538;
+        background: #49B788;
+        transition: 0.4s;
+        box-shadow: 2px 2px 10px 5px rgb(0 0 0 / 35%);
+    }
+
+.btn-normal {
     box-shadow: 0 0 12px 0 rgba(0,0,0,0.2);
     padding: 0.5rem 2rem;
     background: #032538;
@@ -106,31 +129,12 @@ button.normal {
     border-style: solid;
 }
 
-    button.normal:hover {
+    .btn-normal:hover {
         border-color: #3F9E76;
         outline-color: #3F9E76;
         color: #032538;
         background: #3F9E76;
     }
-    .btn-normal {
-        box-shadow: 0 0 12px 0 rgba(0,0,0,0.2);
-        padding: 0.5rem 2rem;
-        background: #032538;
-        margin: 0rem 1rem;
-        font-size: medium;
-        color: white;
-        cursor: pointer;
-        border-radius: 1rem;
-        border-color: #032538;
-        border-style: solid;
-    }
-    
-        .btn-normal:hover {
-            border-color: #3F9E76;
-            outline-color: #3F9E76;
-            color: #032538;
-            background: #3F9E76;
-        }
 
 footer {
     text-align: center;
@@ -161,7 +165,7 @@ p {
     p.right {
         text-align: left;
         left: 10rem;
-        margin-top:1rem;
+        margin-top: 1rem;
         position: relative;
     }
 
@@ -274,9 +278,44 @@ input.checkbox {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    transition: 0.2s;
 }
 
 .vertical-center {
     margin-top: auto;
     margin-top: 20%
+}
+
+.notification-bottom {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    /* Rest of your styling */
+}
+
+.notification-close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    /* This are approximated values, and the rest of your styling goes here */
+}
+
+h2.error{
+    font-family: 'Roboto Black';
+    color:#CC2936;
+}
+
+p.error-text{
+    padding: 0.5rem 1.5rem;
+    font-family: 'Roboto Italic';
+}
+
+p.error-p-button{
+    text-align: right;
+    margin-top: 0.5rem;
+}
+
+.input-text{
+    margin-left: 1.2rem;
 }
