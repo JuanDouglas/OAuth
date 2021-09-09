@@ -1,4 +1,4 @@
-﻿using System;
+﻿using OAuth.Dal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 

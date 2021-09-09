@@ -1,3 +1,4 @@
+@ECHO OFF
 move OAuth.Dal\Models\OAuthContext.cs OAuth.Dal
 SET Directory=%CD%\OAuth.Dal\OAuthContext.cs
 setlocal
