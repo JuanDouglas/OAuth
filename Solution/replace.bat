@@ -27,3 +27,4 @@ exit /b
 >>%temp%\_.vbs echo .StdOut.Write _
 >>%temp%\_.vbs echo Replace(.StdIn.ReadAll,args(0),args(1),1,-1,1)
 >>%temp%\_.vbs echo end with
+exit
