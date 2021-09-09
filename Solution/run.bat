@@ -33,16 +33,6 @@ call :FindReplace "OAuth.Dal.Models" "OAuth.Dal" %Directory%
 call :FindReplace "using System" "using OAuth.Dal.Models" %Directory%
 
 exit /b 
-@echo Remove Surplus
-rm %CD%\OAuth.Dal\Class1.cs
-@echo Insert Defaults
-sqlcmd -S .\SQLEXPRESS -i insert.sql
-@echo Save Update
-git status 
-git add .
-git commit -m "Update database"
-@echo Run Service
-dotnet run -p OAuth.Api
 
 :FindReplace <findstr> <replstr> <file>
 set tmp="%temp%\tmp.txt"
@@ -63,3 +53,14 @@ exit /b
 >>%temp%\_.vbs echo .StdOut.Write _
 >>%temp%\_.vbs echo Replace(.StdIn.ReadAll,args(0),args(1),1,-1,1)
 >>%temp%\_.vbs echo end with
+
+@echo Remove Surplus
+rm %CD%\OAuth.Dal\Class1.cs
+@echo Insert Defaults
+sqlcmd -S .\SQLEXPRESS -i insert.sql
+@echo Save Update
+git status 
+git add .
+git commit -m "Update database"
+@echo Run Service
+dotnet run -p OAuth.Api
