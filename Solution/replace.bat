@@ -1,10 +1,12 @@
+SET Directory=%3
+SET Search=%1
+SET Replace=%2
+
 @ECHO OFF
-move OAuth.Dal\Models\OAuthContext.cs OAuth.Dal
-SET Directory=%CD%\OAuth.Dal\OAuthContext.cs
+ECHO Search = %Search%; Replace = %Replace%; In = %Directory%
 setlocal
 
-call :FindReplace "OAuth.Dal.Models" "OAuth.Dal" %Directory%
-call :FindReplace "using System" "using OAuth.Dal.Models" %Directory%
+call :FindReplace %Search% %Replace% %Directory%
 
 exit /b 
 
@@ -27,4 +29,3 @@ exit /b
 >>%temp%\_.vbs echo .StdOut.Write _
 >>%temp%\_.vbs echo Replace(.StdIn.ReadAll,args(0),args(1),1,-1,1)
 >>%temp%\_.vbs echo end with
-exit

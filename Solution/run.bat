@@ -24,7 +24,7 @@ dotnet add OAuth.Dal package Microsoft.EntityFrameworkCore.Design
 @echo Create Context
 dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;Database=OAuth;Trusted_Connection=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models -p OAuth.Dal
 @echo Move context 
-start replace.bat
+move OAuth.Dal\OAuthContext.cs OAuth.Dal
 @echo Remove Surplus
 rm %CD%\OAuth.Dal\Class1.cs
 @echo Insert Defaults
