@@ -48,13 +48,13 @@ namespace OAuth.Dal
             {
                 entity.ToTable("Account");
 
-                entity.HasIndex(e => e.Email, "UQ__Account__A9D105344D0E40DB")
+                entity.HasIndex(e => e.Email, "UQ__Account__A9D10534BC6F9BA1")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Key, "UQ__Account__C41E02890EE877F0")
+                entity.HasIndex(e => e.Key, "UQ__Account__C41E02890660AA6F")
                     .IsUnique();
 
-                entity.HasIndex(e => e.UserName, "UQ__Account__C9F2845603EF6AA7")
+                entity.HasIndex(e => e.UserName, "UQ__Account__C9F284566CA73F58")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -125,7 +125,7 @@ namespace OAuth.Dal
             {
                 entity.ToTable("Application");
 
-                entity.HasIndex(e => e.Key, "UQ__Applicat__C41E0289AEBF3926")
+                entity.HasIndex(e => e.Key, "UQ__Applicat__C41E02897CD16A20")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -177,7 +177,7 @@ namespace OAuth.Dal
             {
                 entity.ToTable("ApplicationAuthentication");
 
-                entity.HasIndex(e => e.Token, "UQ__Applicat__1EB4F8172739B95C")
+                entity.HasIndex(e => e.Token, "UQ__Applicat__1EB4F817EE7C4D6C")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -229,7 +229,7 @@ namespace OAuth.Dal
             {
                 entity.ToTable("Authentication");
 
-                entity.HasIndex(e => e.Token, "UQ__Authenti__1EB4F817A16076A0")
+                entity.HasIndex(e => e.Token, "UQ__Authenti__1EB4F8173E44716E")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -293,10 +293,10 @@ namespace OAuth.Dal
             {
                 entity.ToTable("Company");
 
-                entity.HasIndex(e => e.Cnpj, "UQ__Company__AA57D6B49D610A75")
+                entity.HasIndex(e => e.Cnpj, "UQ__Company__AA57D6B4C9B7708B")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Account, "UQ__Company__B0C3AC46CA87897D")
+                entity.HasIndex(e => e.Account, "UQ__Company__B0C3AC46A3060D75")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -370,7 +370,7 @@ namespace OAuth.Dal
             {
                 entity.ToTable("IP");
 
-                entity.HasIndex(e => e.Adress, "UQ__IP__08F62FE527D58CDD")
+                entity.HasIndex(e => e.Adress, "UQ__IP__08F62FE5B13F7505")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -416,7 +416,7 @@ namespace OAuth.Dal
             {
                 entity.ToTable("Personal");
 
-                entity.HasIndex(e => e.Account, "UQ__Personal__B0C3AC46B5FC2AE6")
+                entity.HasIndex(e => e.Account, "UQ__Personal__B0C3AC46805DA954")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
