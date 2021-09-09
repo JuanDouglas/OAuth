@@ -36,7 +36,19 @@ namespace OAuth.Client
                 return httpRequestMessage;
             }
         }
-        internal static string Host = "https://nexus-oauth.azurewebsites.net/api";
+        public static string Host
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_host))
+                    return DefaultHost;
+
+                return _host;
+            }
+            set { _host = value; }
+        }
+        private static string DefaultHost = "https://nexus-oauth.azurewebsites.net/api";
+        private static string _host;
         internal static readonly HttpClient httpClient = new(new HttpClientHandler()
         {
             AllowAutoRedirect = false

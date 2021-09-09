@@ -12,6 +12,7 @@ namespace OAuth.Client.Test
         public const string AppKey = "Stock-Manager-API";
         static void Main(string[] args)
         {
+            Authentication.Host = "https://localhost:5001";
             Authentication authentication = new("Test Console", "JuanDouglas", "Am4@0309");
             Console.WriteLine($"\t** Nexus Authentication **\n{authentication}\n");
 

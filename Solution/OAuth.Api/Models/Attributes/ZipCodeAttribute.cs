@@ -19,7 +19,7 @@ namespace OAuth.Api.Models.Attributes
             if (value != null)
             {
                 HttpClient httpClient = new();
-                Task<HttpResponseMessage> response = httpClient.GetAsync($"https://open-cep.azurewebsites.net/api/Cep/ByNumber?number={Regex.Replace(value.ToString(), @"[^0-9]+", string.Empty)}");
+                Task<HttpResponseMessage> response = httpClient.GetAsync($"https://open-cep.azurewebsites.net/api/Cep/ByNumber?number={ Regex.Replace(value.ToString(), @"[^0-9]+", string.Empty)}");
                 response.Wait();
                 if (response.Result.StatusCode != HttpStatusCode.OK)
                     return false;
