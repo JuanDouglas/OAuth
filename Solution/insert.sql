@@ -1,3 +1,6 @@
+USE [OAuth];
+GO
+
 /* INSERT IMAGES */
 INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_profile_image.png',1);
 INSERT INTO [Image]([FileName],[FileType]) VALUES ('default_application_icon.png',2);
