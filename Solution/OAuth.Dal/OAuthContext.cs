@@ -48,13 +48,13 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("Account");
 
-                entity.HasIndex(e => e.Email, "UQ__Account__A9D10534B59850E7")
+                entity.HasIndex(e => e.Email, "UQ__Account__A9D1053447DA3310")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Key, "UQ__Account__C41E028938B6518F")
+                entity.HasIndex(e => e.Key, "UQ__Account__C41E02890CBCC700")
                     .IsUnique();
 
-                entity.HasIndex(e => e.UserName, "UQ__Account__C9F28456CCBAE1D4")
+                entity.HasIndex(e => e.UserName, "UQ__Account__C9F284563B67C3D9")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -100,7 +100,7 @@ namespace OAuth.Dal.Models
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.ProfileImageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Account__Profile__3D5E1FD2");
+                    .HasConstraintName("FK__Account__Profile__2B3F6F97");
             });
 
             modelBuilder.Entity<AccountConfirmation>(entity =>
@@ -118,14 +118,14 @@ namespace OAuth.Dal.Models
                     .WithMany(p => p.AccountConfirmations)
                     .HasForeignKey(d => d.Account)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__AccountCo__Accou__68487DD7");
+                    .HasConstraintName("FK__AccountCo__Accou__5629CD9C");
             });
 
             modelBuilder.Entity<Application>(entity =>
             {
                 entity.ToTable("Application");
 
-                entity.HasIndex(e => e.Key, "UQ__Applicat__C41E02893C943AEA")
+                entity.HasIndex(e => e.Key, "UQ__Applicat__C41E028918AB6B68")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -164,20 +164,20 @@ namespace OAuth.Dal.Models
                     .WithMany(p => p.Applications)
                     .HasForeignKey(d => d.Icon)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Applicatio__Icon__4BAC3F29");
+                    .HasConstraintName("FK__Applicatio__Icon__398D8EEE");
 
                 entity.HasOne(d => d.OwnerNavigation)
                     .WithMany(p => p.Applications)
                     .HasForeignKey(d => d.Owner)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Applicati__Owner__4AB81AF0");
+                    .HasConstraintName("FK__Applicati__Owner__38996AB5");
             });
 
             modelBuilder.Entity<ApplicationAuthentication>(entity =>
             {
                 entity.ToTable("ApplicationAuthentication");
 
-                entity.HasIndex(e => e.Token, "UQ__Applicat__1EB4F8173A1B7B05")
+                entity.HasIndex(e => e.Token, "UQ__Applicat__1EB4F817E482DFCB")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -203,33 +203,33 @@ namespace OAuth.Dal.Models
                     .WithMany(p => p.ApplicationAuthentications)
                     .HasForeignKey(d => d.Application)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Applicati__Appli__60A75C0F");
+                    .HasConstraintName("FK__Applicati__Appli__4E88ABD4");
 
                 entity.HasOne(d => d.AuthenticationNavigation)
                     .WithMany(p => p.ApplicationAuthentications)
                     .HasForeignKey(d => d.Authentication)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Applicati__Authe__628FA481");
+                    .HasConstraintName("FK__Applicati__Authe__5070F446");
 
                 entity.HasOne(d => d.AuthorizationNavigation)
                     .WithMany(p => p.ApplicationAuthentications)
                     .HasForeignKey(d => d.Authorization)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Applicati__Autho__619B8048");
+                    .HasConstraintName("FK__Applicati__Autho__4F7CD00D");
 
                 entity.HasOne(d => d.IpadressNavigation)
                     .WithMany(p => p.ApplicationAuthentications)
                     .HasPrincipalKey(p => p.Adress)
                     .HasForeignKey(d => d.Ipadress)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Applicati__IPAdr__5FB337D6");
+                    .HasConstraintName("FK__Applicati__IPAdr__4D94879B");
             });
 
             modelBuilder.Entity<Authentication>(entity =>
             {
                 entity.ToTable("Authentication");
 
-                entity.HasIndex(e => e.Token, "UQ__Authenti__1EB4F817E79E798D")
+                entity.HasIndex(e => e.Token, "UQ__Authenti__1EB4F817BFDBDC2E")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -256,13 +256,13 @@ namespace OAuth.Dal.Models
                     .HasPrincipalKey(p => p.Adress)
                     .HasForeignKey(d => d.Ipadress)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Authentic__IPAdr__5812160E");
+                    .HasConstraintName("FK__Authentic__IPAdr__45F365D3");
 
                 entity.HasOne(d => d.LoginFirstStepNavigation)
                     .WithMany(p => p.Authentications)
                     .HasForeignKey(d => d.LoginFirstStep)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Authentic__Login__571DF1D5");
+                    .HasConstraintName("FK__Authentic__Login__44FF419A");
             });
 
             modelBuilder.Entity<Authorization>(entity =>
@@ -280,23 +280,23 @@ namespace OAuth.Dal.Models
                     .WithMany(p => p.Authorizations)
                     .HasForeignKey(d => d.Application)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Authoriza__Appli__5BE2A6F2");
+                    .HasConstraintName("FK__Authoriza__Appli__49C3F6B7");
 
                 entity.HasOne(d => d.AuthenticationNavigation)
                     .WithMany(p => p.Authorizations)
                     .HasForeignKey(d => d.Authentication)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Authoriza__Authe__5AEE82B9");
+                    .HasConstraintName("FK__Authoriza__Authe__48CFD27E");
             });
 
             modelBuilder.Entity<Company>(entity =>
             {
                 entity.ToTable("Company");
 
-                entity.HasIndex(e => e.Cnpj, "UQ__Company__AA57D6B4B7E822CC")
+                entity.HasIndex(e => e.Cnpj, "UQ__Company__AA57D6B4562355FC")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Account, "UQ__Company__B0C3AC469A775961")
+                entity.HasIndex(e => e.Account, "UQ__Company__B0C3AC46F9169B29")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -318,13 +318,13 @@ namespace OAuth.Dal.Models
                     .WithOne(p => p.Company)
                     .HasForeignKey<Company>(d => d.Account)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Company__Account__4222D4EF");
+                    .HasConstraintName("FK__Company__Account__300424B4");
 
                 entity.HasOne(d => d.IconNavigation)
                     .WithMany(p => p.Companies)
                     .HasForeignKey(d => d.Icon)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Company__Icon__4316F928");
+                    .HasConstraintName("FK__Company__Icon__30F848ED");
             });
 
             modelBuilder.Entity<CompanyCategory>(entity =>
@@ -351,7 +351,7 @@ namespace OAuth.Dal.Models
                     .HasPrincipalKey(p => p.Adress)
                     .HasForeignKey(d => d.Ipadress)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__FailAttem__IPAdr__656C112C");
+                    .HasConstraintName("FK__FailAttem__IPAdr__534D60F1");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -370,7 +370,7 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("IP");
 
-                entity.HasIndex(e => e.Adress, "UQ__IP__08F62FE53243D482")
+                entity.HasIndex(e => e.Adress, "UQ__IP__08F62FE5F121308B")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -402,21 +402,21 @@ namespace OAuth.Dal.Models
                     .WithMany(p => p.LoginFirstSteps)
                     .HasForeignKey(d => d.Account)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LoginFirs__Accou__52593CB8");
+                    .HasConstraintName("FK__LoginFirs__Accou__403A8C7D");
 
                 entity.HasOne(d => d.IpadressNavigation)
                     .WithMany(p => p.LoginFirstSteps)
                     .HasPrincipalKey(p => p.Adress)
                     .HasForeignKey(d => d.Ipadress)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LoginFirs__IPAdr__5165187F");
+                    .HasConstraintName("FK__LoginFirs__IPAdr__3F466844");
             });
 
             modelBuilder.Entity<Personal>(entity =>
             {
                 entity.ToTable("Personal");
 
-                entity.HasIndex(e => e.Account, "UQ__Personal__B0C3AC46F47EC29E")
+                entity.HasIndex(e => e.Account, "UQ__Personal__B0C3AC4685509328")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -425,7 +425,7 @@ namespace OAuth.Dal.Models
                     .WithOne(p => p.Personal)
                     .HasForeignKey<Personal>(d => d.Account)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Personal__Accoun__46E78A0C");
+                    .HasConstraintName("FK__Personal__Accoun__34C8D9D1");
             });
 
             OnModelCreatingPartial(modelBuilder);
