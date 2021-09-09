@@ -22,7 +22,7 @@ dotnet new classlib -n OAuth.Dal
 dotnet add OAuth.Dal package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add OAuth.Dal package Microsoft.EntityFrameworkCore.Design
 @echo Create Context
-dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;Database=OAuth;Trusted_Connection=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models -p Rebb.Dal
+dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;Database=OAuth;Trusted_Connection=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models -p OAuth.Dal
 @echo Move context 
 move OAuth.Dal\Models\OAuthContext.cs OAuth.Dal
 @echo Remove Surplus
