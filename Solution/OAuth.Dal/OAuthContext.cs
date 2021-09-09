@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace OAuth.Dal.Models
+namespace OAuth.Dal
 {
     public partial class OAuthContext : DbContext
     {
@@ -48,13 +48,13 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("Account");
 
-                entity.HasIndex(e => e.Email, "UQ__Account__A9D105342C689427")
+                entity.HasIndex(e => e.Email, "UQ__Account__A9D1053413A75311")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Key, "UQ__Account__C41E0289856C71B9")
+                entity.HasIndex(e => e.Key, "UQ__Account__C41E02890C7BB161")
                     .IsUnique();
 
-                entity.HasIndex(e => e.UserName, "UQ__Account__C9F2845608DBAC45")
+                entity.HasIndex(e => e.UserName, "UQ__Account__C9F284562A103203")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -125,7 +125,7 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("Application");
 
-                entity.HasIndex(e => e.Key, "UQ__Applicat__C41E02894E051D6E")
+                entity.HasIndex(e => e.Key, "UQ__Applicat__C41E0289410727A0")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -177,7 +177,7 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("ApplicationAuthentication");
 
-                entity.HasIndex(e => e.Token, "UQ__Applicat__1EB4F8170F6EFF31")
+                entity.HasIndex(e => e.Token, "UQ__Applicat__1EB4F817EC746D51")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -229,7 +229,7 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("Authentication");
 
-                entity.HasIndex(e => e.Token, "UQ__Authenti__1EB4F817A42AAFCD")
+                entity.HasIndex(e => e.Token, "UQ__Authenti__1EB4F817147D25BE")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -293,10 +293,10 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("Company");
 
-                entity.HasIndex(e => e.Cnpj, "UQ__Company__AA57D6B4E3EF7D05")
+                entity.HasIndex(e => e.Cnpj, "UQ__Company__AA57D6B48D603559")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Account, "UQ__Company__B0C3AC467F9F6B45")
+                entity.HasIndex(e => e.Account, "UQ__Company__B0C3AC46EFA66A75")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -370,7 +370,7 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("IP");
 
-                entity.HasIndex(e => e.Adress, "UQ__IP__08F62FE5B7625993")
+                entity.HasIndex(e => e.Adress, "UQ__IP__08F62FE553426925")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -416,7 +416,7 @@ namespace OAuth.Dal.Models
             {
                 entity.ToTable("Personal");
 
-                entity.HasIndex(e => e.Account, "UQ__Personal__B0C3AC46DE77EE5D")
+                entity.HasIndex(e => e.Account, "UQ__Personal__B0C3AC46B4678ACA")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
