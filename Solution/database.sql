@@ -1,0 +1,7 @@
+USE [master];
+GO
+
+DROP DATABASE IF EXISTS [OAuth];
+
+CREATE DATABASE [OAuth];
+GO
