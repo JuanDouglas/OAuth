@@ -10,7 +10,7 @@ namespace OAuth.Api.Models.Result
         public string Key { get; set; }
         public string Site { get; set; }
         public File Icon { get; set; }
-        private OAuthContext db = new();
+        private readonly OAuthContext db = new();
         public Application()
         {
 

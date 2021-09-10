@@ -23,7 +23,6 @@ namespace OAuth.Api.Models.Uploads
         public string Password { get; set; }
         
         [ZipCode]
-        [Required]
         [StringLength(10, MinimumLength = 8)]
         public string ZipCode { get; set; }
         [Required]

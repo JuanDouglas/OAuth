@@ -17,6 +17,7 @@ namespace OAuth.Api.Models.Result
         public bool Valid { get; set; }
         public DateTime CreateDate { get; set; }
         public File ProfileImage { get; set; }
+        public string ZipCode { get; set; }
 
         private readonly OAuthContext db = new();
         public Account()
@@ -26,7 +27,7 @@ namespace OAuth.Api.Models.Result
         public Account(Dal.Models.Account account)
         {
             account.ProfileImage ??= db.Images.FirstOrDefault(fs => fs.Id == account.ProfileImageId);
-            account.ProfileImage ??= new Dal.Models.Image();
+            account.ProfileImage ??= new Image();
 
             ID = account.Id;
             UserName = account.UserName;
@@ -38,6 +39,7 @@ namespace OAuth.Api.Models.Result
             CreateDate = account.CreateDate;
             Valid = account.Valid;
             PhoneNumber = account.PhoneNumber;
+            ZipCode = account.ZipCode;
         }
 
     }

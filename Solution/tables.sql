@@ -23,7 +23,7 @@ CREATE TABLE [Account](
     [AcceptTermsDate] DATETIME2 NOT NULL,
     [Valid] BIT NOT NULL,
     [CreateDate] DATETIME2 NOT NULL,
-    [ZipCode] VARCHAR(30) NOT NULL,
+    [ZipCode] VARCHAR(30) NULL,
     [ProfileImageID] INTEGER NOT NULL
     FOREIGN KEY ([ProfileImageID]) REFERENCES [Image]([ID])
 );

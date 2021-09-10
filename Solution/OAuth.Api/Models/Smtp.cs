@@ -8,8 +8,8 @@ namespace OAuth.Api.Models
     {
         static string smtpAddress = "smtp.gmail.com";
         static int portNumber = 587;
-        static string fromAddress = "juandev.nexus@gmail.com"; //Sender Email Address  
-        static string password = "Amanda.amor"; //Sender Password   
+        static string fromAddress = ""; //Sender Email Address  
+        static string password = ""; //Sender Password   
 
         public static void SendEmail(string receiver, string subject, string body, bool isHtml)
         {

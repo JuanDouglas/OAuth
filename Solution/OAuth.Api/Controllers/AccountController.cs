@@ -99,7 +99,7 @@ namespace OAuth.Api.Controllers
 
             return Ok(new Models.Result.Account(account));
         }
-
+        [NonAction]
         private async Task ValidModelAsync(Models.Uploads.AccountUpload accountModel)
         {
             if ((await db.Accounts.FirstOrDefaultAsync(fs => fs.UserName == accountModel.UserName)) != null)
