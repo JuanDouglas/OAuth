@@ -37,6 +37,7 @@ namespace OAuth.Api.Models.Result
             AcceptTermsDate = account.AcceptTermsDate;
             CreateDate = account.CreateDate;
             Valid = account.Valid;
+            PhoneNumber = account.PhoneNumber;
         }
 
     }
