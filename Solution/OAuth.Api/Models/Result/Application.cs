@@ -1,4 +1,5 @@
 ﻿using OAuth.Dal;
+using OAuth.Dal.Models;
 using System.Linq;
 
 namespace OAuth.Api.Models.Result

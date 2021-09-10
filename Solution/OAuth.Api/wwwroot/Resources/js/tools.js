@@ -12,16 +12,10 @@ function disableError(inputID) {
     labelError.innerText = null;
 }
 
-function show(id) {
+function showModal(id) {
     var modal = document.getElementById(id);
     modal.style.display = "block";
 }
-
-function hide(id) {
-    var modal = document.getElementById(id);
-    modal.style.display = "none";
-}
-
 
 function showOrHidePassword(idPasswordInput, idCheckbox) {
     var inputPassword = document.getElementById(idPasswordInput)
@@ -65,7 +59,7 @@ function phoneMask(input) {
 function zipCodeMask(input) {
     const zipCode = clean(input.value);
     let text = zipCode;
-    if (zipCode.length > 5) {
+    if (zipCode.length>5) {
         const part1 = zipCode.slice(0, 5);
         const part2 = zipCode.slice(5, zipCode.length);
         text = `${part1}-${part2}`
@@ -75,14 +69,4 @@ function zipCodeMask(input) {
 
 function clean(str) {
     return str.replace(/[^0-9]/g, "")
-}
-
-function showError(fatter) {
-    var element = document.getElementById(fatter);
-    element.innerHTML = element.innerHTML + '<div class=\"notification-bottom\" id=\"card-error\"><div class=\"card\"><h2 class="error">Error</h2><p class="error-text">&emsp;An error occurred while performing this action, our developers are already being alerted.</p><p class="error-p-button"><button class="normal" onclick="hideError()">Ook!</button></p></div></div>';
-}
-
-function hideError() {
-    var error = document.getElementById('card-error');
-    error.style.display = 'none';
 }

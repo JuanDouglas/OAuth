@@ -1,6 +1,7 @@
 ﻿using OAuth.Api.Controllers;
 using OAuth.Api.Models.Enums;
 using OAuth.Dal;
+using OAuth.Dal.Models;
 using System;
 using System.Linq;
 

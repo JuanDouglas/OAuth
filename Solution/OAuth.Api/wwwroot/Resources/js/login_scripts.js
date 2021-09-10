@@ -1,4 +1,4 @@
-﻿var host = window.location.protocol + "//" + window.location.host + window.location.port+"/api";
+﻿const host = 'https://nexus-oauth.azurewebsites.net'
 const origin = 'Nexus Web Site'
 
 function OnClickLogin() {

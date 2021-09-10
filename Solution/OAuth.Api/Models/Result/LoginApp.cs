@@ -1,5 +1,6 @@
 ﻿using OAuth.Api.Controllers;
 using OAuth.Dal;
+using OAuth.Dal.Models;
 using System;
 using System.Linq;
 

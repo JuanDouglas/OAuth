@@ -42,7 +42,8 @@ namespace OAuth.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nexus OAuth Api v1"));
             }
 
-            app.Use(async (context, next) => {
+            app.Use(async (context, next) => 
+            {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", context.Request.Host.Host);
                 await next.Invoke();
             });
